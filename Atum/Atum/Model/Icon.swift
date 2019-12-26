@@ -8,30 +8,6 @@
 
 import UIKit
 
-//enum Icon {
-//    case activeReminderIcon
-//    case addIcon
-//    case backIcon
-//    case deleteIcon
-//    case saveIcon
-//    case compassIcon
-//    case settingsIcon
-//    case arrowIcon
-//
-//    var name: String {
-//        switch self {
-//        case .activeReminderIcon:    return "ActiveRemindersIcon"
-//        case .addIcon:               return "AddIcon"
-//        case .backIcon:              return "BackIcon"
-//        case .deleteIcon:            return "DeleteIcon"
-//        case .saveIcon:              return "SaveIcon"
-//        case .compassIcon:           return "CompassIcon"
-//        case .settingsIcon:          return "SettingsIcon"
-//        case .arrowIcon:             return "ArrowIcon"
-//        }
-//    }
-//}
-
 extension UIImage {
     struct Name: RawRepresentable {
         typealias RawValue = String
@@ -55,5 +31,14 @@ extension UIImage {
 }
 
 extension UIImage.Name {
-    static let appBackgroundColor       = UIColor.Name(name: "AppBackgroundColor")
+    static let rocketIcon            = UIImage.Name(name: "RocketIcon")
+    static let inactiveRocketIcon    = UIImage.Name(name: "InactiveRocketIcon")
+    static let activeRocketIcon      = UIImage.Name(name: "ActiveRocketIcon")
+
+    static let menuIcon              = UIImage.Name(name: "HamburgerMenuIcon")
+    static let slideMenuIcon         = UIImage.Name(name: "SlideMenuIcon")
+    static let roverIcon             = UIImage.Name(name: "RoverIcon")
+    static let skyEyeIcon            = UIImage.Name(name: "SkyEyeIcon")
+    static let puzzleIcon            = UIImage.Name(name: "PuzzleIcon")
+
 }

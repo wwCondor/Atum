@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		0BE3811223B1FBE300342DA5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BE3811123B1FBE300342DA5 /* AppDelegate.swift */; };
 		0BE3811423B1FBE300342DA5 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BE3811323B1FBE300342DA5 /* SceneDelegate.swift */; };
-		0BE3811623B1FBE300342DA5 /* MainController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BE3811523B1FBE300342DA5 /* MainController.swift */; };
+		0BE3811623B1FBE300342DA5 /* RoverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BE3811523B1FBE300342DA5 /* RoverViewController.swift */; };
 		0BE3811923B1FBE300342DA5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0BE3811723B1FBE300342DA5 /* Main.storyboard */; };
 		0BE3811B23B1FBE600342DA5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0BE3811A23B1FBE600342DA5 /* Assets.xcassets */; };
 		0BE3811E23B1FBE600342DA5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0BE3811C23B1FBE600342DA5 /* LaunchScreen.storyboard */; };
@@ -20,6 +20,14 @@
 		0BE3813E23B2021400342DA5 /* Icon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BE3813D23B2021400342DA5 /* Icon.swift */; };
 		0BE3814023B2036B00342DA5 /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BE3813F23B2036B00342DA5 /* Reachability.swift */; };
 		0BE3814223B2330400342DA5 /* Endpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BE3814123B2330400342DA5 /* Endpoint.swift */; };
+		0BE3814423B3E7EE00342DA5 /* SkyEyeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BE3814323B3E7EE00342DA5 /* SkyEyeViewController.swift */; };
+		0BE3814623B3E80600342DA5 /* PuzzleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BE3814523B3E80600342DA5 /* PuzzleViewController.swift */; };
+		0BE3814823B3E87E00342DA5 /* NavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BE3814723B3E87E00342DA5 /* NavigationBar.swift */; };
+		0BE3814A23B3EC4B00342DA5 /* CustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BE3814923B3EC4B00342DA5 /* CustomButton.swift */; };
+		0BE3814C23B3F3E100342DA5 /* ModeSelected.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BE3814B23B3F3E100342DA5 /* ModeSelected.swift */; };
+		0BE3814E23B3F5C500342DA5 /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BE3814D23B3F5C500342DA5 /* Constant.swift */; };
+		0BE3815123B409AB00342DA5 /* MainController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BE3815023B409AB00342DA5 /* MainController.swift */; };
+		0BE3815323B4C10600342DA5 /* SlideMenuManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BE3815223B4C10600342DA5 /* SlideMenuManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,7 +44,7 @@
 		0BE3810E23B1FBE300342DA5 /* Atum.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Atum.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0BE3811123B1FBE300342DA5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0BE3811323B1FBE300342DA5 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		0BE3811523B1FBE300342DA5 /* MainController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainController.swift; sourceTree = "<group>"; };
+		0BE3811523B1FBE300342DA5 /* RoverViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoverViewController.swift; sourceTree = "<group>"; };
 		0BE3811823B1FBE300342DA5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		0BE3811A23B1FBE600342DA5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		0BE3811D23B1FBE600342DA5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -50,6 +58,14 @@
 		0BE3813D23B2021400342DA5 /* Icon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Icon.swift; sourceTree = "<group>"; };
 		0BE3813F23B2036B00342DA5 /* Reachability.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
 		0BE3814123B2330400342DA5 /* Endpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Endpoint.swift; sourceTree = "<group>"; };
+		0BE3814323B3E7EE00342DA5 /* SkyEyeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkyEyeViewController.swift; sourceTree = "<group>"; };
+		0BE3814523B3E80600342DA5 /* PuzzleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PuzzleViewController.swift; sourceTree = "<group>"; };
+		0BE3814723B3E87E00342DA5 /* NavigationBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationBar.swift; sourceTree = "<group>"; };
+		0BE3814923B3EC4B00342DA5 /* CustomButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomButton.swift; sourceTree = "<group>"; };
+		0BE3814B23B3F3E100342DA5 /* ModeSelected.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModeSelected.swift; sourceTree = "<group>"; };
+		0BE3814D23B3F5C500342DA5 /* Constant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constant.swift; sourceTree = "<group>"; };
+		0BE3815023B409AB00342DA5 /* MainController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainController.swift; sourceTree = "<group>"; };
+		0BE3815223B4C10600342DA5 /* SlideMenuManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlideMenuManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -126,7 +142,11 @@
 		0BE3813423B200A200342DA5 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				0BE3811523B1FBE300342DA5 /* MainController.swift */,
+				0BE3815023B409AB00342DA5 /* MainController.swift */,
+				0BE3815223B4C10600342DA5 /* SlideMenuManager.swift */,
+				0BE3811523B1FBE300342DA5 /* RoverViewController.swift */,
+				0BE3814323B3E7EE00342DA5 /* SkyEyeViewController.swift */,
+				0BE3814523B3E80600342DA5 /* PuzzleViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -134,6 +154,8 @@
 		0BE3813523B200A300342DA5 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				0BE3814723B3E87E00342DA5 /* NavigationBar.swift */,
+				0BE3814923B3EC4B00342DA5 /* CustomButton.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -145,6 +167,8 @@
 				0BE3813D23B2021400342DA5 /* Icon.swift */,
 				0BE3813923B201BE00342DA5 /* Error.swift */,
 				0BE3813B23B201E800342DA5 /* Extension.swift */,
+				0BE3814D23B3F5C500342DA5 /* Constant.swift */,
+				0BE3814B23B3F3E100342DA5 /* ModeSelected.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -250,15 +274,23 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0BE3811623B1FBE300342DA5 /* MainController.swift in Sources */,
+				0BE3814A23B3EC4B00342DA5 /* CustomButton.swift in Sources */,
+				0BE3811623B1FBE300342DA5 /* RoverViewController.swift in Sources */,
+				0BE3814E23B3F5C500342DA5 /* Constant.swift in Sources */,
 				0BE3814223B2330400342DA5 /* Endpoint.swift in Sources */,
 				0BE3813823B2017B00342DA5 /* Color.swift in Sources */,
 				0BE3813E23B2021400342DA5 /* Icon.swift in Sources */,
 				0BE3811223B1FBE300342DA5 /* AppDelegate.swift in Sources */,
+				0BE3814623B3E80600342DA5 /* PuzzleViewController.swift in Sources */,
+				0BE3815123B409AB00342DA5 /* MainController.swift in Sources */,
+				0BE3814C23B3F3E100342DA5 /* ModeSelected.swift in Sources */,
 				0BE3813C23B201E800342DA5 /* Extension.swift in Sources */,
+				0BE3814423B3E7EE00342DA5 /* SkyEyeViewController.swift in Sources */,
 				0BE3813A23B201BE00342DA5 /* Error.swift in Sources */,
 				0BE3814023B2036B00342DA5 /* Reachability.swift in Sources */,
 				0BE3811423B1FBE300342DA5 /* SceneDelegate.swift in Sources */,
+				0BE3814823B3E87E00342DA5 /* NavigationBar.swift in Sources */,
+				0BE3815323B4C10600342DA5 /* SlideMenuManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -428,7 +460,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.wouterwillebrands.Atum;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -446,7 +478,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.wouterwillebrands.Atum;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

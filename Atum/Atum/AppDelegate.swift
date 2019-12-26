@@ -16,8 +16,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
         let navigationBarAppearance = UINavigationBar.appearance()
-        navigationBarAppearance.barTintColor = UIColor(named: .objectColor) // Bar background color
-        navigationBarAppearance.tintColor = UIColor(named: .tintColor) // Tintcolor text and icons
+        navigationBarAppearance.barTintColor = UIColor(named: .objectColor) // NavBar background color
+        navigationBarAppearance.tintColor = UIColor(named: .iconTintColor)
         navigationBarAppearance.isTranslucent = false
         
         window = UIWindow(frame: UIScreen.main.bounds)

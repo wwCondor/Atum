@@ -54,7 +54,8 @@ extension UIColor {
 
 extension UIColor.Name {
     static let appBackgroundColor       = UIColor.Name(name: "AppBackgroundColor")
+    static let iconTintColor            = UIColor.Name(name: "IconTintColor")
     static let objectColor              = UIColor.Name(name: "ObjectColor")
     static let objectBorderColor        = UIColor.Name(name: "ObjectBorderColor")
-    static let tintColor                = UIColor.Name(name: "TintColor")
+    static let textTintColor            = UIColor.Name(name: "TextTintColor")
 }
