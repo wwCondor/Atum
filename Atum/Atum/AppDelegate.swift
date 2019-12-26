@@ -17,8 +17,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         let navigationBarAppearance = UINavigationBar.appearance()
         navigationBarAppearance.barTintColor = UIColor(named: .objectColor) // NavBar background color
-        navigationBarAppearance.tintColor = UIColor(named: .iconTintColor)
+        navigationBarAppearance.tintColor = UIColor(named: .iconColor)
         navigationBarAppearance.isTranslucent = false
+        
+        // Gets rid of shadow under navBar
+        navigationBarAppearance.shadowImage = UIImage()
+        navigationBarAppearance.setBackgroundImage(UIImage(), for: .default)
         
         window = UIWindow(frame: UIScreen.main.bounds)
         window?.makeKeyAndVisible()

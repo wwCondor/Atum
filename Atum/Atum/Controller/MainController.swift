@@ -38,20 +38,40 @@ class MainController: UIViewController {
         return logoImageView
     }()
 
+    /*
+     If there a scrollview inside the UIViewController this will run underneath the MenuBar fix by:
+     scrollviewName?.contentInset = UIEdgeInsetsMake(0,0,0,0)
+     scrollviewName?.scrollIndicatorInsets = UIEdgeInsetsMake(0,0,0,0) // same for scrollbar
+     */
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         view.backgroundColor = UIColor(named: .appBackgroundColor)
         
         setupRocketIcon()
+        setupMenuBar()
         setupView()
         // Do any additional setup after loading the view.
     }
     
+    lazy var menuBar: MenuBar = {
+        let menuBar = MenuBar()
+        return menuBar
+    }()
+    
+    private func setupMenuBar() {
+        view.addSubview(menuBar)
+        
+        NSLayoutConstraint.activate([
+            menuBar.topAnchor.constraint(equalTo: view.topAnchor),
+            menuBar.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            menuBar.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            menuBar.heightAnchor.constraint(equalToConstant: Constant.navigationBarHeight)
+        ])
+    }
+    
     private func setupRocketIcon() {
-//        navigationItem.setHidesBackButton(true, animated: true)
-//        let menuBarButton = UIBarButtonItem(customView: menuButton)
-//        navigationItem.leftBarButtonItem = menuBarButton
         let logoImageViewWidth = navigationController!.navigationBar.frame.size.width/3
         let logoImageHeight = navigationController!.navigationBar.frame.size.height
         logoImageView.frame = CGRect(x: 0, y: 0, width: logoImageViewWidth, height: logoImageHeight)

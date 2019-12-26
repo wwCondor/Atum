@@ -24,7 +24,7 @@ class CustomButton: UIButton {
 //        imageEdgeInsets = UIEdgeInsets(top: inset, left: inset, bottom: inset, right: inset)
         contentMode = .center
         backgroundColor = UIColor(named: .objectColor)
-        tintColor = UIColor(named: .iconTintColor)
+        tintColor = UIColor(named: .iconColor)
         imageView?.contentMode = .scaleAspectFit
         translatesAutoresizingMaskIntoConstraints = false
     }
