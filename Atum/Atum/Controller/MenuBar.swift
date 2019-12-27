@@ -15,14 +15,13 @@ class MenuBar: UIView {
     let imageNames: [UIImage.Name] = [.roverIcon, .skyEyeIcon, .puzzleIcon]
     
     var horizontalSliderLeadingAnchorConstraint: NSLayoutConstraint?
+    var mainController: MainController?
     
     lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.register(MenuBarCell.self, forCellWithReuseIdentifier: cellId)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
-//        let selectedIndexPath = IndexPath(item: 0, section: 0)
-//        collectionView.selectItem(at: selectedIndexPath, animated: false, scrollPosition: UICollectionView.ScrollPosition(rawValue: 0))
         collectionView.dataSource = self
         collectionView.delegate = self
         return collectionView
@@ -38,17 +37,14 @@ class MenuBar: UIView {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-        
         setupView()
         setupHorizontalBar()
 
-        
-        translatesAutoresizingMaskIntoConstraints = false
+        translatesAutoresizingMaskIntoConstraints = false // menuBar
     }
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
-        
         setupView()
     }
     
@@ -73,7 +69,6 @@ class MenuBar: UIView {
             horizontalSliderBar.bottomAnchor.constraint(equalTo: bottomAnchor),
             horizontalSliderBar.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 1/3),
             horizontalSliderBar.heightAnchor.constraint(equalToConstant: Constant.horizontalSliderHeigth)
-            
         ])
     }
 }
@@ -110,13 +105,14 @@ extension MenuBar: UICollectionViewDataSource, UICollectionViewDelegate, UIColle
         // Sets up what to do when a cell gets tapped
         func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
             // Handles slider repositioning on cell tap
-            let leadingConstraintX = CGFloat(indexPath.item) * frame.width/3
-            horizontalSliderLeadingAnchorConstraint?.constant = leadingConstraintX
-            UIView.animate(withDuration: 0.5,
-                           delay: 0,
-                           options: .curveEaseInOut,
-                           animations: self.layoutIfNeeded,
-                           completion: nil)
+//            let leadingConstraintX = CGFloat(indexPath.item) * frame.width/3
+//            horizontalSliderLeadingAnchorConstraint?.constant = leadingConstraintX
+//            UIView.animate(withDuration: 0.5,
+//                           delay: 0,
+//                           options: .curveEaseInOut,
+//                           animations: self.layoutIfNeeded,
+//                           completion: nil)
+            mainController?.scrollToItemAtIndex(menuSelectionIndex: indexPath.item)
         }
 }
 
@@ -153,7 +149,6 @@ class MenuBarCell: BaseCell {
             iconContainer.centerYAnchor.constraint(equalTo: centerYAnchor)
         ])
     }
-    
 }
 
 
@@ -172,36 +167,5 @@ class BaseCell: UICollectionViewCell {
         setupView()
     }
     
-    func setupView() {
-        
-    }
+    func setupView() { }
 }
-
-
-    
-//    lazy var roverButton: CustomButton = {
-//        let roverButton = CustomButton(type: .custom)
-//        let image = UIImage(named: .roverIcon)?.withRenderingMode(.alwaysTemplate)
-//        roverButton.setImage(image, for: .normal)
-//
-////        roverButton.addTarget(self, action: #selector(enterNavigationMode(tapGestureRecognizer:)), for: .touchUpInside)
-//        return roverButton
-//    }()
-//
-//    lazy var skyEyeButton: CustomButton = {
-//        let skyEyeButton = CustomButton(type: .custom)
-//        let image = UIImage(named: .skyEyeIcon)?.withRenderingMode(.alwaysTemplate)
-//        skyEyeButton.setImage(image, for: .normal)
-//
-////        skyEyeButton.addTarget(self, action: #selector(enterNavigationMode(tapGestureRecognizer:)), for: .touchUpInside)
-//        return skyEyeButton
-//    }()
-//
-//    lazy var puzzleButton: CustomButton = {
-//        let puzzleButton = CustomButton(type: .custom)
-//        let image = UIImage(named: .puzzleIcon)?.withRenderingMode(.alwaysTemplate)
-//        puzzleButton.setImage(image, for: .normal)
-//
-////        puzzleButton.addTarget(self, action: #selector(enterNavigationMode(tapGestureRecognizer:)), for: .touchUpInside)
-//        return puzzleButton
-//    }()
