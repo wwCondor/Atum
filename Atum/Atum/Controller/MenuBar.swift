@@ -17,8 +17,10 @@ class MenuBar: UIView {
     lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collectionView.register(MenuCell.self, forCellWithReuseIdentifier: cellId)
+        collectionView.register(MenuBarCell.self, forCellWithReuseIdentifier: cellId)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
+//        let selectedIndexPath = IndexPath(item: 0, section: 0)
+//        collectionView.selectItem(at: selectedIndexPath, animated: false, scrollPosition: UICollectionView.ScrollPosition(rawValue: 0))
         collectionView.dataSource = self
         collectionView.delegate = self
         return collectionView
@@ -58,9 +60,14 @@ extension MenuBar: UICollectionViewDataSource, UICollectionViewDelegate, UIColle
         
         // Sets up cell content
         func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! MenuCell
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! MenuBarCell
+            if indexPath.row == 0 { // Handles preselected state
+                collectionView.selectItem(at: indexPath, animated: false, scrollPosition: [])
+                cell.iconContainer.tintColor = UIColor(named: .iconSelectedColor)
+            } else {
+                cell.iconContainer.tintColor = UIColor(named: .iconColor)
+            }
             cell.iconContainer.image = UIImage(named: imageNames[indexPath.item])?.withRenderingMode(.alwaysTemplate)
-            cell.iconContainer.tintColor = UIColor(named: .iconColor)
             return cell
         }
         
@@ -80,15 +87,25 @@ extension MenuBar: UICollectionViewDataSource, UICollectionViewDelegate, UIColle
         }
 }
 
-class MenuCell: BaseCell {
+class MenuBarCell: BaseCell {
     
     let iconContainer: UIImageView = {
         let iconContainer = UIImageView()
-//        iconContainer.image = UIImage(named: .roverIcon)?.withRenderingMode(.alwaysTemplate)
-//        iconContainer.tintColor = UIColor(named: .iconTintColor)
         iconContainer.translatesAutoresizingMaskIntoConstraints = false
         return iconContainer
     }()
+    
+    override var isHighlighted: Bool {
+        didSet {
+            iconContainer.tintColor = isHighlighted ? UIColor(named: .iconSelectedColor) : UIColor(named: .iconColor)
+        }
+    }
+    
+    override var isSelected: Bool {
+        didSet {
+            iconContainer.tintColor = isSelected ? UIColor(named: .iconSelectedColor) : UIColor(named: .iconColor)
+        }
+    }
     
     override func setupView() {
         super.setupView()

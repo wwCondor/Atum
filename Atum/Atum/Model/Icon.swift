@@ -35,7 +35,7 @@ extension UIImage.Name {
     static let inactiveRocketIcon    = UIImage.Name(name: "InactiveRocketIcon")
     static let activeRocketIcon      = UIImage.Name(name: "ActiveRocketIcon")
 
-    static let menuIcon              = UIImage.Name(name: "HamburgerMenuIcon")
+    static let menuIcon              = UIImage.Name(name: "MenuIcon")
     static let slideMenuIcon         = UIImage.Name(name: "SlideMenuIcon")
     static let roverIcon             = UIImage.Name(name: "RoverIcon")
     static let skyEyeIcon            = UIImage.Name(name: "SkyEyeIcon")

@@ -9,7 +9,7 @@
 import UIKit
 
 class SlideMenuManager: NSObject {
-    
+
     lazy var fadeView: UIView = {
         let fadeView = UIView()
         fadeView.alpha = 0
@@ -17,7 +17,7 @@ class SlideMenuManager: NSObject {
         fadeView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(dismissMenu(sender:))))
         return fadeView
     }()
-    
+
     lazy var menuOptions: UIView = {
         let menuOptions = UIView()
         menuOptions.translatesAutoresizingMaskIntoConstraints = false
@@ -26,21 +26,21 @@ class SlideMenuManager: NSObject {
         menuOptions.addGestureRecognizer(swipeLeftGesture)
         return menuOptions
     }()
-    
+
     override init() {
         super.init()
 //        addObserver()
     }
-    
+
     func presentMenu() {
         let window = UIApplication.shared.windows.first { $0.isKeyWindow }
         if let window = window {
-            
+
             let menuHeigth = 2*Constant.menuButtonSize
-            
+
             window.addSubview(fadeView)
             window.addSubview(menuOptions)
-            
+
             fadeView.frame = window.frame
 
             NSLayoutConstraint.activate([
@@ -61,7 +61,7 @@ class SlideMenuManager: NSObject {
                 completion: nil)
         }
     }
-    
+
     @objc private func dismissMenu(sender: UISwipeGestureRecognizer) {
         UIView.animate(
             withDuration: 0.3,

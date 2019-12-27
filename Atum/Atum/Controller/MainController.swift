@@ -12,11 +12,39 @@ class MainController: UIViewController {
     
     let slideMenuManager = SlideMenuManager()
     
+    // This will hold the image selected by user
+    lazy var roverImageView: UIImageView = {
+       let roverImageView = UIImageView()
+       return roverImageView
+    }()
+    
+    // Meta data for image
+//    lazy var messageLabel: 
+    
+    lazy var roverPickerView: UIPickerView = {
+        let roverPickerView = UIPickerView()
+        return roverPickerView
+    }()
+    
+    lazy var datePickerView: UIDatePicker = {
+        let datePickerView = UIDatePicker()
+        return datePickerView
+    }()
+    
+    lazy var cameraPickerView: UIPickerView = {
+        let cameraPickerView = UIPickerView()
+        return cameraPickerView
+    }()
+    
+    lazy var retrievedRoverCameraImages: UICollectionView = {
+        let retrievedRoverCameraImages = UICollectionView()
+        return retrievedRoverCameraImages
+    }()
+    
+    
+    
     lazy var menuButton: CustomButton = {
         let menuButton = CustomButton(type: .custom)
-//        menuButton.layer.masksToBounds = true
-//        menuButton.roundButtonCorners(corners: [], radius: Constant.menuButtonCornerRadius)
-//        menuButton.backgroundColor = UIColor.systemYellow
         let menuIcon = UIImage(named: .menuIcon)?.withRenderingMode(.alwaysTemplate)
         menuButton.setImage(menuIcon, for: .normal)
         let inset: CGFloat = Constant.menuButtonIconInset
@@ -32,8 +60,6 @@ class MainController: UIViewController {
         logoImageView.translatesAutoresizingMaskIntoConstraints = false
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(activateRocket(sender:)))
         logoImageView.addGestureRecognizer(tapGesture)
-//        let inset: CGFloat = 0
-//        logoImageView = UIEdgeInsets(top: inset, left: inset, bottom: 5, right: inset)
         logoImageView.contentMode = .scaleAspectFit
         return logoImageView
     }()
@@ -50,6 +76,7 @@ class MainController: UIViewController {
         view.backgroundColor = UIColor(named: .appBackgroundColor)
         
         setupRocketIcon()
+//        setupNavigationBarItem()
         setupMenuBar()
         setupView()
         // Do any additional setup after loading the view.
@@ -78,18 +105,20 @@ class MainController: UIViewController {
         navigationItem.titleView = logoImageView
     }
     
+//    private func setupNavigationBarItem() {
+//        let showMenuIcon = UIImage(named: .menuIcon)?.withRenderingMode(.alwaysTemplate)
+//        let showMenuBarButtonItem = UIBarButtonItem(image: showMenuIcon, style: .plain, target: self, action: #selector(handleMenu))
+//        navigationItem.rightBarButtonItem = showMenuBarButtonItem
+//    }
+    
+    @objc private func handleMenu() {
+        print("Menu")
+    }
+    
     private func setupView() {
         view.addSubview(menuButton)
-//        menuView.addSubview(menuButton)
-        
-//        menuButton.roundViewCorners(corners: .topRight, radius: Constant.menuButtonCornerRadius)
                 
         NSLayoutConstraint.activate([
-//            menuView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-//            menuView.heightAnchor.constraint(equalToConstant: Constant.menuButtonHeight),
-//            menuView.widthAnchor.constraint(equalToConstant: view.bounds.width/6),
-//            menuView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -Constant.menuButtonHeight),
-            
             menuButton.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             menuButton.widthAnchor.constraint(equalToConstant: Constant.menuButtonSize),
             menuButton.heightAnchor.constraint(equalToConstant: Constant.menuButtonSize),
@@ -107,12 +136,6 @@ class MainController: UIViewController {
         // image change to activeRocketIcon
         // motion departure
         // motion arriving
-        
-//        UIView.animate(withDuration: 3.0,
-//                       delay: 0.5,
-//                       options: .curveEaseIn,
-//                       animations: ,
-//                       completion: )
         print("Whooooooshhh!")
     }
 }

@@ -125,7 +125,7 @@ class RoverViewController: UIViewController {
         //        ])
     }
 
-    // newViewController.modalPresentationStyle = .fullScreen
+    // yourViewController.modalPresentationStyle = .fullScreen
     
     @objc func handleMenu(tapGestureRecognizer: UITapGestureRecognizer) {
         

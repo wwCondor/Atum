@@ -30,6 +30,7 @@
 		0BE3815323B4C10600342DA5 /* SlideMenuManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BE3815223B4C10600342DA5 /* SlideMenuManager.swift */; };
 		0BE3815523B4F46B00342DA5 /* NavigationButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BE3815423B4F46B00342DA5 /* NavigationButton.swift */; };
 		0BE3815723B53DC000342DA5 /* MenuBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BE3815623B53DC000342DA5 /* MenuBar.swift */; };
+		0BE3815923B60A4500342DA5 /* TextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BE3815823B60A4500342DA5 /* TextField.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -70,6 +71,7 @@
 		0BE3815223B4C10600342DA5 /* SlideMenuManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlideMenuManager.swift; sourceTree = "<group>"; };
 		0BE3815423B4F46B00342DA5 /* NavigationButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationButton.swift; sourceTree = "<group>"; };
 		0BE3815623B53DC000342DA5 /* MenuBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBar.swift; sourceTree = "<group>"; };
+		0BE3815823B60A4500342DA5 /* TextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextField.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -162,6 +164,7 @@
 				0BE3814723B3E87E00342DA5 /* NavigationBar.swift */,
 				0BE3814923B3EC4B00342DA5 /* CustomButton.swift */,
 				0BE3815423B4F46B00342DA5 /* NavigationButton.swift */,
+				0BE3815823B60A4500342DA5 /* TextField.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -283,6 +286,7 @@
 				0BE3814A23B3EC4B00342DA5 /* CustomButton.swift in Sources */,
 				0BE3811623B1FBE300342DA5 /* RoverViewController.swift in Sources */,
 				0BE3814E23B3F5C500342DA5 /* Constant.swift in Sources */,
+				0BE3815923B60A4500342DA5 /* TextField.swift in Sources */,
 				0BE3814223B2330400342DA5 /* Endpoint.swift in Sources */,
 				0BE3813823B2017B00342DA5 /* Color.swift in Sources */,
 				0BE3813E23B2021400342DA5 /* Icon.swift in Sources */,
