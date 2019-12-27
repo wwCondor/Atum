@@ -12,6 +12,8 @@ class MainController: UIViewController {
     
     let slideMenuManager = SlideMenuManager()
     
+    var modeSelected: ModeSelected = .marsRoverMode
+    
     // This will hold the image selected by user
     lazy var roverImageView: UIImageView = {
        let roverImageView = UIImageView()
@@ -73,12 +75,17 @@ class MainController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = UIColor(named: .appBackgroundColor)
+        switch modeSelected {
+        case .marsRoverMode:     view.backgroundColor = UIColor(named: .appBackgroundColor)
+        case .eyeInTheSkyMode:   view.backgroundColor = UIColor.systemTeal
+        case .slidingPuzzleMode: view.backgroundColor = UIColor.systemYellow
+        }
+//        view.backgroundColor = UIColor.red //UIColor(named: .appBackgroundColor)
         
         setupRocketIcon()
 //        setupNavigationBarItem()
         setupMenuBar()
-        setupView()
+//        setupView()
         // Do any additional setup after loading the view.
     }
     
@@ -91,12 +98,14 @@ class MainController: UIViewController {
         view.addSubview(menuBar)
         
         NSLayoutConstraint.activate([
-            menuBar.topAnchor.constraint(equalTo: view.topAnchor),
+            menuBar.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
             menuBar.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             menuBar.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             menuBar.heightAnchor.constraint(equalToConstant: Constant.navigationBarHeight)
         ])
     }
+    
+
     
     private func setupRocketIcon() {
         let logoImageViewWidth = navigationController!.navigationBar.frame.size.width/3

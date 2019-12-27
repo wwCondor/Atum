@@ -56,6 +56,7 @@ extension UIColor.Name {
     static let appBackgroundColor       = UIColor.Name(name: "AppBackgroundColor")
     static let iconColor                = UIColor.Name(name: "IconColor")
     static let iconSelectedColor        = UIColor.Name(name: "IconSelectedColor")
+    static let iconSliderColor          = UIColor.Name(name: "IconSliderColor")
     static let objectColor              = UIColor.Name(name: "ObjectColor")
     static let objectBorderColor        = UIColor.Name(name: "ObjectBorderColor")
     static let textTintColor            = UIColor.Name(name: "TextTintColor")

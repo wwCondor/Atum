@@ -21,6 +21,7 @@ struct Constant {
     // MenuBar
     static let menuBarHeight: CGFloat            = 60
     static let menuBarIconSize: CGFloat          = Constant.menuBarHeight/2
+    static let horizontalSliderHeigth: CGFloat   = 5
     
     
     // TextField

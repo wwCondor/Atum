@@ -14,6 +14,8 @@ class MenuBar: UIView {
     
     let imageNames: [UIImage.Name] = [.roverIcon, .skyEyeIcon, .puzzleIcon]
     
+    var horizontalSliderLeadingAnchorConstraint: NSLayoutConstraint?
+    
     lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
@@ -25,11 +27,21 @@ class MenuBar: UIView {
         collectionView.delegate = self
         return collectionView
     }()
+    
+    lazy var horizontalSliderBar: UIView = {
+        let horizontalSliderBar = UIView()
+        horizontalSliderBar.backgroundColor = UIColor(named: .iconSliderColor)
+        horizontalSliderBar.translatesAutoresizingMaskIntoConstraints = false
+        
+        return horizontalSliderBar
+    }()
 
     override init(frame: CGRect) {
         super.init(frame: frame)
         
         setupView()
+        setupHorizontalBar()
+
         
         translatesAutoresizingMaskIntoConstraints = false
     }
@@ -48,6 +60,20 @@ class MenuBar: UIView {
             collectionView.leadingAnchor.constraint(equalTo: leadingAnchor),
             collectionView.trailingAnchor.constraint(equalTo: trailingAnchor),
             collectionView.bottomAnchor.constraint(equalTo: bottomAnchor)
+        ])
+    }
+    
+    private func setupHorizontalBar() {
+        addSubview(horizontalSliderBar)
+        
+        horizontalSliderLeadingAnchorConstraint = horizontalSliderBar.leadingAnchor.constraint(equalTo: leadingAnchor)
+        
+        NSLayoutConstraint.activate([
+            horizontalSliderLeadingAnchorConstraint!,
+            horizontalSliderBar.bottomAnchor.constraint(equalTo: bottomAnchor),
+            horizontalSliderBar.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 1/3),
+            horizontalSliderBar.heightAnchor.constraint(equalToConstant: Constant.horizontalSliderHeigth)
+            
         ])
     }
 }
@@ -83,7 +109,14 @@ extension MenuBar: UICollectionViewDataSource, UICollectionViewDelegate, UIColle
         
         // Sets up what to do when a cell gets tapped
         func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-            print("Cell tapped")
+            // Handles slider repositioning on cell tap
+            let leadingConstraintX = CGFloat(indexPath.item) * frame.width/3
+            horizontalSliderLeadingAnchorConstraint?.constant = leadingConstraintX
+            UIView.animate(withDuration: 0.5,
+                           delay: 0,
+                           options: .curveEaseInOut,
+                           animations: self.layoutIfNeeded,
+                           completion: nil)
         }
 }
 
