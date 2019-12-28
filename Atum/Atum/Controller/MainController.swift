@@ -12,9 +12,9 @@ class MainController: UIViewController {
         
     let cellIds: [String] = ["marsRoverCellId", "skyEyeCellId", "puzzleCellId"]
     
-    let marsRoverCellId = "marsRoverCellId"
-    let skyEyeCellId = "skyEyeCellId"
-    let puzzleCellId = "puzzleCellId"
+//    let marsRoverCellId = "marsRoverCellId"
+//    let skyEyeCellId = "skyEyeCellId"
+//    let puzzleCellId = "puzzleCellId"
         
     lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -97,7 +97,7 @@ class MainController: UIViewController {
         view.addSubview(menuBar)
         
         NSLayoutConstraint.activate([
-            collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor), //constant: navigationController!.navigationBar.frame.size.height),
             collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             collectionView.bottomAnchor.constraint(equalTo: menuBar.topAnchor),
@@ -209,77 +209,7 @@ extension MainController: UICollectionViewDataSource, UICollectionViewDelegate, 
 }
 
 // MARK: ROVER
-class MarsRoverCell: BaseCell {
-//    let modeSelected: ModeSelected = .marsRoverMode
-    
-        // This will hold the image selected by user
-    lazy var roverImageView: UIImageView = {
-        let roverImageView = UIImageView()
-        roverImageView.translatesAutoresizingMaskIntoConstraints = false
-        roverImageView.backgroundColor = UIColor.yellow
-        roverImageView.layer.masksToBounds = true
-        roverImageView.layer.cornerRadius = Constant.largeContentCornerRadius
-        return roverImageView
-    }()
-    
-    lazy var stampImageView: UIImageView = {
-        let stampImageView = UIImageView()
-        stampImageView.translatesAutoresizingMaskIntoConstraints = false
-        stampImageView.backgroundColor = UIColor.blue
-        return stampImageView
-    }()
-    
-    lazy var test: UIImageView = {
-        let test = UIImageView()
-        test.translatesAutoresizingMaskIntoConstraints = false
-        test.backgroundColor = UIColor.green
-        return test
-    }()
-        
-        // Meta data for image
-        //    lazy var messageLabel:
-        
-    //    lazy var roverPickerView: UIPickerView = {
-    //        let roverPickerView = UIPickerView()
-    //        return roverPickerView
-    //    }()
-    //
-    //    lazy var datePickerView: UIDatePicker = {
-    //        let datePickerView = UIDatePicker()
-    //        return datePickerView
-    //    }()
-    //
-    //    lazy var cameraPickerView: UIPickerView = {
-    //        let cameraPickerView = UIPickerView()
-    //        return cameraPickerView
-    //    }()
-    //
-    //    lazy var retrievedRoverCameraImages: UICollectionView = {
-    //        let retrievedRoverCameraImages = UICollectionView()
-    //        return retrievedRoverCameraImages
-    //    }()
-    
-    override func setupView() {
-        addSubview(roverImageView)
-        addSubview(stampImageView)
-        addSubview(test)
-        
-        NSLayoutConstraint.activate([
-//            roverImageView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Constant.contentPadding),
-            roverImageView.bottomAnchor.constraint(equalTo: centerYAnchor),
-            roverImageView.centerXAnchor.constraint(equalTo: centerXAnchor),
-            roverImageView.widthAnchor.constraint(equalToConstant: (3/4)*frame.width),
-            roverImageView.heightAnchor.constraint(equalToConstant: frame.width/2),
-            
-            stampImageView.topAnchor.constraint(equalTo: roverImageView.topAnchor, constant: 15),
-            stampImageView.trailingAnchor.constraint(equalTo: roverImageView.trailingAnchor, constant: -15),
-            stampImageView.widthAnchor.constraint(equalToConstant: 60),
-            stampImageView.heightAnchor.constraint(equalToConstant: 60),
 
-        ])
-        
-    }
-}
 
 
 // MARK: SKYEYE

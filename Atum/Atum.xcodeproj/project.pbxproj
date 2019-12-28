@@ -33,6 +33,7 @@
 		0BE3815923B60A4500342DA5 /* TextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BE3815823B60A4500342DA5 /* TextField.swift */; };
 		0BE3815B23B6352500342DA5 /* APIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BE3815A23B6352500342DA5 /* APIService.swift */; };
 		0BE3815E23B67FB900342DA5 /* RoverScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BE3815D23B67FB900342DA5 /* RoverScreen.swift */; };
+		0BE3816023B7D86100342DA5 /* MarsRoverCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BE3815F23B7D86100342DA5 /* MarsRoverCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -76,6 +77,7 @@
 		0BE3815823B60A4500342DA5 /* TextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextField.swift; sourceTree = "<group>"; };
 		0BE3815A23B6352500342DA5 /* APIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIService.swift; sourceTree = "<group>"; };
 		0BE3815D23B67FB900342DA5 /* RoverScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoverScreen.swift; sourceTree = "<group>"; };
+		0BE3815F23B7D86100342DA5 /* MarsRoverCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarsRoverCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -155,6 +157,7 @@
 			isa = PBXGroup;
 			children = (
 				0BE3815023B409AB00342DA5 /* MainController.swift */,
+				0BE3815F23B7D86100342DA5 /* MarsRoverCell.swift */,
 				0BE3815623B53DC000342DA5 /* MenuBar.swift */,
 				0BE3815D23B67FB900342DA5 /* RoverScreen.swift */,
 			);
@@ -302,6 +305,7 @@
 				0BE3811623B1FBE300342DA5 /* RoverViewController.swift in Sources */,
 				0BE3814E23B3F5C500342DA5 /* Constant.swift in Sources */,
 				0BE3815923B60A4500342DA5 /* TextField.swift in Sources */,
+				0BE3816023B7D86100342DA5 /* MarsRoverCell.swift in Sources */,
 				0BE3814223B2330400342DA5 /* Endpoint.swift in Sources */,
 				0BE3813823B2017B00342DA5 /* Color.swift in Sources */,
 				0BE3813E23B2021400342DA5 /* Icon.swift in Sources */,

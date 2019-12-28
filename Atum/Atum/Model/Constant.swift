@@ -23,13 +23,15 @@ struct Constant {
     static let menuBarIconSize: CGFloat          = Constant.menuBarHeight/2
     static let horizontalSliderHeigth: CGFloat   = 5
     
+    // SendButton
+    static let sendButtonSize: CGFloat           = 80
     
     // TextField
     static let textFieldBorderWidth: CGFloat     = 2
     static let textXInset: CGFloat               = 10   
     static let textYInset: CGFloat               = 5
 
-    static let contentPadding: CGFloat           = 30
+    static let contentPadding: CGFloat           = 15
     
     // Corner radius for UIImageViews and MapView
     static let largeContentCornerRadius: CGFloat = 10
