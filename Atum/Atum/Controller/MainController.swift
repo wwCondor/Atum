@@ -9,58 +9,37 @@
 import UIKit
 
 class MainController: UIViewController {
+        
+    let cellIds: [String] = ["marsRoverCellId", "skyEyeCellId", "puzzleCellId"]
     
-    //    let slideMenuManager = SlideMenuManager()
-    
-    let cellId = "contentCellId"
-    
-    var modeSelected: ModeSelected = .marsRoverMode
-    
-    // This will hold the image selected by user
-    lazy var roverImageView: UIImageView = {
-        let roverImageView = UIImageView()
-        return roverImageView
-    }()
-    
-    // Meta data for image
-    //    lazy var messageLabel:
-    
-    lazy var roverPickerView: UIPickerView = {
-        let roverPickerView = UIPickerView()
-        return roverPickerView
-    }()
-    
-    lazy var datePickerView: UIDatePicker = {
-        let datePickerView = UIDatePicker()
-        return datePickerView
-    }()
-    
-    lazy var cameraPickerView: UIPickerView = {
-        let cameraPickerView = UIPickerView()
-        return cameraPickerView
-    }()
-    
-    lazy var retrievedRoverCameraImages: UICollectionView = {
-        let retrievedRoverCameraImages = UICollectionView()
-        return retrievedRoverCameraImages
-    }()
-    
+    let marsRoverCellId = "marsRoverCellId"
+    let skyEyeCellId = "skyEyeCellId"
+    let puzzleCellId = "puzzleCellId"
+        
     lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
         layout.minimumLineSpacing = 0
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: cellId)
         collectionView.backgroundColor = UIColor(named: .appBackgroundColor)
-        //        collectionView.register(MenuBarCell.self, forCellWithReuseIdentifier: cellId)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.dataSource = self
         collectionView.delegate = self
+        collectionView.register(MarsRoverCell.self, forCellWithReuseIdentifier: cellIds[0])
+        collectionView.register(EyeInSkyCell.self, forCellWithReuseIdentifier: cellIds[1])
+        collectionView.register(PuzzleCell.self, forCellWithReuseIdentifier: cellIds[2])
         collectionView.isPagingEnabled = true
         collectionView.showsHorizontalScrollIndicator = false
         return collectionView
     }()
-    
+
+//    lazy var pageViewController: UIPageViewController = {
+//        let pageViewcontroller = UIPageViewController()
+//        pageViewcontroller.delegate = self
+//        pageViewcontroller.dataSource = self
+//        return pageViewcontroller
+//    }()
+
     
     //    lazy var menuButton: CustomButton = {
     //        let menuButton = CustomButton(type: .custom)
@@ -92,14 +71,7 @@ class MainController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
-        
-        switch modeSelected {
-        case .marsRoverMode:     view.backgroundColor = UIColor(named: .appBackgroundColor)
-        case .eyeInTheSkyMode:   view.backgroundColor = UIColor.systemTeal
-        case .slidingPuzzleMode: view.backgroundColor = UIColor.systemYellow
-        }
-        //        view.backgroundColor = UIColor.red //UIColor(named: .appBackgroundColor)
+        view.backgroundColor = UIColor(named: .appBackgroundColor)
         
         setupRocketIcon()
         setupView()
@@ -121,10 +93,11 @@ class MainController: UIViewController {
     
     private func setupView() {
         view.addSubview(collectionView)
+//        view.addSubview(pageViewController)
         view.addSubview(menuBar)
         
         NSLayoutConstraint.activate([
-            collectionView.topAnchor.constraint(equalTo: view.topAnchor),
+            collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             collectionView.bottomAnchor.constraint(equalTo: menuBar.topAnchor),
@@ -139,27 +112,6 @@ class MainController: UIViewController {
     func scrollToItemAtIndex(menuSelectionIndex: Int) {
         let indexPath = IndexPath(item: menuSelectionIndex, section: 0)
         collectionView.scrollToItem(at: indexPath, at: [], animated: true)
-    }
-    
-    
-    @objc private func handleMenu() {
-        print("Menu")
-    }
-    
-    //    private func setupView() {
-    //        view.addSubview(menuButton)
-    //
-    //        NSLayoutConstraint.activate([
-    //            menuButton.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-    //            menuButton.widthAnchor.constraint(equalToConstant: Constant.menuButtonSize),
-    //            menuButton.heightAnchor.constraint(equalToConstant: Constant.menuButtonSize),
-    //            menuButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -Constant.menuButtonSize),
-    //        ])
-    //    }
-    
-    @objc private func navigationMode(tapGestureRecognizer: UITapGestureRecognizer) {
-        //        slideMenuManager.presentMenu()
-        print("Entering navigation Mode")
     }
     
     @objc private func activateRocket(sender: UITapGestureRecognizer) {
@@ -179,10 +131,38 @@ extension MainController: UICollectionViewDataSource, UICollectionViewDelegate, 
     
     // Sets up cell content
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath)// as! MenuBarCell
-        let backgroundColors: [UIColor] = [UIColor(named: .appBackgroundColor)!, UIColor(named: .objectBorderColor)!, UIColor(named: .textTintColor)!]
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellIds[indexPath.item], for: indexPath)
         
-        cell.backgroundColor = backgroundColors[indexPath.item]
+        switch indexPath.item {
+        case 0:
+//            if let marsRoverCell = collectionView.dequeueReusableCell(withReuseIdentifier: marsRoverCellId, for: indexPath) as? MarsRoverCell {
+//                return marsRoverCell
+//            }
+            if let marsRoverCell = cell as? MarsRoverCell {
+                marsRoverCell.backgroundColor = UIColor.systemPink
+            }
+        case 1:
+//            if let eyeInSkyCell = collectionView.dequeueReusableCell(withReuseIdentifier: skyEyeCellId, for: indexPath) as? EyeInSkyCell {
+//                return eyeInSkyCell
+//            }
+            if let eyeInSkyCell = cell as? EyeInSkyCell {
+                eyeInSkyCell.backgroundColor = UIColor.systemGray
+            }
+        case 2:
+//            if let puzzleCell = collectionView.dequeueReusableCell(withReuseIdentifier: puzzleCellId, for: indexPath) as? PuzzleCell {
+//                return puzzleCell
+//            }
+            if let puzzleCell = cell as? PuzzleCell {
+                puzzleCell.backgroundColor = UIColor.systemBlue
+            }
+
+        default:
+            break
+        }
+        
+//        let backgroundColors: [UIColor] = [UIColor(named: .appBackgroundColor)!, UIColor(named: .objectBorderColor)!, UIColor(named: .textTintColor)!]
+//
+//        cell.backgroundColor = backgroundColors[indexPath.item]
         //            if indexPath.row == 0 { // Handles preselected state
         //                collectionView.selectItem(at: indexPath, animated: false, scrollPosition: [])
         //                cell.iconContainer.tintColor = UIColor(named: .iconSelectedColor)
@@ -216,14 +196,109 @@ extension MainController: UICollectionViewDataSource, UICollectionViewDelegate, 
     }
     
     // Sets up what to do when a cell gets tapped
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        // Handles slider repositioning on cell tap
-        //            let leadingConstraintX = CGFloat(indexPath.item) * frame.width/3
-        //            horizontalSliderLeadingAnchorConstraint?.constant = leadingConstraintX
-        //            UIView.animate(withDuration: 0.5,
-        //                           delay: 0,
-        //                           options: .curveEaseInOut,
-        //                           animations: self.layoutIfNeeded,
-        //                           completion: nil)
+//    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+//        // Handles slider repositioning on cell tap
+//        //            let leadingConstraintX = CGFloat(indexPath.item) * frame.width/3
+//        //            horizontalSliderLeadingAnchorConstraint?.constant = leadingConstraintX
+//        //            UIView.animate(withDuration: 0.5,
+//        //                           delay: 0,
+//        //                           options: .curveEaseInOut,
+//        //                           animations: self.layoutIfNeeded,
+//        //                           completion: nil)
+//    }
+}
+
+// MARK: ROVER
+class MarsRoverCell: BaseCell {
+//    let modeSelected: ModeSelected = .marsRoverMode
+    
+        // This will hold the image selected by user
+    lazy var roverImageView: UIImageView = {
+        let roverImageView = UIImageView()
+        roverImageView.translatesAutoresizingMaskIntoConstraints = false
+        roverImageView.backgroundColor = UIColor.yellow
+        roverImageView.layer.masksToBounds = true
+        roverImageView.layer.cornerRadius = Constant.largeContentCornerRadius
+        return roverImageView
+    }()
+    
+    lazy var stampImageView: UIImageView = {
+        let stampImageView = UIImageView()
+        stampImageView.translatesAutoresizingMaskIntoConstraints = false
+        stampImageView.backgroundColor = UIColor.blue
+        return stampImageView
+    }()
+    
+    lazy var test: UIImageView = {
+        let test = UIImageView()
+        test.translatesAutoresizingMaskIntoConstraints = false
+        test.backgroundColor = UIColor.green
+        return test
+    }()
+        
+        // Meta data for image
+        //    lazy var messageLabel:
+        
+    //    lazy var roverPickerView: UIPickerView = {
+    //        let roverPickerView = UIPickerView()
+    //        return roverPickerView
+    //    }()
+    //
+    //    lazy var datePickerView: UIDatePicker = {
+    //        let datePickerView = UIDatePicker()
+    //        return datePickerView
+    //    }()
+    //
+    //    lazy var cameraPickerView: UIPickerView = {
+    //        let cameraPickerView = UIPickerView()
+    //        return cameraPickerView
+    //    }()
+    //
+    //    lazy var retrievedRoverCameraImages: UICollectionView = {
+    //        let retrievedRoverCameraImages = UICollectionView()
+    //        return retrievedRoverCameraImages
+    //    }()
+    
+    override func setupView() {
+        addSubview(roverImageView)
+        addSubview(stampImageView)
+        addSubview(test)
+        
+        NSLayoutConstraint.activate([
+//            roverImageView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Constant.contentPadding),
+            roverImageView.bottomAnchor.constraint(equalTo: centerYAnchor),
+            roverImageView.centerXAnchor.constraint(equalTo: centerXAnchor),
+            roverImageView.widthAnchor.constraint(equalToConstant: (3/4)*frame.width),
+            roverImageView.heightAnchor.constraint(equalToConstant: frame.width/2),
+            
+            stampImageView.topAnchor.constraint(equalTo: roverImageView.topAnchor, constant: 15),
+            stampImageView.trailingAnchor.constraint(equalTo: roverImageView.trailingAnchor, constant: -15),
+            stampImageView.widthAnchor.constraint(equalToConstant: 60),
+            stampImageView.heightAnchor.constraint(equalToConstant: 60),
+
+        ])
+        
+    }
+}
+
+
+// MARK: SKYEYE
+class EyeInSkyCell: BaseCell {
+//    let modeSelected: ModeSelected = .eyeInTheSkyMode
+
+    override func setupView() {
+
+        
+    }
+}
+
+
+// MARK: PUZZLE
+class PuzzleCell: BaseCell {
+//    let modeSelected: ModeSelected = .slidingPuzzleMode
+
+    override func setupView() {
+
+        
     }
 }

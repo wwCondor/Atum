@@ -37,7 +37,7 @@ class MenuBar: UIView {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-        setupView()
+        setupCollectionView()
         setupHorizontalBar()
 
         translatesAutoresizingMaskIntoConstraints = false // menuBar
@@ -45,10 +45,11 @@ class MenuBar: UIView {
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
-        setupView()
+        setupCollectionView()
+        setupHorizontalBar()
     }
     
-    private func setupView() {
+    private func setupCollectionView() {
         addSubview(collectionView)
         
         NSLayoutConstraint.activate([
@@ -74,7 +75,7 @@ class MenuBar: UIView {
 }
 
 extension MenuBar: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
-        // Sets number of Cells
+        // Sets number buttons (cells) inside the menubar
         func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
             return 3
         }
@@ -97,7 +98,7 @@ extension MenuBar: UICollectionViewDataSource, UICollectionViewDelegate, UIColle
             return CGSize(width: frame.width / 3, height: frame.height)
         }
         
-        // Sets up spacing between posts
+        // Sets up spacing between cells
         func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
             return 0
         }

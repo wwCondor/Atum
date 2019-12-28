@@ -29,6 +29,10 @@ struct Constant {
     static let textXInset: CGFloat               = 10   
     static let textYInset: CGFloat               = 5
 
+    static let contentPadding: CGFloat           = 30
+    
+    // Corner radius for UIImageViews and MapView
+    static let largeContentCornerRadius: CGFloat = 10
 }
 
 

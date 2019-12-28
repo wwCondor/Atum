@@ -32,6 +32,7 @@
 		0BE3815723B53DC000342DA5 /* MenuBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BE3815623B53DC000342DA5 /* MenuBar.swift */; };
 		0BE3815923B60A4500342DA5 /* TextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BE3815823B60A4500342DA5 /* TextField.swift */; };
 		0BE3815B23B6352500342DA5 /* APIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BE3815A23B6352500342DA5 /* APIService.swift */; };
+		0BE3815E23B67FB900342DA5 /* RoverScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BE3815D23B67FB900342DA5 /* RoverScreen.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -74,6 +75,7 @@
 		0BE3815623B53DC000342DA5 /* MenuBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBar.swift; sourceTree = "<group>"; };
 		0BE3815823B60A4500342DA5 /* TextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextField.swift; sourceTree = "<group>"; };
 		0BE3815A23B6352500342DA5 /* APIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIService.swift; sourceTree = "<group>"; };
+		0BE3815D23B67FB900342DA5 /* RoverScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoverScreen.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -154,6 +156,7 @@
 			children = (
 				0BE3815023B409AB00342DA5 /* MainController.swift */,
 				0BE3815623B53DC000342DA5 /* MenuBar.swift */,
+				0BE3815D23B67FB900342DA5 /* RoverScreen.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -312,6 +315,7 @@
 				0BE3814423B3E7EE00342DA5 /* SkyEyeViewController.swift in Sources */,
 				0BE3813A23B201BE00342DA5 /* Error.swift in Sources */,
 				0BE3814023B2036B00342DA5 /* Reachability.swift in Sources */,
+				0BE3815E23B67FB900342DA5 /* RoverScreen.swift in Sources */,
 				0BE3811423B1FBE300342DA5 /* SceneDelegate.swift in Sources */,
 				0BE3814823B3E87E00342DA5 /* NavigationBar.swift in Sources */,
 				0BE3815323B4C10600342DA5 /* SlideMenuManager.swift in Sources */,
