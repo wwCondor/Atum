@@ -9,7 +9,7 @@
 import UIKit
 
 // Triangle shaped buttons with rounded corners
-class RightNavigator: Navigator {
+class RightNavigator: NavigationButton {
     
     override func draw(_ rect: CGRect) {
         let width = self.bounds.size.width
@@ -42,7 +42,7 @@ class RightNavigator: Navigator {
     }
 }
 
-class LeftNavigator: Navigator {
+class LeftNavigator: NavigationButton {
     
     override func draw(_ rect: CGRect) {
         let width = self.bounds.size.width
@@ -75,9 +75,9 @@ class LeftNavigator: Navigator {
     }
 }
 
-class Navigator: UIView {
+class NavigationButton: UIView {
     
-    let navigatorColor = UIColor(named: .objectColor)!
+    let navigatorColor = UIColor(named: .iconColor)!
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -90,8 +90,9 @@ class Navigator: UIView {
     }
     
     func setupView() {
+        backgroundColor = UIColor.clear
         layer.masksToBounds = false
-        layer.shadowColor = UIColor(named: .iconColor)?.cgColor
+        layer.shadowColor = UIColor(named: .iconSelectedColor)?.cgColor
         layer.shadowOpacity = 0.8
         layer.shadowOffset = CGSize(width: 0, height: 1.0)
         layer.shadowRadius = 10

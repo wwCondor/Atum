@@ -20,9 +20,6 @@
 		0BE3813E23B2021400342DA5 /* Icon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BE3813D23B2021400342DA5 /* Icon.swift */; };
 		0BE3814023B2036B00342DA5 /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BE3813F23B2036B00342DA5 /* Reachability.swift */; };
 		0BE3814223B2330400342DA5 /* Endpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BE3814123B2330400342DA5 /* Endpoint.swift */; };
-		0BE3814423B3E7EE00342DA5 /* SkyEyeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BE3814323B3E7EE00342DA5 /* SkyEyeViewController.swift */; };
-		0BE3814623B3E80600342DA5 /* PuzzleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BE3814523B3E80600342DA5 /* PuzzleViewController.swift */; };
-		0BE3814823B3E87E00342DA5 /* NavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BE3814723B3E87E00342DA5 /* NavigationBar.swift */; };
 		0BE3814A23B3EC4B00342DA5 /* CustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BE3814923B3EC4B00342DA5 /* CustomButton.swift */; };
 		0BE3814C23B3F3E100342DA5 /* ModeSelected.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BE3814B23B3F3E100342DA5 /* ModeSelected.swift */; };
 		0BE3814E23B3F5C500342DA5 /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BE3814D23B3F5C500342DA5 /* Constant.swift */; };
@@ -34,6 +31,7 @@
 		0BE3815B23B6352500342DA5 /* APIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BE3815A23B6352500342DA5 /* APIService.swift */; };
 		0BE3815E23B67FB900342DA5 /* RoverScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BE3815D23B67FB900342DA5 /* RoverScreen.swift */; };
 		0BE3816023B7D86100342DA5 /* MarsRoverCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BE3815F23B7D86100342DA5 /* MarsRoverCell.swift */; };
+		0BE3816223B8B19800342DA5 /* EyeInSkyCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BE3816123B8B19800342DA5 /* EyeInSkyCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -64,9 +62,6 @@
 		0BE3813D23B2021400342DA5 /* Icon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Icon.swift; sourceTree = "<group>"; };
 		0BE3813F23B2036B00342DA5 /* Reachability.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
 		0BE3814123B2330400342DA5 /* Endpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Endpoint.swift; sourceTree = "<group>"; };
-		0BE3814323B3E7EE00342DA5 /* SkyEyeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkyEyeViewController.swift; sourceTree = "<group>"; };
-		0BE3814523B3E80600342DA5 /* PuzzleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PuzzleViewController.swift; sourceTree = "<group>"; };
-		0BE3814723B3E87E00342DA5 /* NavigationBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationBar.swift; sourceTree = "<group>"; };
 		0BE3814923B3EC4B00342DA5 /* CustomButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomButton.swift; sourceTree = "<group>"; };
 		0BE3814B23B3F3E100342DA5 /* ModeSelected.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModeSelected.swift; sourceTree = "<group>"; };
 		0BE3814D23B3F5C500342DA5 /* Constant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constant.swift; sourceTree = "<group>"; };
@@ -78,6 +73,7 @@
 		0BE3815A23B6352500342DA5 /* APIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIService.swift; sourceTree = "<group>"; };
 		0BE3815D23B67FB900342DA5 /* RoverScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoverScreen.swift; sourceTree = "<group>"; };
 		0BE3815F23B7D86100342DA5 /* MarsRoverCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarsRoverCell.swift; sourceTree = "<group>"; };
+		0BE3816123B8B19800342DA5 /* EyeInSkyCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EyeInSkyCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -158,6 +154,7 @@
 			children = (
 				0BE3815023B409AB00342DA5 /* MainController.swift */,
 				0BE3815F23B7D86100342DA5 /* MarsRoverCell.swift */,
+				0BE3816123B8B19800342DA5 /* EyeInSkyCell.swift */,
 				0BE3815623B53DC000342DA5 /* MenuBar.swift */,
 				0BE3815D23B67FB900342DA5 /* RoverScreen.swift */,
 			);
@@ -167,7 +164,6 @@
 		0BE3813523B200A300342DA5 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				0BE3814723B3E87E00342DA5 /* NavigationBar.swift */,
 				0BE3814923B3EC4B00342DA5 /* CustomButton.swift */,
 				0BE3815423B4F46B00342DA5 /* NavigationButton.swift */,
 				0BE3815823B60A4500342DA5 /* TextField.swift */,
@@ -193,8 +189,6 @@
 			children = (
 				0BE3815223B4C10600342DA5 /* SlideMenuManager.swift */,
 				0BE3811523B1FBE300342DA5 /* RoverViewController.swift */,
-				0BE3814323B3E7EE00342DA5 /* SkyEyeViewController.swift */,
-				0BE3814523B3E80600342DA5 /* PuzzleViewController.swift */,
 			);
 			path = "Delete?";
 			sourceTree = "<group>";
@@ -310,18 +304,16 @@
 				0BE3813823B2017B00342DA5 /* Color.swift in Sources */,
 				0BE3813E23B2021400342DA5 /* Icon.swift in Sources */,
 				0BE3811223B1FBE300342DA5 /* AppDelegate.swift in Sources */,
-				0BE3814623B3E80600342DA5 /* PuzzleViewController.swift in Sources */,
 				0BE3815123B409AB00342DA5 /* MainController.swift in Sources */,
 				0BE3814C23B3F3E100342DA5 /* ModeSelected.swift in Sources */,
 				0BE3813C23B201E800342DA5 /* Extension.swift in Sources */,
 				0BE3815523B4F46B00342DA5 /* NavigationButton.swift in Sources */,
 				0BE3815723B53DC000342DA5 /* MenuBar.swift in Sources */,
-				0BE3814423B3E7EE00342DA5 /* SkyEyeViewController.swift in Sources */,
 				0BE3813A23B201BE00342DA5 /* Error.swift in Sources */,
+				0BE3816223B8B19800342DA5 /* EyeInSkyCell.swift in Sources */,
 				0BE3814023B2036B00342DA5 /* Reachability.swift in Sources */,
 				0BE3815E23B67FB900342DA5 /* RoverScreen.swift in Sources */,
 				0BE3811423B1FBE300342DA5 /* SceneDelegate.swift in Sources */,
-				0BE3814823B3E87E00342DA5 /* NavigationBar.swift in Sources */,
 				0BE3815323B4C10600342DA5 /* SlideMenuManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

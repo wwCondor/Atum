@@ -105,7 +105,7 @@ class MainController: UIViewController {
             menuBar.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
             menuBar.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             menuBar.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            menuBar.heightAnchor.constraint(equalToConstant: Constant.navigationBarHeight)
+            menuBar.heightAnchor.constraint(equalToConstant: Constant.menuBarHeight)
         ])
     }
     
@@ -139,7 +139,7 @@ extension MainController: UICollectionViewDataSource, UICollectionViewDelegate, 
 //                return marsRoverCell
 //            }
             if let marsRoverCell = cell as? MarsRoverCell {
-                marsRoverCell.backgroundColor = UIColor.systemPink
+                marsRoverCell.backgroundColor = UIColor(named: .appBackgroundColor)
             }
         case 1:
 //            if let eyeInSkyCell = collectionView.dequeueReusableCell(withReuseIdentifier: skyEyeCellId, for: indexPath) as? EyeInSkyCell {
@@ -207,21 +207,6 @@ extension MainController: UICollectionViewDataSource, UICollectionViewDelegate, 
 //        //                           completion: nil)
 //    }
 }
-
-// MARK: ROVER
-
-
-
-// MARK: SKYEYE
-class EyeInSkyCell: BaseCell {
-//    let modeSelected: ModeSelected = .eyeInTheSkyMode
-
-    override func setupView() {
-
-        
-    }
-}
-
 
 // MARK: PUZZLE
 class PuzzleCell: BaseCell {
