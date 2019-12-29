@@ -60,4 +60,6 @@ extension UIColor.Name {
     static let objectColor              = UIColor.Name(name: "ObjectColor")
     static let objectBorderColor        = UIColor.Name(name: "ObjectBorderColor")
     static let textTintColor            = UIColor.Name(name: "TextTintColor")
+    static let postcardTextColor        = UIColor.Name(name: "PostcardTextColor")
+ 
 }

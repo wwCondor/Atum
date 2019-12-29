@@ -34,12 +34,36 @@ class MarsRoverCell: BaseCell {
         return selectedImageView
     }()
     
-    lazy var stampImageView: UIImageView = {
-        let stampImageView = UIImageView()
-        stampImageView.translatesAutoresizingMaskIntoConstraints = false
-        stampImageView.backgroundColor = UIColor.blue
-        return stampImageView
+    lazy var greetingTextField: PostcardGreetingField = {
+        let greetingTextField = PostcardGreetingField()
+        greetingTextField.text = "Greetings from Mars!"
+        return greetingTextField
     }()
+    
+    lazy var roverInfoField: PostcardImageInfoField = {
+        let roverInfoField = PostcardImageInfoField()
+        roverInfoField.text = "Curiosity"
+        return roverInfoField
+    }()
+    
+    lazy var cameraInfoField: PostcardImageInfoField = {
+        let cameraInfoField = PostcardImageInfoField()
+        cameraInfoField.text = "2012-08-06"
+        return cameraInfoField
+    }()
+    
+    lazy var dateInfoField: PostcardImageInfoField = {
+        let dateInfoField = PostcardImageInfoField()
+        dateInfoField.text = "FHAZ"
+        return dateInfoField
+    }()
+    
+//    lazy var stampImageView: UIImageView = {
+//        let stampImageView = UIImageView()
+//        stampImageView.translatesAutoresizingMaskIntoConstraints = false
+//        stampImageView.backgroundColor = UIColor.blue
+//        return stampImageView
+//    }()
     
     lazy var test: UIImageView = {
         let test = UIImageView()
@@ -132,6 +156,12 @@ class MarsRoverCell: BaseCell {
         cellContentView.addSubview(selectedImageView)
         cellContentView.addSubview(rightNavigator)
         
+        // Meta Data TextFields
+        cellContentView.addSubview(greetingTextField)
+        cellContentView.addSubview(roverInfoField)
+        cellContentView.addSubview(cameraInfoField)
+        cellContentView.addSubview(dateInfoField)
+        
         // pickerContainerView content
         cellContentView.addSubview(test2) // roverCameraPicker
         cellContentView.addSubview(test3) // datePicker
@@ -167,6 +197,27 @@ class MarsRoverCell: BaseCell {
             rightNavigator.centerYAnchor.constraint(equalTo: selectedImageView.centerYAnchor),
             rightNavigator.widthAnchor.constraint(equalToConstant: navigatorWidth),
             rightNavigator.heightAnchor.constraint(equalToConstant: navigatorHeigth),
+            
+            // Postcard metadata
+            greetingTextField.leadingAnchor.constraint(equalTo: selectedImageView.leadingAnchor, constant: Constant.contentSidePadding),
+            greetingTextField.trailingAnchor.constraint(equalTo: selectedImageView.trailingAnchor, constant: -Constant.contentSidePadding),
+            greetingTextField.centerYAnchor.constraint(equalTo: selectedImageView.centerYAnchor),
+            greetingTextField.heightAnchor.constraint(equalToConstant: Constant.textFieldHeight),
+            
+            roverInfoField.leadingAnchor.constraint(equalTo: selectedImageView.leadingAnchor, constant: Constant.textFieldPadding),
+            roverInfoField.trailingAnchor.constraint(equalTo: selectedImageView.centerXAnchor),
+            roverInfoField.heightAnchor.constraint(equalToConstant: Constant.textFieldHeight),
+            roverInfoField.bottomAnchor.constraint(equalTo: cameraInfoField.topAnchor),
+            
+            cameraInfoField.leadingAnchor.constraint(equalTo: selectedImageView.leadingAnchor, constant: Constant.textFieldPadding),
+            cameraInfoField.trailingAnchor.constraint(equalTo: selectedImageView.centerXAnchor),
+            cameraInfoField.heightAnchor.constraint(equalToConstant: Constant.textFieldHeight),
+            cameraInfoField.bottomAnchor.constraint(equalTo: dateInfoField.topAnchor),
+            
+            dateInfoField.leadingAnchor.constraint(equalTo: selectedImageView.leadingAnchor, constant: Constant.textFieldPadding),
+            dateInfoField.trailingAnchor.constraint(equalTo: selectedImageView.centerXAnchor),
+            dateInfoField.heightAnchor.constraint(equalToConstant: Constant.textFieldHeight),
+            dateInfoField.bottomAnchor.constraint(equalTo: selectedImageView.bottomAnchor, constant: -Constant.textFieldPadding),
             
             // Pickers 
             test2.topAnchor.constraint(equalTo: selectedImageView.bottomAnchor, constant: Constant.contentPadding),
