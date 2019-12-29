@@ -92,10 +92,10 @@ class NavigationButton: UIView {
     func setupView() {
         backgroundColor = UIColor.clear
         layer.masksToBounds = false
-        layer.shadowColor = UIColor(named: .iconSelectedColor)?.cgColor
-        layer.shadowOpacity = 0.8
-        layer.shadowOffset = CGSize(width: 0, height: 1.0)
-        layer.shadowRadius = 10
+        layer.shadowColor = UIColor.black.cgColor
+        layer.shadowOpacity = 0.9
+        layer.shadowOffset = CGSize(width: 0.5, height: 1.0)
+        layer.shadowRadius = 5
         isUserInteractionEnabled = true
         translatesAutoresizingMaskIntoConstraints = false
     }

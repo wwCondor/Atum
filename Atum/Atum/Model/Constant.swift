@@ -26,6 +26,8 @@ struct Constant {
     // SendButton
     static let sendButtonSize: CGFloat           = 60
     static let sendButtonBorderWidth: CGFloat    = 2
+    static let sendButtonIconInset: CGFloat      = 12
+
 
     // Corner radius for UIImageViews and MapView
     static let largeCornerRadius: CGFloat = 10

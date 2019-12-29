@@ -31,16 +31,19 @@ extension UIImage {
 }
 
 extension UIImage.Name {
-    static let rocketIcon            = UIImage.Name(name: "RocketIcon")
+//    static let rocketIcon            = UIImage.Name(name: "RocketIcon")
     static let inactiveRocketIcon    = UIImage.Name(name: "InactiveRocketIcon")
     static let activeRocketIcon      = UIImage.Name(name: "ActiveRocketIcon")
+    
+    static let sendIcon              = UIImage.Name(name: "SendIcon")
 
-    static let menuIcon              = UIImage.Name(name: "MenuIcon")
-    static let slideMenuIcon         = UIImage.Name(name: "SlideMenuIcon")
+//    static let menuIcon              = UIImage.Name(name: "MenuIcon")
+//    static let slideMenuIcon         = UIImage.Name(name: "SlideMenuIcon")
     static let roverIcon             = UIImage.Name(name: "RoverIcon")
     static let skyEyeIcon            = UIImage.Name(name: "SkyEyeIcon")
     static let puzzleIcon            = UIImage.Name(name: "PuzzleIcon")
     
     static let placeholderImage      = UIImage.Name(name: "PlaceholderImage")
-
+    static let satImagePlaceHolder   = UIImage.Name(name: "SatImagePlaceHolder")
+    
 }

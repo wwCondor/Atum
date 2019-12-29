@@ -20,8 +20,7 @@ class CustomButton: UIButton {
     }
     
     func setupButton() {
-//        let inset: CGFloat = Constant.navigationBarIconInset
-//        imageEdgeInsets = UIEdgeInsets(top: inset, left: inset, bottom: inset, right: inset)
+
         contentMode = .center
         backgroundColor = UIColor(named: .objectColor)
         tintColor = UIColor(named: .iconColor)

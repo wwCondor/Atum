@@ -9,75 +9,18 @@
 import UIKit
 
 class MarsRoverCell: BaseCell {
-//    let modeSelected: ModeSelected = .marsRoverMode
-//    lazy var postCardView: UIView = {
-//        let postCardView = UIView()
-//        return postCardView
-//    }()
-    
-    lazy var selectedImageContainerView: StackItemContainer = {
-        let selectedImageContainerView = StackItemContainer()
-        selectedImageContainerView.backgroundColor = UIColor.systemGreen
-        return selectedImageContainerView
-    }()
-    
+
     lazy var cellContentView: CellContentView = {
         let cellContentView = CellContentView()
-        cellContentView.backgroundColor = UIColor.systemGreen
+        cellContentView.backgroundColor = UIColor.clear
         return cellContentView
     }()
-    
-//    lazy var leftNavigatorContainer: StackItemContainer = {
-//        let leftNavigatorContainer = StackItemContainer()
-//        leftNavigatorContainer.backgroundColor = UIColor.systemTeal
-//        return leftNavigatorContainer
-//    }()
-//
-//    lazy var rightNavigatorContainer: StackItemContainer = {
-//        let rightNavigatorContainer = StackItemContainer()
-//        rightNavigatorContainer.backgroundColor = UIColor.systemTeal
-//        return rightNavigatorContainer
-//    }()
-    
-    lazy var pickerContainerView: StackItemContainer = {
-        let pickerContainerView = StackItemContainer()
-        pickerContainerView.backgroundColor = UIColor.systemBlue
-        return pickerContainerView
-    }()
-    
-//    lazy var datePickerContainer: StackItemContainer = {
-//        let datePickerContainer = StackItemContainer()
-//        datePickerContainer.backgroundColor = UIColor.systemGray
-//        return datePickerContainer
-//    }()
-    
-//    lazy var view6: StackItemContainer = {
-//        let view6 = StackItemContainer()
-//        view6.backgroundColor = UIColor.systemOrange
-//        return view6
-//    }()
-//
-//    lazy var view7: StackItemContainer = {
-//        let view7 = StackItemContainer()
-//        view7.backgroundColor = UIColor.systemBlue
-//        return view7
-//    }()
     
     lazy var sendButttonContainerView: StackItemContainer = {
         let sendButttonContainerView = StackItemContainer()
         sendButttonContainerView.backgroundColor = UIColor.black
         return sendButttonContainerView
     }()
-    
-    // Main cell content stack
-//    lazy var cellContentStackView: UIStackView = {
-//        var cellContentStackView = UIStackView(arrangedSubviews: [])
-//        cellContentStackView.axis = .vertical
-//        cellContentStackView.distribution = .fillProportionally
-//        cellContentStackView.spacing = Constant.contentPadding
-//        cellContentStackView.translatesAutoresizingMaskIntoConstraints = false
-//        return cellContentStackView
-//    }()
 
     // This will hold the image selected by user
     lazy var selectedImageView: UIImageView = {
@@ -105,22 +48,6 @@ class MarsRoverCell: BaseCell {
         return test
     }()
     
-//    lazy var imageSelectionStackView: UIStackView = {
-//        let imageSelectionStackView = UIStackView()
-//        imageSelectionStackView.axis = .horizontal
-//        imageSelectionStackView.distribution = .fillEqually
-//        imageSelectionStackView.translatesAutoresizingMaskIntoConstraints = false
-//        return imageSelectionStackView
-//    }()
-    
-//    lazy var pickerStackView: UIStackView = {
-//        let pickerStackView = UIStackView()
-//        pickerStackView.axis = .horizontal
-//        pickerStackView.distribution = .fillEqually
-//        pickerStackView.translatesAutoresizingMaskIntoConstraints = false
-//        return pickerStackView
-//    }()
-    
     lazy var leftNavigator: LeftNavigator = {
         let navigator = LeftNavigator()
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(showPreviousSuggestion))
@@ -135,12 +62,6 @@ class MarsRoverCell: BaseCell {
         return navigator
     }()
     
-//    lazy var postcardOptionImage: UIImageView = {
-//        let postcardOptionImage = UIImageView()
-//        postcardOptionImage.translatesAutoresizingMaskIntoConstraints = false
-//        postcardOptionImage.backgroundColor = UIColor.systemOrange
-//        return postcardOptionImage
-//    }()
     
     lazy var test2: UIImageView = {
         let test2 = UIImageView()
@@ -156,9 +77,11 @@ class MarsRoverCell: BaseCell {
         return test3
     }()
     
-    lazy var sendButton: CustomButton = {
+    lazy var sendButton: CustomButton = { //sendButtonIconInset
         let sendButton = CustomButton(type: .custom)
-        let image = UIImage(named: .roverIcon)?.withRenderingMode(.alwaysTemplate)
+        let image = UIImage(named: .sendIcon)?.withRenderingMode(.alwaysTemplate)
+        let inset: CGFloat = Constant.sendButtonIconInset
+        sendButton.imageEdgeInsets = UIEdgeInsets(top: inset, left: inset, bottom: inset, right: inset)
         sendButton.setImage(image, for: .normal)
         sendButton.addTarget(self, action: #selector(sendPostcard(tapGestureRecognizer:)), for: .touchUpInside)
         sendButton.layer.masksToBounds = true
@@ -201,15 +124,7 @@ class MarsRoverCell: BaseCell {
     //        return retrievedRoverCameraImages
     //    }()
     
-    override func setupView() {        
-//        let cellContentStackView = UIStackView(arrangedSubviews: [selectedImageContainerView, pickerContainerView, sendButttonContainerView])
-//        cellContentStackView.axis = .vertical
-//        cellContentStackView.distribution = .fillProportionally
-//        cellContentStackView.spacing = Constant.contentPadding
-//        cellContentStackView.translatesAutoresizingMaskIntoConstraints = false
-//
-//        addSubview(cellContentStackView) // Main stack
-        
+    override func setupView() {
         addSubview(cellContentView)
         
         // selectedImageContainerView content
@@ -230,17 +145,7 @@ class MarsRoverCell: BaseCell {
         let navigatorHeigth = navigatorWidth * 2
         let navigatorOffset: CGFloat = 2
         
-//        let pickerWidth: CGFloat = selectedImageSize / 2
-//        let pickerHeigth: CGFloat = selectedImageSize / 3
-        
-        
-        
         NSLayoutConstraint.activate([
-//            cellContentStackView.topAnchor.constraint(equalTo: topAnchor, constant: Constant.navigationBarHeight),
-//            cellContentStackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 0),
-//            cellContentStackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: 0),
-//            cellContentStackView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -Constant.menuBarHeight),
-            
             // view containing cell content
             cellContentView.topAnchor.constraint(equalTo: topAnchor, constant: Constant.navigationBarHeight),
             cellContentView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 0),
@@ -248,11 +153,10 @@ class MarsRoverCell: BaseCell {
             cellContentView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -Constant.menuBarHeight),
             
             // Current Selection
-            selectedImageView.topAnchor.constraint(equalTo: cellContentView.topAnchor), //constant: Constant.contentPadding),
+            selectedImageView.topAnchor.constraint(equalTo: cellContentView.topAnchor, constant: Constant.contentPadding),
             selectedImageView.widthAnchor.constraint(equalToConstant: selectedImageSize),
             selectedImageView.heightAnchor.constraint(equalToConstant: selectedImageSize),
             selectedImageView.centerXAnchor.constraint(equalTo: cellContentView.centerXAnchor),
-//            selectedImageView.bottomAnchor.constraint(equalTo: cellContentView.bottomAnchor), //constant: 0),
             
             leftNavigator.trailingAnchor.constraint(equalTo: selectedImageView.leadingAnchor, constant: -navigatorOffset),
             leftNavigator.centerYAnchor.constraint(equalTo: selectedImageView.centerYAnchor),
@@ -265,49 +169,30 @@ class MarsRoverCell: BaseCell {
             rightNavigator.heightAnchor.constraint(equalToConstant: navigatorHeigth),
             
             // Pickers 
-            test2.topAnchor.constraint(equalTo: selectedImageView.bottomAnchor),
-//            test2.centerYAnchor.constraint(equalTo: pickerContainerView.centerYAnchor),
-//            test2.heightAnchor.constraint(equalToConstant: pickerHeigth),
+            test2.topAnchor.constraint(equalTo: selectedImageView.bottomAnchor, constant: Constant.contentPadding),
             test2.leadingAnchor.constraint(equalTo: cellContentView.leadingAnchor, constant: Constant.contentSidePadding),
             test2.trailingAnchor.constraint(equalTo: selectedImageView.centerXAnchor),
-            test2.bottomAnchor.constraint(equalTo: sendButton.topAnchor),
+            test2.bottomAnchor.constraint(equalTo: sendButton.topAnchor, constant: -Constant.contentPadding),
 
-            test3.topAnchor.constraint(equalTo: selectedImageView.bottomAnchor),
-//            test3.centerYAnchor.constraint(equalTo: pickerContainerView.centerYAnchor),
-//            test3.heightAnchor.constraint(equalToConstant: pickerHeigth),
+            test3.topAnchor.constraint(equalTo: selectedImageView.bottomAnchor, constant: Constant.contentPadding),
             test3.trailingAnchor.constraint(equalTo: cellContentView.trailingAnchor, constant: -Constant.contentSidePadding),
             test3.leadingAnchor.constraint(equalTo: selectedImageView.centerXAnchor),
-            test3.bottomAnchor.constraint(equalTo: sendButton.topAnchor),
+            test3.bottomAnchor.constraint(equalTo: sendButton.topAnchor, constant: -Constant.contentPadding),
 
-            
-//            sendButton.topAnchor.constraint(equalTo: sendButttonContainerView.topAnchor, constant: 0),
             sendButton.widthAnchor.constraint(equalToConstant: Constant.sendButtonSize),
             sendButton.heightAnchor.constraint(equalToConstant: Constant.sendButtonSize),
             sendButton.centerXAnchor.constraint(equalTo: selectedImageView.centerXAnchor),
-            sendButton.bottomAnchor.constraint(equalTo: cellContentView.bottomAnchor), //constant: -Constant.contentPadding),
-            
-//            leftNavigator.widthAnchor.constraint(equalToConstant: 80),
-//            leftNavigator.heightAnchor.constraint(equalToConstant: 80),
-//
-//            rightNavigator.widthAnchor.constraint(equalToConstant: 80),
-//            rightNavigator.heightAnchor.constraint(equalToConstant: 80),
-//
-//            thumbnailPostcordImage.widthAnchor.constraint(equalToConstant: 80),
-//            thumbnailPostcordImage.heightAnchor.constraint(equalToConstant: 80)
-//            roverImageView.topAnchor.constraint(equalTo: topAnchor, constant: 0),
-//            roverImageView.bottomAnchor.constraint(equalTo: centerYAnchor, constant: -(1/10)*frame.width),
-//            roverImageView.centerXAnchor.constraint(equalTo: centerXAnchor, constant: -(1/10)*frame.width),
-//            roverImageView.widthAnchor.constraint(equalToConstant: (3/5)*frame.width),
-//            roverImageView.heightAnchor.constraint(equalToConstant: (3/5)*frame.width),
-//
-//            stampImageView.topAnchor.constraint(equalTo: roverImageView.topAnchor, constant: 15),
-//            stampImageView.trailingAnchor.constraint(equalTo: roverImageView.trailingAnchor, constant: -15),
-//            stampImageView.widthAnchor.constraint(equalToConstant: 60),
-//            stampImageView.heightAnchor.constraint(equalToConstant: 60),
+            sendButton.bottomAnchor.constraint(equalTo: cellContentView.bottomAnchor, constant: -Constant.contentPadding),
         ])
     }
     
     @objc private func sendPostcard(tapGestureRecognizer: UITapGestureRecognizer) {
+//        if sendButton.isHighlighted == true {
+//            sendButton.tintColor = UIColor(named: .iconSelectedColor)
+//        } else {
+//            sendButton.tintColor = UIColor(named: .iconColor)
+//        }
+
         print("Sending Email")
     }
     
