@@ -12,66 +12,94 @@ struct APIKey {
     static let key: String = "MKjkqRBKMSLQxBfCIUFcFUxhVjhK3Q3m3HnXVB3w"
 }
 
+//struct RoverPhotoSearch {
+//    var rover: String
+//    var camera: String
+//    var sol: Int
+//
+//    static var roverPhotoSearch = RoverPhotoSearch(rover: Rover.opportunity.name, camera: RoverCamera.navcam.abbreviation, sol: 1)
+//}
+
 enum Endpoint {
     case marsRover
     //    case earthImagery
-
-//    case blueMarble // DSCOVR's Earth Polychromatic Imaging Camera (EPIC)
-    
+    case blueMarbleDates // DSCOVR's Earth Polychromatic Imaging Camera (EPIC)
+    case blueMarbleImages
     
     private var baseURL: URL {
         return URL(string: "https://api.nasa.gov/")! // Eye in the sky
     }
     
-    func url(page: Int) -> URL {
+    func url() -> URL {
+        let rover = Rover.opportunity.name
+        let camera = RoverCamera.navcam.abbreviation
+//        let sol = 1
+        
+        let dateSelected: String = "2019-06-23"
+         
         switch self {
         case .marsRover:
-            var components = URLComponents(url: baseURL.appendingPathComponent("mars-photos/api/v1/"), resolvingAgainstBaseURL: false)
+            var components = URLComponents(url: baseURL.appendingPathComponent("mars-photos/api/v1/rovers/\(rover)/photos"), resolvingAgainstBaseURL: false)
             components?.queryItems = [
-                URLQueryItem(name: "rovers", value: "\(APIKey.key)"),
-                URLQueryItem(name: "earth_date", value: "\(APIKey.key)"),
-                URLQueryItem(name: "camera", value: "\(APIKey.key)"), // defaulted to all
-                URLQueryItem(name: "page", value: String(describing: page)),
-                URLQueryItem(name: "api_key", value: "\(APIKey.key)"),
-
+//                URLQueryItem(name: "sol",        value: "\(sol)"),
+                URLQueryItem(name: "earth_date", value: "\(dateSelected)"),
+                URLQueryItem(name: "camera",     value: "\(camera)"), // defaulted to all
+                URLQueryItem(name: "api_key",    value: "\(APIKey.key)"),
+            ]
+            return components!.url!
+        case .blueMarbleDates:
+            var components = URLComponents(url: baseURL.appendingPathComponent("EPIC/api/natural/all"), resolvingAgainstBaseURL: false)
+            components?.queryItems = [
+                URLQueryItem(name: "api_key",   value: "\(APIKey.key)"),
+            ]
+            return components!.url!
+        case .blueMarbleImages:
+            var components = URLComponents(url: baseURL.appendingPathComponent("EPIC/api/natural/date/\(dateSelected)"), resolvingAgainstBaseURL: false)
+            components?.queryItems = [
+                URLQueryItem(name: "api_key",   value: "\(APIKey.key)"),
             ]
             return components!.url!
         }
     }
 }
 
-enum Rover {
-    case curiosity
-    case opportunity
-    case spirit
-    
-    var name: String {
-        switch self {
-        case .curiosity:      return "curiosity"
-        case .opportunity:    return "opportunity"
-        case .spirit:         return "spirit"
-        }
-    }
-}
+/*
+ - make api call for available dates
+ - save sated into array
+ - create picker
+ - populate picker with dates
+ - use selected picker date to make api call for image(s) string
+ - use image string to make api for images
+ - present images
 
-enum RoverCamera {
-    case fhaz
-    case rhaz
-    case navcam
-    
-    var name: String {
-        switch self {
-        case .fhaz:           return "Front Hazard Avoidance Camera"
-        case .rhaz:           return "Rear Hazard Avoidance Camera"
-        case .navcam:         return "Navigation Camera"
-        }
-    }
-}
+ 
+https://api.nasa.gov/EPIC/api/natural/images?api_key=DEMO_KEY
+https://api.nasa.gov/EPIC/api/natural/date/2015-10-31?api_key=DEMO_KEY natural/date
+ 
+https://api.nasa.gov/EPIC/api/natural/all?api_key=DEMO_KEY // Provides all dates available
+*/
+
+
+
+
 
 /*
+ https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos?earth_date=2015-6-3&api_key=DEMO_KEY
+ 
  Example request for marsRover:
  https://api.nasa.gov/mars-photos/api/v1/rovers/ // Base for rover images
- https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos?sol=1000&camera=fhaz&api_key=DEMO_KEY
+ https://api.nasa.gov/mars-photos/api/v1/rovers/
+ Opportunity/photos?
+ sol=1&
+ camera=NAVCAM&
+ api_key=MKjkqRBKMSLQxBfCIUFcFUxhVjhK3Q3m3HnXVB3w
+ 
+ https://api.nasa.gov/mars-photos/api/v1/rovers/Opportunity/photos?sol=1&camera=NAVCAM&api_key=MKjkqRBKMSLQxBfCIUFcFUxhVjhK3Q3m3HnXVB3w
+
+ 
+ https://api.nasa.gov/mars-photos/api/v1/?rovers=Opportunity/photos?&sol=1
+ 
+ https://api.nasa.gov/mars-photos/api/v1/rovers/Opportunity/photos?sol=1
  
  Rovers: curiosity, opportunity, spirit
  

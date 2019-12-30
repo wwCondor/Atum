@@ -57,6 +57,13 @@ class EyeInSkyCell: BaseCell {
         return test2
     }()
     
+    //    lazy var test3: UIImageView = {
+    //        let test3 = UIImageView()
+    //        test3.translatesAutoresizingMaskIntoConstraints = false
+    //        test3.backgroundColor = UIColor.black
+    //        return test3
+    //    }()
+    
     lazy var zoomSlider: UISlider = {
         let zoomSlider = UISlider()
         zoomSlider.translatesAutoresizingMaskIntoConstraints = false

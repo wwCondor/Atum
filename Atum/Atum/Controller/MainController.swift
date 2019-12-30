@@ -12,6 +12,8 @@ class MainController: UIViewController {
         
     let cellIds: [String] = ["marsRoverCellId", "skyEyeCellId", "puzzleCellId"]
     
+    
+    
 //    let marsRoverCellId = "marsRoverCellId"
 //    let skyEyeCellId = "skyEyeCellId"
 //    let puzzleCellId = "puzzleCellId"
@@ -27,7 +29,7 @@ class MainController: UIViewController {
         collectionView.delegate = self
         collectionView.register(MarsRoverCell.self, forCellWithReuseIdentifier: cellIds[0])
         collectionView.register(EyeInSkyCell.self, forCellWithReuseIdentifier: cellIds[1])
-        collectionView.register(PuzzleCell.self, forCellWithReuseIdentifier: cellIds[2])
+        collectionView.register(BlueMarbleCell.self, forCellWithReuseIdentifier: cellIds[2])
         collectionView.isPagingEnabled = true
         collectionView.showsHorizontalScrollIndicator = false
         return collectionView
@@ -152,7 +154,7 @@ extension MainController: UICollectionViewDataSource, UICollectionViewDelegate, 
 //            if let puzzleCell = collectionView.dequeueReusableCell(withReuseIdentifier: puzzleCellId, for: indexPath) as? PuzzleCell {
 //                return puzzleCell
 //            }
-            if let puzzleCell = cell as? PuzzleCell {
+            if let puzzleCell = cell as? BlueMarbleCell {
                 puzzleCell.backgroundColor = UIColor.systemBlue
             }
 
@@ -208,12 +210,4 @@ extension MainController: UICollectionViewDataSource, UICollectionViewDelegate, 
 //    }
 }
 
-// MARK: PUZZLE
-class PuzzleCell: BaseCell {
-//    let modeSelected: ModeSelected = .slidingPuzzleMode
 
-    override func setupView() {
-
-        
-    }
-}

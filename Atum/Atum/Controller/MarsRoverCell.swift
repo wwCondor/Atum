@@ -10,19 +10,63 @@ import UIKit
 
 class MarsRoverCell: BaseCell {
 
+    // Maybe store this in struct somewhere
+    var selectedRover: String = Rover.opportunity.name
+    var selectedCamera: String = RoverCamera.navcam.abbreviation
+//    var selectedSol: Int = 1
+    
+//    var maxSolForSelectedRover: Int = 1
+//    var totalSols = [Int]()
+    
+    let rovers: [Rover] = [Rover.opportunity, Rover.curiosity, Rover.spirit]
+    let cameras: [RoverCamera] = [RoverCamera.navcam, RoverCamera.fhaz, RoverCamera.rhaz]
+    
+    var opportunitySols = [Int]()
+    var curiositySols = [Int]()
+    var spiritSols = [Int]()
+    
+//    var opportunityMaxSol: Int = 5
+//    var curiosityMaxSol: Int = 8
+//    var spiritMaxSol: Int = 12
+    
+    var photos: [Photo] = [Photo]()
+    
+//    func createSolArrays() {
+//        switch selectedRover {
+//        case Rover.opportunity.name:
+//            opportunitySols += 1...opportunityMaxSol
+//        case Rover.curiosity.name:
+//            curiositySols += 1...curiosityMaxSol
+//        case Rover.spirit.name:
+//            spiritSols += 1...spiritMaxSol
+//        default: break
+//        }
+////        roverPhotoSearchPicker.reloadComponent(2)
+//    }
+    
+    func fetchPhotoData() {
+        for rover in rovers {
+            RoverPhotoDataManager.fetchPhotos(rover: rover.name, sol: Int.random(in: 1...2000), camera: selectedCamera) { (photos, error) in
+                DispatchQueue.main.async {
+                    guard let photos = photos else {
+                        print("No photos")
+                        //                        print(error?.localizedDescription)
+                        return
+                    }
+                    self.photos = photos
+                    print(photos)
+                }
+            }
+        }
+    }
+
     lazy var cellContentView: CellContentView = {
         let cellContentView = CellContentView()
         cellContentView.backgroundColor = UIColor.clear
         return cellContentView
     }()
-    
-    lazy var sendButttonContainerView: StackItemContainer = {
-        let sendButttonContainerView = StackItemContainer()
-        sendButttonContainerView.backgroundColor = UIColor.black
-        return sendButttonContainerView
-    }()
 
-    // This will hold the image selected by user
+    // Selected Image
     lazy var selectedImageView: UIImageView = {
         let image = UIImage(named: .placeholderImage)
         let selectedImageView = UIImageView(image: image)
@@ -34,6 +78,7 @@ class MarsRoverCell: BaseCell {
         return selectedImageView
     }()
     
+    // Image MetaData
     lazy var greetingTextField: PostcardGreetingField = {
         let greetingTextField = PostcardGreetingField()
         greetingTextField.text = "Greetings from Mars!"
@@ -48,13 +93,13 @@ class MarsRoverCell: BaseCell {
     
     lazy var cameraInfoField: PostcardImageInfoField = {
         let cameraInfoField = PostcardImageInfoField()
-        cameraInfoField.text = "2012-08-06"
+        cameraInfoField.text = "FHAZ"
         return cameraInfoField
     }()
     
     lazy var dateInfoField: PostcardImageInfoField = {
         let dateInfoField = PostcardImageInfoField()
-        dateInfoField.text = "FHAZ"
+        dateInfoField.text = "2012-08-06"
         return dateInfoField
     }()
     
@@ -86,22 +131,16 @@ class MarsRoverCell: BaseCell {
         return navigator
     }()
     
-    
-    lazy var test2: UIImageView = {
-        let test2 = UIImageView()
-        test2.translatesAutoresizingMaskIntoConstraints = false
-        test2.backgroundColor = UIColor.yellow
-        return test2
+    lazy var roverPhotoSearchPicker: UIPickerView = {
+        let roverPhotoSearchPicker = UIPickerView()
+        roverPhotoSearchPicker.translatesAutoresizingMaskIntoConstraints = false
+        roverPhotoSearchPicker.backgroundColor = UIColor.clear
+        roverPhotoSearchPicker.delegate = self
+        roverPhotoSearchPicker.dataSource = self
+        return roverPhotoSearchPicker
     }()
     
-    lazy var test3: UIImageView = {
-        let test3 = UIImageView()
-        test3.translatesAutoresizingMaskIntoConstraints = false
-        test3.backgroundColor = UIColor.black
-        return test3
-    }()
-    
-    lazy var sendButton: CustomButton = { //sendButtonIconInset
+    lazy var sendButton: CustomButton = {
         let sendButton = CustomButton(type: .custom)
         let image = UIImage(named: .sendIcon)?.withRenderingMode(.alwaysTemplate)
         let inset: CGFloat = Constant.sendButtonIconInset
@@ -114,41 +153,9 @@ class MarsRoverCell: BaseCell {
         sendButton.layer.borderWidth = Constant.sendButtonBorderWidth
         return sendButton
     }()
-    
 
-        // Meta data for image
-        //    lazy var messageLabel:
-        
-    lazy var roverCameraPicker: UIPickerView = {
-        let roverCameraPicker = UIPickerView()
-        roverCameraPicker.translatesAutoresizingMaskIntoConstraints = false
-        return roverCameraPicker
-    }()
-    
-    lazy var datePicker: UIDatePicker = {
-        let datePicker = UIDatePicker()
-        datePicker.translatesAutoresizingMaskIntoConstraints = false
-        return datePicker
-    }()
-    
-//    lazy var datePickerView: UIDatePicker = {
-//        let datePickerView = UIDatePicker()
-//        datePickerView.translatesAutoresizingMaskIntoConstraints = false
-//        return datePickerView
-//    }()
-//
-//    lazy var cameraPickerView: UIPickerView = {
-//        let cameraPickerView = UIPickerView()
-//        cameraPickerView.translatesAutoresizingMaskIntoConstraints = false
-//        return cameraPickerView
-//    }()
-    //
-    //    lazy var retrievedRoverCameraImages: UICollectionView = {
-    //        let retrievedRoverCameraImages = UICollectionView()
-    //        return retrievedRoverCameraImages
-    //    }()
-    
     override func setupView() {
+//        createSolArrays()
         addSubview(cellContentView)
         
         // selectedImageContainerView content
@@ -162,11 +169,7 @@ class MarsRoverCell: BaseCell {
         cellContentView.addSubview(cameraInfoField)
         cellContentView.addSubview(dateInfoField)
         
-        // pickerContainerView content
-        cellContentView.addSubview(test2) // roverCameraPicker
-        cellContentView.addSubview(test3) // datePicker
-        
-        // sendButttonContainerView content
+        cellContentView.addSubview(roverPhotoSearchPicker)
         cellContentView.addSubview(sendButton)
         
         let viewWidth: CGFloat = frame.width
@@ -186,7 +189,7 @@ class MarsRoverCell: BaseCell {
             selectedImageView.topAnchor.constraint(equalTo: cellContentView.topAnchor, constant: Constant.contentPadding),
             selectedImageView.widthAnchor.constraint(equalToConstant: selectedImageSize),
             selectedImageView.heightAnchor.constraint(equalToConstant: selectedImageSize),
-            selectedImageView.centerXAnchor.constraint(equalTo: cellContentView.centerXAnchor),
+            selectedImageView.centerXAnchor.constraint(equalTo: centerXAnchor),
             
             leftNavigator.trailingAnchor.constraint(equalTo: selectedImageView.leadingAnchor, constant: -navigatorOffset),
             leftNavigator.centerYAnchor.constraint(equalTo: selectedImageView.centerYAnchor),
@@ -219,16 +222,10 @@ class MarsRoverCell: BaseCell {
             dateInfoField.heightAnchor.constraint(equalToConstant: Constant.textFieldHeight),
             dateInfoField.bottomAnchor.constraint(equalTo: selectedImageView.bottomAnchor, constant: -Constant.textFieldPadding),
             
-            // Pickers 
-            test2.topAnchor.constraint(equalTo: selectedImageView.bottomAnchor, constant: Constant.contentPadding),
-            test2.leadingAnchor.constraint(equalTo: cellContentView.leadingAnchor, constant: Constant.contentSidePadding),
-            test2.trailingAnchor.constraint(equalTo: selectedImageView.centerXAnchor),
-            test2.bottomAnchor.constraint(equalTo: sendButton.topAnchor, constant: -Constant.contentPadding),
-
-            test3.topAnchor.constraint(equalTo: selectedImageView.bottomAnchor, constant: Constant.contentPadding),
-            test3.trailingAnchor.constraint(equalTo: cellContentView.trailingAnchor, constant: -Constant.contentSidePadding),
-            test3.leadingAnchor.constraint(equalTo: selectedImageView.centerXAnchor),
-            test3.bottomAnchor.constraint(equalTo: sendButton.topAnchor, constant: -Constant.contentPadding),
+            roverPhotoSearchPicker.topAnchor.constraint(equalTo: selectedImageView.bottomAnchor, constant: Constant.contentPadding),
+            roverPhotoSearchPicker.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Constant.contentSidePadding),
+            roverPhotoSearchPicker.trailingAnchor.constraint(equalTo: selectedImageView.centerXAnchor), // constant: -Constant.contentSidePadding),
+            roverPhotoSearchPicker.bottomAnchor.constraint(equalTo: sendButton.topAnchor, constant: -Constant.contentPadding),
 
             sendButton.widthAnchor.constraint(equalToConstant: Constant.sendButtonSize),
             sendButton.heightAnchor.constraint(equalToConstant: Constant.sendButtonSize),
@@ -238,6 +235,7 @@ class MarsRoverCell: BaseCell {
     }
     
     @objc private func sendPostcard(tapGestureRecognizer: UITapGestureRecognizer) {
+        fetchPhotoData()
 //        if sendButton.isHighlighted == true {
 //            sendButton.tintColor = UIColor(named: .iconSelectedColor)
 //        } else {
@@ -276,23 +274,80 @@ class MarsRoverCell: BaseCell {
     }
 }
 
-class StackItemContainer: UIView {
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        setupView()
+// MARK: Picker
+extension MarsRoverCell: UIPickerViewDelegate, UIPickerViewDataSource {
+    
+    // We have 3 search input parameters for the users: Rover, Camera and Sol
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 2
     }
     
-    required init?(coder: NSCoder) {
-        super.init(coder: coder)
-        setupView()
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        switch component {
+        case 0: return rovers.count
+        case 1: return cameras.count
+        default: return 1
+        }
     }
     
-    func setupView() {
-        translatesAutoresizingMaskIntoConstraints = false
-//        backgroundColor = UIColor.clear
+//     Data being returned for each column
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        switch component {
+        case 0: return rovers[row].name
+        case 1: return cameras[row].abbreviation
+        default:
+            return "x"
+        }
     }
-
+    
+    // This part updates the selected categories
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        switch component {
+        case 0:
+            selectedRover = rovers[row].name
+            roverInfoField.text = rovers[row].name
+            print(selectedRover)
+        case 1:
+            selectedCamera = cameras[row].abbreviation
+            cameraInfoField.text = cameras[row].abbreviation
+            print(selectedCamera)
+        default: selectedCamera = cameras[row].abbreviation
+        }
+    }
+    
+//     MARK: Picker Customization
+    func pickerView(_ pickerView: UIPickerView, viewForRow row: Int, forComponent component: Int, reusing view: UIView?) -> UIView {
+        var label: UILabel
+        
+        if let view = view as? UILabel {
+            label = view
+        } else {
+            label = UILabel()
+        }
+        
+        label.textColor = UIColor(named: .textTintColor)
+        label.textAlignment = .center
+        label.font = UIFont.systemFont(ofSize: 14.0, weight: .semibold)
+        
+        switch component {
+        case 0: label.text = rovers[row].name
+        case 1: label.text = cameras[row].abbreviation
+        default: label.text = "?"
+        }
+        
+        return label
+    }
+    func pickerView(_ pickerView: UIPickerView, widthForComponent component: Int) -> CGFloat {
+        switch component {
+        case 0: return pickerView.frame.width * (1/2)
+        case 1: return pickerView.frame.width * (1/2)
+        default:
+            return pickerView.frame.width * (1/2)
+        }
+    }
 }
+
+
 
 
 class CellContentView: UIView {

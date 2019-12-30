@@ -114,3 +114,11 @@ extension UIButton{
         layer.mask = maskLayer1
     }
 }
+
+extension JSONDecoder {
+    static var dataDecoder: JSONDecoder {
+        let decoder = JSONDecoder()
+        decoder.keyDecodingStrategy = .convertFromSnakeCase
+        return decoder
+    }
+}
