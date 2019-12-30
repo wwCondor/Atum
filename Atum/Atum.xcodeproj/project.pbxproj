@@ -39,6 +39,7 @@
 		0BE3817023BA3BD600342DA5 /* BlueMarbleDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BE3816F23BA3BD600342DA5 /* BlueMarbleDataManager.swift */; };
 		0BE3817223BA3D5600342DA5 /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BE3817123BA3D5600342DA5 /* Result.swift */; };
 		0BE3817423BA43AD00342DA5 /* Rover.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BE3817323BA43AD00342DA5 /* Rover.swift */; };
+		0BE3817623BA491D00342DA5 /* DateManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BE3817523BA491D00342DA5 /* DateManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -88,6 +89,7 @@
 		0BE3816F23BA3BD600342DA5 /* BlueMarbleDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlueMarbleDataManager.swift; sourceTree = "<group>"; };
 		0BE3817123BA3D5600342DA5 /* Result.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Result.swift; sourceTree = "<group>"; };
 		0BE3817323BA43AD00342DA5 /* Rover.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Rover.swift; sourceTree = "<group>"; };
+		0BE3817523BA491D00342DA5 /* DateManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -210,6 +212,7 @@
 			children = (
 				0BE3815223B4C10600342DA5 /* SlideMenuManager.swift */,
 				0BE3811523B1FBE300342DA5 /* RoverViewController.swift */,
+				0BE3817523BA491D00342DA5 /* DateManager.swift */,
 			);
 			path = "Delete?";
 			sourceTree = "<group>";
@@ -323,6 +326,7 @@
 				0BE3814E23B3F5C500342DA5 /* Constant.swift in Sources */,
 				0BE3815923B60A4500342DA5 /* TextField.swift in Sources */,
 				0BE3816023B7D86100342DA5 /* MarsRoverCell.swift in Sources */,
+				0BE3817623BA491D00342DA5 /* DateManager.swift in Sources */,
 				0BE3814223B2330400342DA5 /* Endpoint.swift in Sources */,
 				0BE3816A23B9E8EE00342DA5 /* RoverPhotoDataManager.swift in Sources */,
 				0BE3813823B2017B00342DA5 /* Color.swift in Sources */,

@@ -9,16 +9,18 @@
 import UIKit
 
 class BlueMarbleCell: BaseCell {
+    
+    var allNaturalDates = [String]()
 
     lazy var cellContentView: CellContentView = {
         let cellContentView = CellContentView()
-        cellContentView.backgroundColor = UIColor.clear
+        cellContentView.backgroundColor = UIColor(named: .appBackgroundColor)
         return cellContentView
     }()
 
     // Selected Image
     lazy var selectedImageView: UIImageView = {
-        let image = UIImage(named: .placeholderImage)
+        let image = UIImage(named: .marbleImagePlaceholder)
         let selectedImageView = UIImageView(image: image)
         selectedImageView.contentMode = .scaleAspectFit
         selectedImageView.translatesAutoresizingMaskIntoConstraints = false
@@ -29,11 +31,11 @@ class BlueMarbleCell: BaseCell {
     }()
     
     // Image MetaData
-//    lazy var greetingTextField: PostcardGreetingField = {
-//        let greetingTextField = PostcardGreetingField()
-//        greetingTextField.text = "Greetings from Mars!"
-//        return greetingTextField
-//    }()
+    lazy var greetingTextField: PostcardGreetingField = {
+        let greetingTextField = PostcardGreetingField()
+        greetingTextField.text = "Greetings from Mars!"
+        return greetingTextField
+    }()
 //
 //    lazy var roverInfoField: PostcardImageInfoField = {
 //        let roverInfoField = PostcardImageInfoField()
@@ -67,6 +69,15 @@ class BlueMarbleCell: BaseCell {
         return navigator
     }()
     
+    lazy var roverAndCameraPicker: UIPickerView = {
+        let roverAndCameraPicker = UIPickerView()
+        roverAndCameraPicker.translatesAutoresizingMaskIntoConstraints = false
+        roverAndCameraPicker.backgroundColor = UIColor.clear
+        roverAndCameraPicker.delegate = self
+        roverAndCameraPicker.dataSource = self
+        return roverAndCameraPicker
+    }()
+    
     lazy var sendButton: CustomButton = {
         let sendButton = CustomButton(type: .custom)
         let image = UIImage(named: .sendIcon)?.withRenderingMode(.alwaysTemplate)
@@ -86,9 +97,14 @@ class BlueMarbleCell: BaseCell {
         addSubview(cellContentView)
         
         // selectedImageContainerView content
-        cellContentView.addSubview(leftNavigator)
         cellContentView.addSubview(selectedImageView)
+        
+        cellContentView.addSubview(leftNavigator)
+        cellContentView.addSubview(sendButton)
         cellContentView.addSubview(rightNavigator)
+
+        cellContentView.addSubview(roverAndCameraPicker)
+
         
         // Meta Data TextFields
 //        cellContentView.addSubview(greetingTextField)
@@ -96,13 +112,13 @@ class BlueMarbleCell: BaseCell {
 //        cellContentView.addSubview(cameraInfoField)
 //        cellContentView.addSubview(dateInfoField)
         
-        cellContentView.addSubview(sendButton)
         
-        let viewWidth: CGFloat = frame.width
+//        let viewWidth: CGFloat = frame.width
         let selectedImageSize: CGFloat = (3/4)*frame.width
-        let navigatorWidth = (viewWidth - selectedImageSize) / 2
-        let navigatorHeigth = navigatorWidth * 2
-        let navigatorOffset: CGFloat = 2
+        
+        let navigatorHeigth = Constant.sendButtonSize
+        let navigatorWidth = navigatorHeigth / 2
+//        let navigatorOffset: CGFloat = 2
         
         NSLayoutConstraint.activate([
             // view containing cell content
@@ -118,15 +134,25 @@ class BlueMarbleCell: BaseCell {
             selectedImageView.centerXAnchor.constraint(equalTo: centerXAnchor),
 //            selectedImageView.centerYAnchor.constraint(equalTo: centerYAnchor),
             
-            leftNavigator.trailingAnchor.constraint(equalTo: selectedImageView.leadingAnchor, constant: -navigatorOffset),
-            leftNavigator.centerYAnchor.constraint(equalTo: selectedImageView.centerYAnchor),
+            leftNavigator.trailingAnchor.constraint(equalTo: sendButton.leadingAnchor, constant: -Constant.contentPadding),
+            leftNavigator.centerYAnchor.constraint(equalTo: sendButton.centerYAnchor),
             leftNavigator.widthAnchor.constraint(equalToConstant: navigatorWidth),
             leftNavigator.heightAnchor.constraint(equalToConstant: navigatorHeigth),
             
-            rightNavigator.leadingAnchor.constraint(equalTo: selectedImageView.trailingAnchor, constant: navigatorOffset),
-            rightNavigator.centerYAnchor.constraint(equalTo: selectedImageView.centerYAnchor),
+            sendButton.widthAnchor.constraint(equalToConstant: 3*Constant.sendButtonSize),
+            sendButton.heightAnchor.constraint(equalToConstant: Constant.sendButtonSize),
+            sendButton.centerXAnchor.constraint(equalTo: selectedImageView.centerXAnchor),
+            sendButton.topAnchor.constraint(equalTo: selectedImageView.bottomAnchor, constant: Constant.contentPadding),
+            
+            rightNavigator.leadingAnchor.constraint(equalTo: sendButton.trailingAnchor, constant: Constant.contentPadding),
+            rightNavigator.centerYAnchor.constraint(equalTo: sendButton.centerYAnchor),
             rightNavigator.widthAnchor.constraint(equalToConstant: navigatorWidth),
             rightNavigator.heightAnchor.constraint(equalToConstant: navigatorHeigth),
+            
+            roverAndCameraPicker.topAnchor.constraint(equalTo: sendButton.bottomAnchor, constant: Constant.contentPadding),
+            roverAndCameraPicker.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Constant.contentSidePadding),
+            roverAndCameraPicker.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Constant.contentSidePadding),
+            roverAndCameraPicker.bottomAnchor.constraint(equalTo: cellContentView.bottomAnchor, constant: -Constant.contentPadding),
             
             // Postcard metadata
 //            greetingTextField.leadingAnchor.constraint(equalTo: selectedImageView.leadingAnchor, constant: Constant.contentSidePadding),
@@ -149,48 +175,76 @@ class BlueMarbleCell: BaseCell {
 //            dateInfoField.heightAnchor.constraint(equalToConstant: Constant.textFieldHeight),
 //            dateInfoField.bottomAnchor.constraint(equalTo: selectedImageView.bottomAnchor, constant: -Constant.textFieldPadding),
 
-            sendButton.widthAnchor.constraint(equalToConstant: Constant.sendButtonSize),
-            sendButton.heightAnchor.constraint(equalToConstant: Constant.sendButtonSize),
-            sendButton.centerXAnchor.constraint(equalTo: selectedImageView.centerXAnchor),
-            sendButton.bottomAnchor.constraint(equalTo: cellContentView.bottomAnchor, constant: -Constant.contentPadding),
+
         ])
     }
     
     @objc private func sendPostcard(tapGestureRecognizer: UITapGestureRecognizer) {
-//        if sendButton.isHighlighted == true {
-//            sendButton.tintColor = UIColor(named: .iconSelectedColor)
-//        } else {
-//            sendButton.tintColor = UIColor(named: .iconColor)
-//        }
-
         print("Sending Email")
     }
     
     @objc private func showPreviousSuggestion() {
         print("Showing Previous Image")
-
-//        if allMovies.count > 1 {
-//            if currentMovie != 0 {
-//                currentMovie -= 1
-//            } else {
-//                currentMovie = allMovies.count - 1
-//            }
-//            setLabels(for: currentMovie)
-//            setPosterImage(for: self.currentMovie)
-//        }
     }
     
     @objc private func showNextSuggestion() {
         print("Showing Next Image")
+    }
+}
 
-//        if allMovies.count > 1 {
-//            if currentMovie != allMovies.count - 1 {
-//                currentMovie += 1
-//            } else {
-//                currentMovie = 0
-//            }
-//            setLabels(for: currentMovie)
-//            setPosterImage(for: self.currentMovie)
-//        }
+extension BlueMarbleCell: UIPickerViewDelegate, UIPickerViewDataSource {
+    
+    // We have 3 search input parameters for the users: Rover, Camera and Sol
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        if allNaturalDates.count == 0 {
+            return 100
+        } else {
+            return allNaturalDates.count
+        }
+    }
+    
+//     Data being returned for each column
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        if allNaturalDates.count == 0 {
+            return "No dates obtained"
+        } else {
+            return allNaturalDates[row]
+        }
+    }
+    
+    // This part updates the selected categories
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        if allNaturalDates.count == 0 {
+            greetingTextField.text = "No dates obtained"
+        } else {
+            greetingTextField.text = allNaturalDates[row]
+        }
+    }
+    
+//     MARK: Picker Customization
+    func pickerView(_ pickerView: UIPickerView, viewForRow row: Int, forComponent component: Int, reusing view: UIView?) -> UIView {
+        var label: UILabel
+        
+        if let view = view as? UILabel {
+            label = view
+        } else {
+            label = UILabel()
+        }
+        
+        label.textColor = UIColor(named: .textTintColor)
+        label.textAlignment = .center
+        label.font = UIFont.systemFont(ofSize: 15.0, weight: .semibold)
+        
+        if allNaturalDates.count == 0 {
+            label.text = "No dates obtained"
+        } else {
+            label.text = allNaturalDates[row]
+        }
+        
+        return label
     }
 }

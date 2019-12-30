@@ -77,7 +77,7 @@ class LeftNavigator: NavigationButton {
 
 class NavigationButton: UIView {
     
-    let navigatorColor = UIColor(named: .iconColor)!
+    let navigatorColor = UIColor(named: .objectBorderColor)!
 
     override init(frame: CGRect) {
         super.init(frame: frame)
