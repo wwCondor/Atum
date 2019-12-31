@@ -69,27 +69,27 @@ class BlueMarbleCell: BaseCell {
         return navigator
     }()
     
-    lazy var roverAndCameraPicker: UIPickerView = {
-        let roverAndCameraPicker = UIPickerView()
-        roverAndCameraPicker.translatesAutoresizingMaskIntoConstraints = false
-        roverAndCameraPicker.backgroundColor = UIColor.clear
-        roverAndCameraPicker.delegate = self
-        roverAndCameraPicker.dataSource = self
-        return roverAndCameraPicker
+    lazy var naturalDatePicker: UIPickerView = {
+        let naturalDatePicker = UIPickerView()
+        naturalDatePicker.translatesAutoresizingMaskIntoConstraints = false
+        naturalDatePicker.backgroundColor = UIColor.clear
+        naturalDatePicker.delegate = self
+        naturalDatePicker.dataSource = self
+        return naturalDatePicker
     }()
     
-    lazy var sendButton: CustomButton = {
-        let sendButton = CustomButton(type: .custom)
+    lazy var startPuzzleButton: CustomButton = {
+        let startPuzzleButton = CustomButton(type: .custom)
         let image = UIImage(named: .sendIcon)?.withRenderingMode(.alwaysTemplate)
         let inset: CGFloat = Constant.sendButtonIconInset
-        sendButton.imageEdgeInsets = UIEdgeInsets(top: inset, left: inset, bottom: inset, right: inset)
-        sendButton.setImage(image, for: .normal)
-        sendButton.addTarget(self, action: #selector(sendPostcard(tapGestureRecognizer:)), for: .touchUpInside)
-        sendButton.layer.masksToBounds = true
-        sendButton.layer.cornerRadius = Constant.smallCornerRadius
-        sendButton.layer.borderColor = UIColor(named: .objectBorderColor)?.cgColor
-        sendButton.layer.borderWidth = Constant.sendButtonBorderWidth
-        return sendButton
+        startPuzzleButton.imageEdgeInsets = UIEdgeInsets(top: inset, left: inset, bottom: inset, right: inset)
+        startPuzzleButton.setImage(image, for: .normal)
+        startPuzzleButton.addTarget(self, action: #selector(sendPostcard(tapGestureRecognizer:)), for: .touchUpInside)
+        startPuzzleButton.layer.masksToBounds = true
+        startPuzzleButton.layer.cornerRadius = Constant.smallCornerRadius
+        startPuzzleButton.layer.borderColor = UIColor(named: .objectBorderColor)?.cgColor
+        startPuzzleButton.layer.borderWidth = Constant.sendButtonBorderWidth
+        return startPuzzleButton
     }()
 
     override func setupView() {
@@ -97,13 +97,13 @@ class BlueMarbleCell: BaseCell {
         addSubview(cellContentView)
         
         // selectedImageContainerView content
-        cellContentView.addSubview(selectedImageView)
-        
         cellContentView.addSubview(leftNavigator)
-        cellContentView.addSubview(sendButton)
+        cellContentView.addSubview(selectedImageView)
         cellContentView.addSubview(rightNavigator)
+        
+        cellContentView.addSubview(startPuzzleButton)
 
-        cellContentView.addSubview(roverAndCameraPicker)
+        cellContentView.addSubview(naturalDatePicker)
 
         
         // Meta Data TextFields
@@ -113,11 +113,17 @@ class BlueMarbleCell: BaseCell {
 //        cellContentView.addSubview(dateInfoField)
         
         
-//        let viewWidth: CGFloat = frame.width
+        let viewWidth: CGFloat = frame.width
         let selectedImageSize: CGFloat = (3/4)*frame.width
+        let contentPadding: CGFloat = (viewWidth - selectedImageSize) / 2
+
+        let navigatorWidth = (viewWidth - selectedImageSize) / 2
+        let navigatorHeigth = navigatorWidth * 2
+        let navigatorOffset: CGFloat = 2
         
-        let navigatorHeigth = Constant.sendButtonSize
-        let navigatorWidth = navigatorHeigth / 2
+
+//        let navigatorHeigth = Constant.sendButtonSize
+//        let navigatorWidth = navigatorHeigth / 2
 //        let navigatorOffset: CGFloat = 2
         
         NSLayoutConstraint.activate([
@@ -128,54 +134,36 @@ class BlueMarbleCell: BaseCell {
             cellContentView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -Constant.menuBarHeight),
             
             // Current Selection
+            leftNavigator.trailingAnchor.constraint(equalTo: selectedImageView.leadingAnchor, constant: -navigatorOffset),
+            leftNavigator.centerYAnchor.constraint(equalTo: selectedImageView.centerYAnchor),
+            leftNavigator.widthAnchor.constraint(equalToConstant: navigatorWidth),
+            leftNavigator.heightAnchor.constraint(equalToConstant: navigatorHeigth),
+            
             selectedImageView.topAnchor.constraint(equalTo: cellContentView.topAnchor, constant: Constant.contentPadding),
             selectedImageView.widthAnchor.constraint(equalToConstant: selectedImageSize),
             selectedImageView.heightAnchor.constraint(equalToConstant: selectedImageSize),
             selectedImageView.centerXAnchor.constraint(equalTo: centerXAnchor),
-//            selectedImageView.centerYAnchor.constraint(equalTo: centerYAnchor),
             
-            leftNavigator.trailingAnchor.constraint(equalTo: sendButton.leadingAnchor, constant: -Constant.contentPadding),
-            leftNavigator.centerYAnchor.constraint(equalTo: sendButton.centerYAnchor),
-            leftNavigator.widthAnchor.constraint(equalToConstant: navigatorWidth),
-            leftNavigator.heightAnchor.constraint(equalToConstant: navigatorHeigth),
-            
-            sendButton.widthAnchor.constraint(equalToConstant: 3*Constant.sendButtonSize),
-            sendButton.heightAnchor.constraint(equalToConstant: Constant.sendButtonSize),
-            sendButton.centerXAnchor.constraint(equalTo: selectedImageView.centerXAnchor),
-            sendButton.topAnchor.constraint(equalTo: selectedImageView.bottomAnchor, constant: Constant.contentPadding),
-            
-            rightNavigator.leadingAnchor.constraint(equalTo: sendButton.trailingAnchor, constant: Constant.contentPadding),
-            rightNavigator.centerYAnchor.constraint(equalTo: sendButton.centerYAnchor),
+            rightNavigator.leadingAnchor.constraint(equalTo: selectedImageView.trailingAnchor, constant: navigatorOffset),
+            rightNavigator.centerYAnchor.constraint(equalTo: selectedImageView.centerYAnchor),
             rightNavigator.widthAnchor.constraint(equalToConstant: navigatorWidth),
             rightNavigator.heightAnchor.constraint(equalToConstant: navigatorHeigth),
+        
+            startPuzzleButton.widthAnchor.constraint(equalToConstant: Constant.sendButtonSize),
+            startPuzzleButton.heightAnchor.constraint(equalToConstant: Constant.sendButtonSize),
+            startPuzzleButton.centerXAnchor.constraint(equalTo: selectedImageView.centerXAnchor),
+            startPuzzleButton.topAnchor.constraint(equalTo: selectedImageView.bottomAnchor, constant: Constant.contentPadding),
             
-            roverAndCameraPicker.topAnchor.constraint(equalTo: sendButton.bottomAnchor, constant: Constant.contentPadding),
-            roverAndCameraPicker.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Constant.contentSidePadding),
-            roverAndCameraPicker.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Constant.contentSidePadding),
-            roverAndCameraPicker.bottomAnchor.constraint(equalTo: cellContentView.bottomAnchor, constant: -Constant.contentPadding),
+            naturalDatePicker.topAnchor.constraint(equalTo: startPuzzleButton.bottomAnchor, constant: Constant.contentPadding),
+            naturalDatePicker.leadingAnchor.constraint(equalTo: leadingAnchor, constant: contentPadding),
+            naturalDatePicker.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -contentPadding),
+            naturalDatePicker.bottomAnchor.constraint(equalTo: cellContentView.bottomAnchor, constant: -Constant.contentPadding),
             
             // Postcard metadata
 //            greetingTextField.leadingAnchor.constraint(equalTo: selectedImageView.leadingAnchor, constant: Constant.contentSidePadding),
 //            greetingTextField.trailingAnchor.constraint(equalTo: selectedImageView.trailingAnchor, constant: -Constant.contentSidePadding),
 //            greetingTextField.centerYAnchor.constraint(equalTo: selectedImageView.centerYAnchor),
 //            greetingTextField.heightAnchor.constraint(equalToConstant: Constant.textFieldHeight),
-//
-//            roverInfoField.leadingAnchor.constraint(equalTo: selectedImageView.leadingAnchor, constant: Constant.textFieldPadding),
-//            roverInfoField.trailingAnchor.constraint(equalTo: selectedImageView.centerXAnchor),
-//            roverInfoField.heightAnchor.constraint(equalToConstant: Constant.textFieldHeight),
-//            roverInfoField.bottomAnchor.constraint(equalTo: cameraInfoField.topAnchor),
-//
-//            cameraInfoField.leadingAnchor.constraint(equalTo: selectedImageView.leadingAnchor, constant: Constant.textFieldPadding),
-//            cameraInfoField.trailingAnchor.constraint(equalTo: selectedImageView.centerXAnchor),
-//            cameraInfoField.heightAnchor.constraint(equalToConstant: Constant.textFieldHeight),
-//            cameraInfoField.bottomAnchor.constraint(equalTo: dateInfoField.topAnchor),
-//
-//            dateInfoField.leadingAnchor.constraint(equalTo: selectedImageView.leadingAnchor, constant: Constant.textFieldPadding),
-//            dateInfoField.trailingAnchor.constraint(equalTo: selectedImageView.centerXAnchor),
-//            dateInfoField.heightAnchor.constraint(equalToConstant: Constant.textFieldHeight),
-//            dateInfoField.bottomAnchor.constraint(equalTo: selectedImageView.bottomAnchor, constant: -Constant.textFieldPadding),
-
-
         ])
     }
     

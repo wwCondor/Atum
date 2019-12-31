@@ -31,7 +31,7 @@ enum Endpoint {
     }
     
     func url() -> URL {
-        let rover = Rover.opportunity.name
+        let rover = Rover.curiosity.name
         let camera = RoverCamera.navcam.abbreviation
 //        let sol = 1
         

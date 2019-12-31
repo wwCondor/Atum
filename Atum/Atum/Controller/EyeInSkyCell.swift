@@ -17,7 +17,7 @@ class EyeInSkyCell: BaseCell {
 
     lazy var cellContentView: CellContentView = {
         let cellContentView = CellContentView()
-        cellContentView.backgroundColor = UIColor.systemGreen
+        cellContentView.backgroundColor = UIColor(named: .appBackgroundColor)
         return cellContentView
     }()
     
@@ -32,23 +32,23 @@ class EyeInSkyCell: BaseCell {
         return skyEyeImageView
     }()
     
-    lazy var mapView: MKMapView = {
-        let mapView = MKMapView()
-        mapView.overrideUserInterfaceStyle = .dark
-        mapView.isUserInteractionEnabled = false
-        mapView.isZoomEnabled = false
-        mapView.layer.masksToBounds = true
-        mapView.layer.cornerRadius = Constant.largeCornerRadius
-        mapView.translatesAutoresizingMaskIntoConstraints = false
-        return mapView
-    }()
+//    lazy var mapView: MKMapView = {
+//        let mapView = MKMapView()
+//        mapView.overrideUserInterfaceStyle = .dark
+//        mapView.isUserInteractionEnabled = false
+//        mapView.isZoomEnabled = false
+//        mapView.layer.masksToBounds = true
+//        mapView.layer.cornerRadius = Constant.largeCornerRadius
+//        mapView.translatesAutoresizingMaskIntoConstraints = false
+//        return mapView
+//    }()
     
-    lazy var locationInfoField: CustomTextField = {
-        let locationInfoField = CustomTextField()
-        locationInfoField.isUserInteractionEnabled = false
-        locationInfoField.text = "Placeholder Text"
-        return locationInfoField
-    }()
+//    lazy var locationInfoField: CustomTextField = {
+//        let locationInfoField = CustomTextField()
+//        locationInfoField.isUserInteractionEnabled = false
+//        locationInfoField.text = "Placeholder Text"
+//        return locationInfoField
+//    }()
     
     lazy var test2: UIImageView = {
         let test2 = UIImageView()
@@ -64,19 +64,45 @@ class EyeInSkyCell: BaseCell {
     //        return test3
     //    }()
     
+    lazy var satelliteImageView: UIImageView = {
+        let inset: CGFloat = -Constant.sendButtonIconInset
+        let edgeIndets = UIEdgeInsets(top: inset, left: inset, bottom: inset, right: inset)
+        let image = UIImage(named: .skyEyeIcon)?.withRenderingMode(.alwaysTemplate).withAlignmentRectInsets(edgeIndets)
+        let satelliteImageView = UIImageView(image: image)
+        satelliteImageView.tintColor = UIColor(named: .iconColor)
+        satelliteImageView.contentMode = .scaleAspectFit
+        satelliteImageView.translatesAutoresizingMaskIntoConstraints = false
+        satelliteImageView.backgroundColor = UIColor.clear
+
+        return satelliteImageView
+    }()
+    
     lazy var zoomSlider: UISlider = {
         let zoomSlider = UISlider()
         zoomSlider.translatesAutoresizingMaskIntoConstraints = false
         zoomSlider.transform = CGAffineTransform(rotationAngle: CGFloat(-Double.pi / 2))
         zoomSlider.backgroundColor = UIColor.clear
-        zoomSlider.minimumTrackTintColor = UIColor(named: .iconColor)
-        zoomSlider.maximumTrackTintColor = UIColor(named: .iconSliderColor)
-        zoomSlider.thumbTintColor = UIColor(named: .iconSelectedColor)
+        zoomSlider.minimumTrackTintColor = UIColor(named: .iconSelectedColor)
+        zoomSlider.maximumTrackTintColor = UIColor(named: .iconColor)
+        zoomSlider.thumbTintColor = UIColor(named: .objectBorderColor)
         zoomSlider.minimumValue = 0
         zoomSlider.maximumValue = 5
         zoomSlider.setValue(2, animated: true)
         zoomSlider.addTarget(self, action: #selector(setZoom(_:)), for: .valueChanged)
         return zoomSlider
+    }()
+    
+    lazy var planetImageView: UIImageView = {
+        let inset: CGFloat = -Constant.sendButtonIconInset
+        let edgeIndets = UIEdgeInsets(top: inset, left: inset, bottom: inset, right: inset)
+        let image = UIImage(named: .planetIcon)?.withRenderingMode(.alwaysTemplate).withAlignmentRectInsets(edgeIndets)
+        let planetImageView = UIImageView(image: image)
+        planetImageView.tintColor = UIColor(named: .iconColor)
+        planetImageView.contentMode = .scaleAspectFit
+        planetImageView.translatesAutoresizingMaskIntoConstraints = false
+        planetImageView.backgroundColor = UIColor.clear
+
+        return planetImageView
     }()
     
 
@@ -85,12 +111,18 @@ class EyeInSkyCell: BaseCell {
         addSubview(cellContentView)
         
         cellContentView.addSubview(skyEyeImageView)
-        cellContentView.addSubview(mapView)
-        cellContentView.addSubview(test2) // datePicker
+//        cellContentView.addSubview(mapView)
+        cellContentView.addSubview(satelliteImageView)
         cellContentView.addSubview(zoomSlider)
+        cellContentView.addSubview(planetImageView)
 
-        let selectedImageSize: CGFloat = (3/7)*frame.width
-        let sliderWidth: CGFloat = selectedImageSize / 2
+        cellContentView.addSubview(test2) // datePicker
+
+
+        let viewWidth: CGFloat = frame.width
+        let selectedImageSize: CGFloat = (3/4)*frame.width
+        let contentPadding: CGFloat = (viewWidth - selectedImageSize) / 2
+        let sliderWidth: CGFloat = Constant.sendButtonSize
 
         NSLayoutConstraint.activate([
             // view containing cell content
@@ -102,22 +134,33 @@ class EyeInSkyCell: BaseCell {
             skyEyeImageView.topAnchor.constraint(equalTo: cellContentView.topAnchor, constant: Constant.contentPadding),
             skyEyeImageView.widthAnchor.constraint(equalToConstant: selectedImageSize),
             skyEyeImageView.heightAnchor.constraint(equalToConstant: selectedImageSize),
-            skyEyeImageView.centerXAnchor.constraint(equalTo: cellContentView.centerXAnchor),
+            skyEyeImageView.centerXAnchor.constraint(equalTo: centerXAnchor),
             
-            mapView.topAnchor.constraint(equalTo: skyEyeImageView.bottomAnchor, constant: Constant.contentPadding),
-            mapView.widthAnchor.constraint(equalToConstant: selectedImageSize),
-            mapView.heightAnchor.constraint(equalToConstant: selectedImageSize),
-            mapView.centerXAnchor.constraint(equalTo: cellContentView.centerXAnchor),
+            // Zoom Slider items
+            satelliteImageView.topAnchor.constraint(equalTo: skyEyeImageView.bottomAnchor, constant: Constant.contentPadding),
+            satelliteImageView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: contentPadding),
+            satelliteImageView.widthAnchor.constraint(equalToConstant: Constant.sendButtonSize),
+            satelliteImageView.heightAnchor.constraint(equalToConstant: Constant.sendButtonSize),
             
-            test2.topAnchor.constraint(equalTo: mapView.bottomAnchor, constant: Constant.contentPadding),
-            test2.leadingAnchor.constraint(equalTo: cellContentView.leadingAnchor, constant: Constant.contentSidePadding),
-            test2.trailingAnchor.constraint(equalTo: cellContentView.trailingAnchor, constant: -Constant.contentSidePadding),
+            zoomSlider.topAnchor.constraint(equalTo: satelliteImageView.bottomAnchor, constant: Constant.contentPadding),
+            zoomSlider.leadingAnchor.constraint(equalTo: leadingAnchor, constant: contentPadding),
+            zoomSlider.widthAnchor.constraint(equalToConstant: sliderWidth),
+            zoomSlider.bottomAnchor.constraint(equalTo: planetImageView.topAnchor, constant: -Constant.contentPadding),
+            
+            planetImageView.topAnchor.constraint(equalTo: zoomSlider.bottomAnchor, constant: Constant.contentPadding),
+            planetImageView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: contentPadding),
+            planetImageView.widthAnchor.constraint(equalToConstant: Constant.sendButtonSize),
+            planetImageView.heightAnchor.constraint(equalToConstant: Constant.sendButtonSize),
+            planetImageView.bottomAnchor.constraint(equalTo: cellContentView.bottomAnchor, constant: -Constant.contentPadding),
+            
+            
+
+            test2.topAnchor.constraint(equalTo: skyEyeImageView.bottomAnchor, constant: Constant.contentPadding),
+            test2.leadingAnchor.constraint(equalTo: zoomSlider.trailingAnchor, constant: Constant.contentPadding),
+            test2.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -contentPadding),
             test2.bottomAnchor.constraint(equalTo: cellContentView.bottomAnchor, constant: -Constant.contentPadding),
             
-            zoomSlider.topAnchor.constraint(equalTo: cellContentView.topAnchor, constant: Constant.contentPadding),
-            zoomSlider.heightAnchor.constraint(equalToConstant: selectedImageSize),
-            zoomSlider.widthAnchor.constraint(equalToConstant: sliderWidth),
-            zoomSlider.trailingAnchor.constraint(equalTo: skyEyeImageView.leadingAnchor, constant: 10),
+
         ])
         
     }

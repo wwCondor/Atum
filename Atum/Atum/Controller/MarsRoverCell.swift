@@ -11,9 +11,9 @@ import UIKit
 class MarsRoverCell: BaseCell {
 
     // Maybe store this in struct somewhere
-    var selectedRover: Rover = .opportunity
-    var selectedCamera: RoverCamera = .navcam
-    lazy var selectedDate: String = getCurrentDate()
+    let selectedRover: Rover = .curiosity
+//    var selectedCamera: RoverCamera = .navcam
+    lazy var currentDate: String = getCurrentDate()
 
     private func getCurrentDate() -> String {
         let date = Date()
@@ -23,25 +23,27 @@ class MarsRoverCell: BaseCell {
         return dateString
     }
     
-    let rovers: [Rover] = [Rover.opportunity, Rover.curiosity, Rover.spirit]
-    let cameras: [RoverCamera] = [RoverCamera.navcam, RoverCamera.fhaz, RoverCamera.rhaz]
+    let rovers: [Rover] = [Rover.curiosity]
+    let cameras: [RoverCamera] = [RoverCamera.fhaz, RoverCamera.rhaz, RoverCamera.mast, RoverCamera.chemcam, RoverCamera.mahli, RoverCamera.mardi, RoverCamera.navcam]
+    var selectedCamera: Int = 0
     
     var photos: [Photo] = [Photo]()
     
     func fetchPhotoData() {
-        for rover in rovers {
-            RoverPhotoDataManager.fetchPhotos(rover: rover.name, sol: Int.random(in: 1...2000), camera: selectedCamera.abbreviation) { (photos, error) in
-                DispatchQueue.main.async {
-                    guard let photos = photos else {
-                        print("No photos")
-                        //                        print(error?.localizedDescription)
-                        return
-                    }
-                    self.photos = photos
-                    print(photos)
-                }
-            }
-        }
+        print("Fetching photo data")
+//        for rover in rovers {
+//            RoverPhotoDataManager.fetchPhotos(rover: rover.name, sol: Int.random(in: 1...2000), camera: selectedCamera.abbreviation) { (photos, error) in
+//                DispatchQueue.main.async {
+//                    guard let photos = photos else {
+//                        print("No photos")
+//                        //                        print(error?.localizedDescription)
+//                        return
+//                    }
+//                    self.photos = photos
+//                    print(photos)
+//                }
+//            }
+//        }
     }
 
     lazy var cellContentView: CellContentView = {
@@ -71,19 +73,19 @@ class MarsRoverCell: BaseCell {
     
     lazy var roverInfoField: PostcardImageInfoField = {
         let roverInfoField = PostcardImageInfoField()
-        roverInfoField.text = "Curiosity"
+        roverInfoField.text = "\(selectedRover.name)"
         return roverInfoField
     }()
     
     lazy var cameraInfoField: PostcardImageInfoField = {
         let cameraInfoField = PostcardImageInfoField()
-        cameraInfoField.text = "FHAZ"
+        cameraInfoField.text = "\(cameras[selectedCamera].abbreviation)"
         return cameraInfoField
     }()
     
     lazy var dateInfoField: PostcardImageInfoField = {
         let dateInfoField = PostcardImageInfoField()
-        dateInfoField.text = "2012-08-06"
+        dateInfoField.text = "\(currentDate)"
         return dateInfoField
     }()
     
@@ -115,29 +117,27 @@ class MarsRoverCell: BaseCell {
         return navigator
     }()
     
-    lazy var roverAndCameraPicker: UIPickerView = {
-        let roverAndCameraPicker = UIPickerView()
-        roverAndCameraPicker.translatesAutoresizingMaskIntoConstraints = false
-        roverAndCameraPicker.backgroundColor = UIColor.clear
-        roverAndCameraPicker.delegate = self
-        roverAndCameraPicker.dataSource = self
-        return roverAndCameraPicker
-    }()
+//    lazy var roverAndCameraPicker: UIPickerView = {
+//        let roverAndCameraPicker = UIPickerView()
+//        roverAndCameraPicker.translatesAutoresizingMaskIntoConstraints = false
+//        roverAndCameraPicker.backgroundColor = UIColor.clear
+//        roverAndCameraPicker.delegate = self
+//        roverAndCameraPicker.dataSource = self
+//        return roverAndCameraPicker
+//    }()
     
-    lazy var leftCamNavigator: LeftNavigator = {
-        let leftCamNavigator = LeftNavigator()
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(showPreviousSuggestion))
-        leftCamNavigator.addGestureRecognizer(tapGesture)
-        return leftCamNavigator
-    }()
+//    lazy var leftCamNavigator: LeftNavigator = {
+//        let leftCamNavigator = LeftNavigator()
+//        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(showPreviousSuggestion))
+//        leftCamNavigator.addGestureRecognizer(tapGesture)
+//        return leftCamNavigator
+//    }()
     
     lazy var cameraButton: CustomButton = {
         let cameraButton = CustomButton(type: .custom)
-        let image = UIImage(named: .sendIcon)?.withRenderingMode(.alwaysTemplate)
-        let inset: CGFloat = Constant.sendButtonIconInset
-        cameraButton.imageEdgeInsets = UIEdgeInsets(top: inset, left: inset, bottom: inset, right: inset)
-        cameraButton.setImage(image, for: .normal)
-        cameraButton.addTarget(self, action: #selector(sendPostcard(tapGestureRecognizer:)), for: .touchUpInside)
+        cameraButton.setTitle("\(cameras[selectedCamera].fullName)", for: .normal)
+        cameraButton.titleLabel?.font = UIFont.systemFont(ofSize: 14.0, weight: .semibold)
+        cameraButton.addTarget(self, action: #selector(switchCamera(tapGestureRecognizer:)), for: .touchUpInside)
         cameraButton.layer.masksToBounds = true
         cameraButton.layer.cornerRadius = Constant.smallCornerRadius
         cameraButton.layer.borderColor = UIColor(named: .objectBorderColor)?.cgColor
@@ -145,12 +145,12 @@ class MarsRoverCell: BaseCell {
         return cameraButton
     }()
     
-    lazy var rightCamNavigator: RightNavigator = {
-        let rightCamNavigator = RightNavigator()
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(showNextSuggestion))
-        rightCamNavigator.addGestureRecognizer(tapGesture)
-        return rightCamNavigator
-    }()
+//    lazy var rightCamNavigator: RightNavigator = {
+//        let rightCamNavigator = RightNavigator()
+//        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(showNextSuggestion))
+//        rightCamNavigator.addGestureRecognizer(tapGesture)
+//        return rightCamNavigator
+//    }()
     
     lazy var roverDatePicker: UIDatePicker = {
         let roverDatePicker = UIDatePicker()
@@ -176,7 +176,8 @@ class MarsRoverCell: BaseCell {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "dd.MM.yyyy"
         print(dateFormatter.string(from: datePicker.date))
-        selectedDate = dateFormatter.string(from: datePicker.date)
+//        selectedDate = dateFormatter.string(from: datePicker.date)
+        dateInfoField.text = dateFormatter.string(from: datePicker.date)
     }
     
     lazy var sendButton: CustomButton = {
@@ -202,9 +203,9 @@ class MarsRoverCell: BaseCell {
         cellContentView.addSubview(selectedImageView)
         cellContentView.addSubview(rightNavigator)
         
-        cellContentView.addSubview(leftCamNavigator)
+//        cellContentView.addSubview(leftCamNavigator)
         cellContentView.addSubview(cameraButton)
-        cellContentView.addSubview(rightCamNavigator)
+//        cellContentView.addSubview(rightCamNavigator)
         
         // Meta Data TextFields
         cellContentView.addSubview(greetingTextField)
@@ -218,12 +219,13 @@ class MarsRoverCell: BaseCell {
         
         let viewWidth: CGFloat = frame.width
         let selectedImageSize: CGFloat = (3/4)*frame.width
+        let contentSidePadding = (viewWidth - selectedImageSize) / 2
         let navigatorWidth = (viewWidth - selectedImageSize) / 2
         let navigatorHeigth = navigatorWidth * 2
         let navigatorOffset: CGFloat = 2
         
-        let camNavigatorHeigth = Constant.sendButtonSize
-        let camNavigatorWidth = camNavigatorHeigth / 2
+//        let camNavigatorHeigth = Constant.sendButtonSize
+//        let camNavigatorWidth = camNavigatorHeigth / 2
         
         NSLayoutConstraint.activate([
             // view containing cell content
@@ -273,20 +275,21 @@ class MarsRoverCell: BaseCell {
             
             // camera button
             
-            leftCamNavigator.trailingAnchor.constraint(equalTo: cameraButton.leadingAnchor, constant: -Constant.contentPadding),
-            leftCamNavigator.centerYAnchor.constraint(equalTo: cameraButton.centerYAnchor),
-            leftCamNavigator.widthAnchor.constraint(equalToConstant: camNavigatorWidth),
-            leftCamNavigator.heightAnchor.constraint(equalToConstant: camNavigatorHeigth),
+//            leftCamNavigator.trailingAnchor.constraint(equalTo: cameraButton.leadingAnchor, constant: -Constant.contentPadding),
+//            leftCamNavigator.centerYAnchor.constraint(equalTo: cameraButton.centerYAnchor),
+//            leftCamNavigator.widthAnchor.constraint(equalToConstant: camNavigatorWidth),
+//            leftCamNavigator.heightAnchor.constraint(equalToConstant: camNavigatorHeigth),
 
-            cameraButton.widthAnchor.constraint(equalToConstant: 3*Constant.sendButtonSize),
-            cameraButton.heightAnchor.constraint(equalToConstant: Constant.sendButtonSize),
-            cameraButton.centerXAnchor.constraint(equalTo: selectedImageView.centerXAnchor),
             cameraButton.topAnchor.constraint(equalTo: selectedImageView.bottomAnchor, constant: Constant.contentPadding),
+            cameraButton.leadingAnchor.constraint(equalTo: selectedImageView.leadingAnchor),
+            cameraButton.trailingAnchor.constraint(equalTo: selectedImageView.trailingAnchor),
+            cameraButton.heightAnchor.constraint(equalToConstant: Constant.cameraButtonHeigth),
+//            cameraButton.centerXAnchor.constraint(equalTo: selectedImageView.centerXAnchor),
             
-            rightCamNavigator.leadingAnchor.constraint(equalTo: cameraButton.trailingAnchor, constant: Constant.contentPadding),
-            rightCamNavigator.centerYAnchor.constraint(equalTo: cameraButton.centerYAnchor),
-            rightCamNavigator.widthAnchor.constraint(equalToConstant: camNavigatorWidth),
-            rightCamNavigator.heightAnchor.constraint(equalToConstant: camNavigatorHeigth),
+//            rightCamNavigator.leadingAnchor.constraint(equalTo: cameraButton.trailingAnchor, constant: Constant.contentPadding),
+//            rightCamNavigator.centerYAnchor.constraint(equalTo: cameraButton.centerYAnchor),
+//            rightCamNavigator.widthAnchor.constraint(equalToConstant: camNavigatorWidth),
+//            rightCamNavigator.heightAnchor.constraint(equalToConstant: camNavigatorHeigth),
             
 //            roverAndCameraPicker.topAnchor.constraint(equalTo: selectedImageView.bottomAnchor, constant: Constant.contentPadding),
 //            roverAndCameraPicker.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Constant.contentSidePadding),
@@ -294,8 +297,8 @@ class MarsRoverCell: BaseCell {
 //            roverAndCameraPicker.bottomAnchor.constraint(equalTo: sendButton.topAnchor, constant: -Constant.contentPadding),
             
             roverDatePicker.topAnchor.constraint(equalTo: cameraButton.bottomAnchor, constant: Constant.contentPadding),
-            roverDatePicker.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Constant.contentSidePadding),
-            roverDatePicker.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Constant.contentSidePadding),
+            roverDatePicker.leadingAnchor.constraint(equalTo: leadingAnchor, constant: contentSidePadding),
+            roverDatePicker.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -contentSidePadding),
             roverDatePicker.bottomAnchor.constraint(equalTo: sendButton.topAnchor, constant: -Constant.contentPadding),
 
             sendButton.widthAnchor.constraint(equalToConstant: Constant.sendButtonSize),
@@ -314,6 +317,18 @@ class MarsRoverCell: BaseCell {
 //        }
 
         print("Sending Email")
+    }
+    
+    @objc private func switchCamera(tapGestureRecognizer: UITapGestureRecognizer) {
+        if selectedCamera != cameras.count - 1 {
+            selectedCamera += 1
+        } else {
+            selectedCamera = 0
+        }
+        cameraButton.setTitle("\(cameras[selectedCamera].fullName)", for: .normal)
+        cameraInfoField.text = "\(cameras[selectedCamera].abbreviation)"
+        
+        print("Switching Camera")
     }
     
     @objc private func showPreviousSuggestion() {
@@ -346,84 +361,84 @@ class MarsRoverCell: BaseCell {
 }
 
 // MARK: Picker
-extension MarsRoverCell: UIPickerViewDelegate, UIPickerViewDataSource {
-    
-    // We have 3 search input parameters for the users: Rover, Camera and Sol
-    func numberOfComponents(in pickerView: UIPickerView) -> Int {
-        return 3
-    }
-    
-    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        switch component {
-        case 0: return rovers.count
-        case 1: return cameras.count
-        case 2: return 1
-        default: return 1
-        }
-    }
-    
-//     Data being returned for each column
-    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        switch component {
-        case 0: return rovers[row].name
-        case 1: return cameras[row].abbreviation
-        case 2: return "1"
-        default:
-            return "x"
-        }
-    }
-    
-    // This part updates the selected categories
-    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        switch component {
-        case 0:
-            selectedRover = rovers[row]
-            roverInfoField.text = rovers[row].name
-            print(selectedRover)
-        case 1:
-            selectedCamera = cameras[row]
-            cameraInfoField.text = cameras[row].abbreviation
-            print(selectedCamera)
-        default: selectedCamera = cameras[row]
-        }
-    }
-    
-//     MARK: Picker Customization
-    func pickerView(_ pickerView: UIPickerView, viewForRow row: Int, forComponent component: Int, reusing view: UIView?) -> UIView {
-        var label: UILabel
-        
-        if let view = view as? UILabel {
-            label = view
-        } else {
-            label = UILabel()
-        }
-        
-        label.textColor = UIColor(named: .textTintColor)
-        label.textAlignment = .center
-        label.font = UIFont.systemFont(ofSize: 15.0, weight: .semibold)
-        
-        switch component {
-        case 0:
-//            label.font = UIFont.systemFont(ofSize: 14.0, weight: .semibold)
-            label.text = rovers[row].name
-        case 1:
-//            label.font = UIFont.systemFont(ofSize: 13.0, weight: .semibold)
-            label.text = cameras[row].abbreviation
-        default: label.text = "?"
-        }
-        
-        return label
-    }
-    func pickerView(_ pickerView: UIPickerView, widthForComponent component: Int) -> CGFloat {
-        switch component {
-        case 0: return pickerView.frame.width * (2/5)
-        case 1: return pickerView.frame.width * (2/5)
-        case 2: return pickerView.frame.width * (1/5)
-        default:
-            return pickerView.frame.width * (1/3)
-        }
-    }
-}
+//extension MarsRoverCell: UIPickerViewDelegate, UIPickerViewDataSource {
+//
+//    // We have 3 search input parameters for the users: Rover, Camera and Sol
+//    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+//        return 3
+//    }
+//
+//    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+//        switch component {
+//        case 0: return rovers.count
+//        case 1: return cameras.count
+//        case 2: return 1
+//        default: return 1
+//        }
+//    }
+//
+////     Data being returned for each column
+//    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+//        switch component {
+//        case 0: return rovers[row].name
+//        case 1: return cameras[row].abbreviation
+//        case 2: return "1"
+//        default:
+//            return "x"
+//        }
+//    }
+//
+//    // This part updates the selected categories
+//    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+//        switch component {
+//        case 0:
+//            selectedRover = rovers[row]
+//            roverInfoField.text = rovers[row].name
+//            print(selectedRover)
+//        case 1:
+//            selectedCamera = cameras[row]
+//            cameraInfoField.text = cameras[row].abbreviation
+//            print(selectedCamera)
+//        default: selectedCamera = cameras[row]
+//        }
+//    }
+//
+////     MARK: Picker Customization
+//    func pickerView(_ pickerView: UIPickerView, viewForRow row: Int, forComponent component: Int, reusing view: UIView?) -> UIView {
+//        var label: UILabel
+//
+//        if let view = view as? UILabel {
+//            label = view
+//        } else {
+//            label = UILabel()
+//        }
+//
+//        label.textColor = UIColor(named: .textTintColor)
+//        label.textAlignment = .center
+//        label.font = UIFont.systemFont(ofSize: 15.0, weight: .semibold)
+//
+//        switch component {
+//        case 0:
+////            label.font = UIFont.systemFont(ofSize: 14.0, weight: .semibold)
+//            label.text = rovers[row].name
+//        case 1:
+////            label.font = UIFont.systemFont(ofSize: 13.0, weight: .semibold)
+//            label.text = cameras[row].abbreviation
+//        default: label.text = "?"
+//        }
+//
+//        return label
+//    }
+//    func pickerView(_ pickerView: UIPickerView, widthForComponent component: Int) -> CGFloat {
+//        switch component {
+//        case 0: return pickerView.frame.width * (2/5)
+//        case 1: return pickerView.frame.width * (2/5)
+//        case 2: return pickerView.frame.width * (1/5)
+//        default:
+//            return pickerView.frame.width * (1/3)
+//        }
+//    }
+//}
 
 
 
