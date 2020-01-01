@@ -81,7 +81,7 @@ class MainController: UIViewController {
     
     lazy var menuBar: MenuBar = {
         let menuBar = MenuBar()
-        menuBar.mainController = self // creates reference inside menuBar
+//        menuBar.pageViewController = self // creates reference inside menuBar
         return menuBar
     }()
     
@@ -197,7 +197,7 @@ extension MainController: UICollectionViewDataSource, UICollectionViewDelegate, 
         menuBar.collectionView.selectItem(at: indexPath, animated: true, scrollPosition: [])
     }
     
-    // Sets up what to do when a cell gets tapped
+//     Sets up what to do when a cell gets tapped
 //    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
 //        // Handles slider repositioning on cell tap
 //        //            let leadingConstraintX = CGFloat(indexPath.item) * frame.width/3

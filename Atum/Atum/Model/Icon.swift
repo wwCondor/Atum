@@ -44,6 +44,8 @@ extension UIImage.Name {
     static let puzzleIcon            = UIImage.Name(name: "PuzzleIcon")
     static let planetIcon            = UIImage.Name(name: "PlanetIcon")
     
+    static let arrowIcon             = UIImage.Name(name: "ArrowIcon") 
+    
     static let placeholderImage         = UIImage.Name(name: "PlaceholderImage")
     static let satImagePlaceHolder      = UIImage.Name(name: "SatImagePlaceHolder")
     static let marbleImagePlaceholder   = UIImage.Name(name: "MarblePlaceholder")

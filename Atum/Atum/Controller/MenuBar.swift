@@ -9,13 +9,15 @@
 import UIKit
 
 class MenuBar: UIView {
-
+    
     let cellId = "menuBarCellId"
     
     let imageNames: [UIImage.Name] = [.roverIcon, .skyEyeIcon, .puzzleIcon]
     
+//    var currentPage: Int = 0
+    
     var horizontalSliderLeadingAnchorConstraint: NSLayoutConstraint?
-    var mainController: MainController?
+    var pageViewController: PageViewController?
     
     lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -34,19 +36,40 @@ class MenuBar: UIView {
         
         return horizontalSliderBar
     }()
-
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupCollectionView()
         setupHorizontalBar()
-
+        
         translatesAutoresizingMaskIntoConstraints = false // menuBar
     }
+    
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         setupCollectionView()
         setupHorizontalBar()
+    }
+    
+    func updateMenuBar(to position: Int) {
+        moveMenuBarSlider(to: position)
+        changeMenuBarIconSelected(to: position)
+    }
+    
+    private func moveMenuBarSlider(to position: Int) {
+        let leadingConstraintX = CGFloat(position) * frame.width/3
+        horizontalSliderLeadingAnchorConstraint?.constant = leadingConstraintX
+        UIView.animate(withDuration: 0.5,
+                       delay: 0,
+                       options: .curveEaseInOut,
+                       animations: self.layoutIfNeeded,
+                       completion: nil)
+    }
+    
+    private func changeMenuBarIconSelected(to position: Int) {
+        let indexPath = IndexPath(item: position, section: 0)
+        collectionView.selectItem(at: indexPath, animated: true, scrollPosition: [])
     }
     
     private func setupCollectionView() {
@@ -75,47 +98,69 @@ class MenuBar: UIView {
 }
 
 extension MenuBar: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
-        // Sets number buttons (cells) inside the menubar
-        func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-            return 3
+    // Sets number buttons (cells) inside the menubar
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return 3
+    }
+    
+    // Sets up cell content
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! MenuBarCell
+        if indexPath.row == 0 { // Handles preselected state
+            collectionView.selectItem(at: indexPath, animated: false, scrollPosition: [])
+            cell.iconContainer.tintColor = UIColor(named: .iconSelectedColor)
+        } else {
+            cell.iconContainer.tintColor = UIColor(named: .iconColor)
         }
+        cell.iconContainer.image = UIImage(named: imageNames[indexPath.item])?.withRenderingMode(.alwaysTemplate)
+        return cell
+    }
+    
+    // Sets up size of the cells
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: frame.width / 3, height: frame.height)
+    }
+    
+    // Sets up spacing between cells
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        return 0
+    }
+
+    // Sets up what to do when a cell gets tapped
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        // Handles slider repositioning on cell tap
+        let leadingConstraintX = CGFloat(indexPath.item) * frame.width/3
+        horizontalSliderLeadingAnchorConstraint?.constant = leadingConstraintX
+        UIView.animate(withDuration: 0.5,
+                       delay: 0,
+                       options: .curveEaseInOut,
+                       animations: self.layoutIfNeeded,
+                       completion: nil)
         
-        // Sets up cell content
-        func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! MenuBarCell
-            if indexPath.row == 0 { // Handles preselected state
-                collectionView.selectItem(at: indexPath, animated: false, scrollPosition: [])
-                cell.iconContainer.tintColor = UIColor(named: .iconSelectedColor)
-            } else {
-                cell.iconContainer.tintColor = UIColor(named: .iconColor)
-            }
-            cell.iconContainer.image = UIImage(named: imageNames[indexPath.item])?.withRenderingMode(.alwaysTemplate)
-            return cell
-        }
-        
-        // Sets up size of the cells
-        func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-            return CGSize(width: frame.width / 3, height: frame.height)
-        }
-        
-        // Sets up spacing between cells
-        func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-            return 0
-        }
-        
-        // Sets up what to do when a cell gets tapped
-        func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-            // Handles slider repositioning on cell tap
-//            let leadingConstraintX = CGFloat(indexPath.item) * frame.width/3
-//            horizontalSliderLeadingAnchorConstraint?.constant = leadingConstraintX
-//            UIView.animate(withDuration: 0.5,
-//                           delay: 0,
-//                           options: .curveEaseInOut,
-//                           animations: self.layoutIfNeeded,
-//                           completion: nil)
-            mainController?.scrollToItemAtIndex(menuSelectionIndex: indexPath.item)
-        }
+        // Handles page navigation by tapping cell
+        pageViewController?.navigateToPage(number: indexPath.item)
+    }
 }
+
+//extension MenuBar: PageIndexDelegate {
+//    func pageViewController(pageViewController: PageViewController, didUpdatePageIndex index: Int) {
+//        let window = UIApplication.shared.windows.first { $0.isKeyWindow }
+//        if let window = window {
+//            currentPage = index
+//            print(index)
+//            horizontalSliderLeadingAnchorConstraint?.constant = CGFloat(currentPage) * window.frame.width/3 // width/3
+//        }
+//
+//    }
+//
+//    func pageViewController(pageViewController: PageViewController, didUpdatePageCount count: Int) {
+//        numberOfPages = count
+//        print(numberOfPages)
+//
+//
+//
+//    }
+//}
 
 class MenuBarCell: BaseCell {
     
@@ -151,11 +196,6 @@ class MenuBarCell: BaseCell {
         ])
     }
 }
-
-
-
-
-
 
 class BaseCell: UICollectionViewCell {
     override init(frame: CGRect) {

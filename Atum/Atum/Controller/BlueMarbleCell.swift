@@ -10,6 +10,8 @@ import UIKit
 
 class BlueMarbleCell: BaseCell {
     
+//    let marblePuzzleController = MarblePuzzleController()
+    
     var allNaturalDates = [String]()
 
     lazy var cellContentView: CellContentView = {
@@ -84,7 +86,7 @@ class BlueMarbleCell: BaseCell {
         let inset: CGFloat = Constant.sendButtonIconInset
         startPuzzleButton.imageEdgeInsets = UIEdgeInsets(top: inset, left: inset, bottom: inset, right: inset)
         startPuzzleButton.setImage(image, for: .normal)
-        startPuzzleButton.addTarget(self, action: #selector(sendPostcard(tapGestureRecognizer:)), for: .touchUpInside)
+        startPuzzleButton.addTarget(self, action: #selector(presentMarblePuzzle(tapGestureRecognizer:)), for: .touchUpInside)
         startPuzzleButton.layer.masksToBounds = true
         startPuzzleButton.layer.cornerRadius = Constant.smallCornerRadius
         startPuzzleButton.layer.borderColor = UIColor(named: .objectBorderColor)?.cgColor
@@ -167,7 +169,10 @@ class BlueMarbleCell: BaseCell {
         ])
     }
     
-    @objc private func sendPostcard(tapGestureRecognizer: UITapGestureRecognizer) {
+    @objc private func presentMarblePuzzle(tapGestureRecognizer: UITapGestureRecognizer) {
+//        marblePuzzleController.managedObjectContext = self.managedObjectContext
+//        newEntryController.resetLabels()
+//        navigationController?.pushViewController(marblePuzzleController, animated: true)
         print("Sending Email")
     }
     

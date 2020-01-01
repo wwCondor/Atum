@@ -26,7 +26,7 @@
     </scenes>
     <resources>
         <namedColor name="AppBackgroundColor">
-            <color red="0.22501453760000001" green="0.1164079383" blue="0.00036421479309999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.22499999403953552" green="0.11599999666213989" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
     </resources>
 </document>

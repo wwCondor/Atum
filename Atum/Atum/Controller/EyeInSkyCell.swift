@@ -65,7 +65,7 @@ class EyeInSkyCell: BaseCell {
     //    }()
     
     lazy var satelliteImageView: UIImageView = {
-        let inset: CGFloat = -Constant.sendButtonIconInset
+        let inset: CGFloat = Constant.sliderImageInsets
         let edgeIndets = UIEdgeInsets(top: inset, left: inset, bottom: inset, right: inset)
         let image = UIImage(named: .skyEyeIcon)?.withRenderingMode(.alwaysTemplate).withAlignmentRectInsets(edgeIndets)
         let satelliteImageView = UIImageView(image: image)
@@ -93,7 +93,7 @@ class EyeInSkyCell: BaseCell {
     }()
     
     lazy var planetImageView: UIImageView = {
-        let inset: CGFloat = -Constant.sendButtonIconInset
+        let inset: CGFloat = Constant.sliderImageInsets
         let edgeIndets = UIEdgeInsets(top: inset, left: inset, bottom: inset, right: inset)
         let image = UIImage(named: .planetIcon)?.withRenderingMode(.alwaysTemplate).withAlignmentRectInsets(edgeIndets)
         let planetImageView = UIImageView(image: image)
