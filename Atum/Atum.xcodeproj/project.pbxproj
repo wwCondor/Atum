@@ -38,6 +38,7 @@
 		0BE3817E23BBC10C00342DA5 /* SkyEyeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BE3817D23BBC10C00342DA5 /* SkyEyeViewController.swift */; };
 		0BE3818023BBC13C00342DA5 /* BlueMarbleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BE3817F23BBC13C00342DA5 /* BlueMarbleViewController.swift */; };
 		0BE3818523BE34BD00342DA5 /* RetrievedImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BE3818423BE34BD00342DA5 /* RetrievedImageView.swift */; };
+		0BE3818723BE3FB000342DA5 /* UserSelection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BE3818623BE3FAF00342DA5 /* UserSelection.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -86,6 +87,7 @@
 		0BE3817D23BBC10C00342DA5 /* SkyEyeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkyEyeViewController.swift; sourceTree = "<group>"; };
 		0BE3817F23BBC13C00342DA5 /* BlueMarbleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlueMarbleViewController.swift; sourceTree = "<group>"; };
 		0BE3818423BE34BD00342DA5 /* RetrievedImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RetrievedImageView.swift; sourceTree = "<group>"; };
+		0BE3818623BE3FAF00342DA5 /* UserSelection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSelection.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -190,6 +192,7 @@
 		0BE3813623B200A700342DA5 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				0BE3818623BE3FAF00342DA5 /* UserSelection.swift */,
 				0BE3813723B2017B00342DA5 /* Color.swift */,
 				0BE3813D23B2021400342DA5 /* Icon.swift */,
 				0BE3813923B201BE00342DA5 /* Error.swift */,
@@ -332,6 +335,7 @@
 				0BE3815723B53DC000342DA5 /* MenuBar.swift in Sources */,
 				0BE3817423BA43AD00342DA5 /* Rover.swift in Sources */,
 				0BE3813A23B201BE00342DA5 /* Error.swift in Sources */,
+				0BE3818723BE3FB000342DA5 /* UserSelection.swift in Sources */,
 				0BE3814023B2036B00342DA5 /* Reachability.swift in Sources */,
 				0BE3818023BBC13C00342DA5 /* BlueMarbleViewController.swift in Sources */,
 				0BE3818523BE34BD00342DA5 /* RetrievedImageView.swift in Sources */,

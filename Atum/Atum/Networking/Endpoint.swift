@@ -12,16 +12,10 @@ struct APIKey {
     static let key: String = "MKjkqRBKMSLQxBfCIUFcFUxhVjhK3Q3m3HnXVB3w"
 }
 
-//struct RoverPhotoSearch {
-//    var rover: String
-//    var camera: String
-//    var sol: Int
-//
-//    static var roverPhotoSearch = RoverPhotoSearch(rover: Rover.opportunity.name, camera: RoverCamera.navcam.abbreviation, sol: 1)
-//}
-
 enum Endpoint {
     case marsRover
+    
+    
     //    case earthImagery
     case blueMarbleDates // DSCOVR's Earth Polychromatic Imaging Camera (EPIC)
     case blueMarbleImages
@@ -31,17 +25,18 @@ enum Endpoint {
     }
     
     func url() -> URL {
-        let camera = RoverCamera.navcam.abbreviation
-//        let sol = 1
+        // Mars Rover Query
+        let camera: String = UserSelection.userRoverDataSelections.selectedRoverCamera.abbreviation // Default: FHAZ
+        let dateSelected: String = UserSelection.userRoverDataSelections.selectedRoverPhotoDate     // Default: Landing Date
         
-        let dateSelected: String = "2015-06-03" //"2015-6-3"
+        
          
         switch self {
         case .marsRover:
             var components = URLComponents(url: baseURL.appendingPathComponent("mars-photos/api/v1/rovers/curiosity/photos"), resolvingAgainstBaseURL: false)
             components?.queryItems = [
                 URLQueryItem(name: "earth_date", value: "\(dateSelected)"),
-                URLQueryItem(name: "camera",     value: "\(camera)"), // defaulted to all
+                URLQueryItem(name: "camera",     value: "\(camera)"), 
                 URLQueryItem(name: "api_key",    value: "\(APIKey.key)"),
             ]
             return components!.url!
@@ -63,6 +58,7 @@ enum Endpoint {
 
 /*
 https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos?earth_date=2015-08-03&camera=navcam&api_key=DEMO_KEY
+https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos?earth_date=2012-08-07&camera=FHAZ&api_key=MKjkqRBKMSLQxBfCIUFcFUxhVjhK3Q3m3HnXVB3w
  
 Example request for marsRover:
 https://api.nasa.gov/mars-photos/api/v1/rovers/ // Base for rover images

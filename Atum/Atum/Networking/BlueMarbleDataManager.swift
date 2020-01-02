@@ -37,7 +37,7 @@ class BlueMarbleDataManager {
     static func getDates(completion: @escaping ([BlueMarbleDate]?, Error?) -> Void) {
         let url = Endpoint.blueMarbleDates.url()
         let request = URLRequest(url: url)
-        let task = BlueMarbleDataManager.session.dataTask(with: request) { data, response, error in
+        let task = session.dataTask(with: request) { data, response, error in
             if let data = data {
                 guard let httpResponse = response as? HTTPURLResponse else {
                     completion(nil, NetworkingError.requestFailed)

@@ -11,15 +11,22 @@ import UIKit
 class RoverViewController: UIViewController {
     
     // used to set one of the limits for the datePicker
-    lazy var currentDate: String = getCurrentDate()
+    lazy var currentDate: String = getCurrentDate() // Cou
     
     private func getCurrentDate() -> String {
         let date = Date()
         let formatter = DateFormatter()
-        formatter.dateFormat = "MM.dd.yyyy"
+        formatter.dateFormat = "yyyy.MM.dd"
         let dateString = formatter.string(from: date)
         return dateString
     }
+    
+//    private func getLandingData() -> String {
+//        var components = DateComponents()
+//        components.month = 08
+//        components.day = 06
+//        components.year = 2012
+//    }
     
     let rovers: [Rover] = [Rover.curiosity]
     let cameras: [RoverCamera] = [RoverCamera.fhaz, RoverCamera.rhaz, RoverCamera.mast, RoverCamera.chemcam, RoverCamera.mahli, RoverCamera.mardi, RoverCamera.navcam]
@@ -27,9 +34,7 @@ class RoverViewController: UIViewController {
     
     var photos: [Photo] = [Photo]()
     
-    func fetchPhotoData() {
-        print("Fetching photo data")
-    }
+    var retrievedImages: [UIImage] = [UIImage]()
 
     // Selected Image
     lazy var selectedImageView: RetrievedImageView = {
@@ -111,14 +116,18 @@ class RoverViewController: UIViewController {
         roverDatePicker.maximumDate = currentDate
         roverDatePicker.timeZone = NSTimeZone.local
         roverDatePicker.translatesAutoresizingMaskIntoConstraints = false
+        roverDatePicker.date = startDate!
         return roverDatePicker
     }()
     
     @objc func dateChanged(datePicker: UIDatePicker) {
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "MM.dd.yyyy"
-        print(dateFormatter.string(from: datePicker.date))
-        dateInfoField.text = dateFormatter.string(from: datePicker.date)
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        let dateString = dateFormatter.string(from: datePicker.date)
+        print(dateString)
+        dateInfoField.text = dateString
+        UserSelection.userRoverDataSelections.selectedRoverPhotoDate = dateString
+        getRoverPhotos()
     }
     
     lazy var sendButton: CustomButton = {
@@ -137,6 +146,20 @@ class RoverViewController: UIViewController {
         view.backgroundColor = UIColor(named: .appBackgroundColor)
         
         setupView()
+        getRoverPhotos()
+    }
+    
+    private func getRoverPhotos() {
+        RoverPhotoDataManager.fetchPhotos(date: UserSelection.userRoverDataSelections.selectedRoverPhotoDate, camera: UserSelection.userRoverDataSelections.selectedRoverCamera.abbreviation) { (photos, error) in
+            DispatchQueue.main.async {
+                guard let photos = photos else {
+                    self.presentAlert(description: NetworkingError.noData.localizedDescription, viewController: self)
+                    return
+                }
+                self.photos = photos
+                print(self.photos)
+            }
+        }
     }
     
     func setupView() {
@@ -219,7 +242,7 @@ class RoverViewController: UIViewController {
     }
     
     @objc private func sendPostcard(tapGestureRecognizer: UITapGestureRecognizer) {
-        fetchPhotoData()
+        getRoverPhotos()
         print("Sending Email")
     }
     
@@ -231,7 +254,8 @@ class RoverViewController: UIViewController {
         }
         cameraSelectionButton.setTitle("\(cameras[selectedCamera].fullName)", for: .normal)
         cameraInfoField.text = "\(cameras[selectedCamera].abbreviation)"
-        
+        UserSelection.userRoverDataSelections.selectedRoverCamera = cameras[selectedCamera] // MARK: User Selection
+        getRoverPhotos()
         print("Switching Camera")
     }
     
