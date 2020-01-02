@@ -99,7 +99,7 @@ extension JSONDecoder {
 }
 
 extension UIImageView { 
-    func fetchRoverPhoto(from path: String, contentMode mode: UIView.ContentMode = .scaleAspectFit) {
+    func fetchPhoto(from path: String, contentMode mode: UIView.ContentMode = .scaleAspectFit) {
 
 //        let imageBaseURl: String = "https://image.tmdb.org/t/p/w500/"
         

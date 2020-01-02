@@ -14,7 +14,7 @@ class BlueMarbleViewController: UIViewController {
     
     // Selected Image
     lazy var selectedImageView: RetrievedImageView = {
-        let image = UIImage(named: .marbleImagePlaceholder)
+        let image = UIImage(named: .placeholderImage)
         let selectedImageView = RetrievedImageView(image: image)
         return selectedImageView
     }()
@@ -77,15 +77,15 @@ class BlueMarbleViewController: UIViewController {
         
         let viewWidth: CGFloat = view.frame.width
         let selectedImageSize: CGFloat = (3/4)*view.frame.width
-        let contentPadding: CGFloat = (viewWidth - selectedImageSize) / 2
+//        let contentPadding: CGFloat = (viewWidth - selectedImageSize) / 2
         
         let navigatorWidth = (viewWidth - selectedImageSize) / 2
         let navigatorHeigth = navigatorWidth * 2
-        let navigatorOffset: CGFloat = 2
+//        let navigatorOffset: CGFloat = 2
         
         NSLayoutConstraint.activate([
             // Current Selection
-            leftNavigator.trailingAnchor.constraint(equalTo: selectedImageView.leadingAnchor, constant: -navigatorOffset),
+            leftNavigator.trailingAnchor.constraint(equalTo: selectedImageView.leadingAnchor, constant: -Constant.photoNavigatorOffset),
             leftNavigator.centerYAnchor.constraint(equalTo: selectedImageView.centerYAnchor),
             leftNavigator.widthAnchor.constraint(equalToConstant: navigatorWidth),
             leftNavigator.heightAnchor.constraint(equalToConstant: navigatorHeigth),
@@ -95,7 +95,7 @@ class BlueMarbleViewController: UIViewController {
             selectedImageView.heightAnchor.constraint(equalToConstant: selectedImageSize),
             selectedImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             
-            rightNavigator.leadingAnchor.constraint(equalTo: selectedImageView.trailingAnchor, constant: navigatorOffset),
+            rightNavigator.leadingAnchor.constraint(equalTo: selectedImageView.trailingAnchor, constant: Constant.photoNavigatorOffset),
             rightNavigator.centerYAnchor.constraint(equalTo: selectedImageView.centerYAnchor),
             rightNavigator.widthAnchor.constraint(equalToConstant: navigatorWidth),
             rightNavigator.heightAnchor.constraint(equalToConstant: navigatorHeigth),
@@ -106,8 +106,8 @@ class BlueMarbleViewController: UIViewController {
             startPuzzleButton.topAnchor.constraint(equalTo: selectedImageView.bottomAnchor, constant: Constant.contentPadding),
             
             naturalDatePicker.topAnchor.constraint(equalTo: startPuzzleButton.bottomAnchor, constant: Constant.contentPadding),
-            naturalDatePicker.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: contentPadding),
-            naturalDatePicker.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -contentPadding),
+            naturalDatePicker.leadingAnchor.constraint(equalTo: selectedImageView.leadingAnchor),// constant: Constant.contentPadding),
+            naturalDatePicker.trailingAnchor.constraint(equalTo: selectedImageView.trailingAnchor),// constant: -Constant.contentPadding),
             naturalDatePicker.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -Constant.bottomContentPadding),
         ])
     }

@@ -41,8 +41,8 @@ extension UIImage.Name {
     static let sendIcon              = UIImage.Name(name: "SendIcon")
     
     static let placeholderImage         = UIImage.Name(name: "PlaceholderImage")
-    static let satImagePlaceHolder      = UIImage.Name(name: "SatImagePlaceHolder")
-    static let marbleImagePlaceholder   = UIImage.Name(name: "MarblePlaceholder")
+//    static let satImagePlaceHolder      = UIImage.Name(name: "SatImagePlaceHolder")
+//    static let marbleImagePlaceholder   = UIImage.Name(name: "MarblePlaceholder")
 
     
 }

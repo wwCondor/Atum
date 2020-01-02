@@ -14,7 +14,7 @@ struct APIKey {
 
 enum Endpoint {
     case marsRover
-    
+    case eyeInTheSky
     
     //    case earthImagery
     case blueMarbleDates // DSCOVR's Earth Polychromatic Imaging Camera (EPIC)
@@ -26,8 +26,13 @@ enum Endpoint {
     
     func url() -> URL {
         // Mars Rover Query
-        let camera: String = UserSelection.userRoverDataSelections.selectedRoverCamera.abbreviation // Default: FHAZ
-        let dateSelected: String = UserSelection.userRoverDataSelections.selectedRoverPhotoDate     // Default: Landing Date
+        let camera: String = MarsRoverQueryData.userRoverDataSelections.selectedRoverCamera.abbreviation // Default: FHAZ
+        let dateSelected: String = MarsRoverQueryData.userRoverDataSelections.selectedRoverPhotoDate     // Default: Landing Date
+        
+        let longitude: String = "100.75"
+        let latitude: String = "1.5"
+        let zoom: String = "0.8"
+        
          
         switch self {
         case .marsRover:
@@ -36,6 +41,15 @@ enum Endpoint {
                 URLQueryItem(name: "earth_date", value: "\(dateSelected)"),
                 URLQueryItem(name: "camera",     value: "\(camera)"), 
                 URLQueryItem(name: "api_key",    value: "\(APIKey.key)"),
+            ]
+            return components!.url!
+        case .eyeInTheSky:
+            var components = URLComponents(url: baseURL.appendingPathComponent("planetary/earth/imagery/"), resolvingAgainstBaseURL: false)
+            components?.queryItems = [
+                URLQueryItem(name: "lat",     value: "\(latitude)"),
+                URLQueryItem(name: "lon",     value: "\(longitude)"),
+                URLQueryItem(name: "dim",     value: "\(zoom)"),
+                URLQueryItem(name: "api_key", value: "\(APIKey.key)"),
             ]
             return components!.url!
         case .blueMarbleDates:
@@ -53,6 +67,16 @@ enum Endpoint {
         }
     }
 }
+
+/*
+ 
+ https://api.nasa.gov/planetary/earth/imagery?lon=100.75&lat=1.5&api_key=MKjkqRBKMSLQxBfCIUFcFUxhVjhK3Q3m3HnXVB3w
+ https://api.nasa.gov/planetary/earth/imagery?lat=1.5&lon=100.75&dim=0.8&api_key=MKjkqRBKMSLQxBfCIUFcFUxhVjhK3Q3m3HnXVB3w
+ https://api.nasa.gov/planetary/earth/imagery/?lat=1.5&lon=100.75&dim=0.8&api_key=MKjkqRBKMSLQxBfCIUFcFUxhVjhK3Q3m3HnXVB3w"
+ 
+ https://earthengine.googleapis.com/api/thumb?thumbid=676404ea91829b1ab267b9863975ba80&token=33db54cb12fd152eec6d7c625ca9d74e
+ 
+ */
 
 /*
 https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos?earth_date=2015-08-03&camera=navcam&api_key=DEMO_KEY
@@ -106,6 +130,8 @@ Response:
                - full_name: String
 
 */
+
+
 
 /*
  - make api call for available dates

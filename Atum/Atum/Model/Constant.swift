@@ -24,12 +24,13 @@ struct Constant {
     static let sliderImageViewSize: CGFloat      = 40
     
     // CameraButton
-    static let cameraButtonHeigth: CGFloat       = 60
+    static let cameraButtonHeigth: CGFloat       = 40
 
     // Corner radius for UIImageViews and MapView
     static let largeCornerRadius: CGFloat        = 10
     static let smallCornerRadius: CGFloat        = 5
     
+    static let photoNavigatorOffset: CGFloat     = 2
     static let contentPadding: CGFloat           = 30
     static let contentSidePadding: CGFloat       = 30
     static let bottomContentPadding              = Constant.menuBarHeight + Constant.contentPadding
@@ -45,5 +46,6 @@ struct Constant {
 
 struct PlaceHolderText {
     static let noRoverPhotos: String             = "No photos for camera/date"
+    static let postcardDefaultMessage: String    = "Greetings from Mars!"
 }
 

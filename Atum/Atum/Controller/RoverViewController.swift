@@ -25,7 +25,7 @@ class RoverViewController: UIViewController {
     let cameras: [RoverCamera] = [RoverCamera.fhaz, RoverCamera.rhaz, RoverCamera.mast, RoverCamera.chemcam, RoverCamera.mahli, RoverCamera.mardi, RoverCamera.navcam]
     var selectedCamera: Int = 0
     
-    var photos: [Photo] = [Photo]()
+    var photos: [RoverPhoto] = [RoverPhoto]()
     var selectedPhoto: Int = 0
     
 //    var retrievedImages: [UIImage] = [UIImage]()
@@ -40,7 +40,7 @@ class RoverViewController: UIViewController {
     // Image MetaData
     lazy var greetingTextField: PostcardGreetingField = {
         let greetingTextField = PostcardGreetingField()
-        greetingTextField.text = "Greetings from Mars!"
+        greetingTextField.text = PlaceHolderText.postcardDefaultMessage
         return greetingTextField
     }()
     
@@ -58,7 +58,7 @@ class RoverViewController: UIViewController {
     
     lazy var dateInfoField: PostcardImageInfoField = {
         let dateInfoField = PostcardImageInfoField()
-        dateInfoField.text = "\(currentDate)"
+        dateInfoField.text = "\(MarsRoverQueryData.userRoverDataSelections.selectedRoverPhotoDate)"
         return dateInfoField
     }()
     
@@ -120,7 +120,7 @@ class RoverViewController: UIViewController {
         let dateString = dateFormatter.string(from: datePicker.date)
         print(dateString)
         dateInfoField.text = dateString
-        UserSelection.userRoverDataSelections.selectedRoverPhotoDate = dateString
+        MarsRoverQueryData.userRoverDataSelections.selectedRoverPhotoDate = dateString
         getRoverPhotos()
     }
     
@@ -145,7 +145,7 @@ class RoverViewController: UIViewController {
     
     private func getRoverPhotos() {
         selectedPhoto = 0
-        RoverPhotoDataManager.fetchPhotos(date: UserSelection.userRoverDataSelections.selectedRoverPhotoDate, camera: UserSelection.userRoverDataSelections.selectedRoverCamera.abbreviation) { (photos, error) in
+        MarsRoverDataManager.fetchPhotos(date: MarsRoverQueryData.userRoverDataSelections.selectedRoverPhotoDate, camera: MarsRoverQueryData.userRoverDataSelections.selectedRoverCamera.abbreviation) { (photos, error) in
             DispatchQueue.main.async {
                 guard let photos = photos else {
                     self.presentAlert(description: NetworkingError.noData.localizedDescription, viewController: self)
@@ -162,6 +162,7 @@ class RoverViewController: UIViewController {
         if photos.count != 0 {
             print(photos.count)
             setRetrievedImage()
+            greetingTextField.text = PlaceHolderText.postcardDefaultMessage
         } else {
             greetingTextField.text = PlaceHolderText.noRoverPhotos
         }
@@ -171,7 +172,7 @@ class RoverViewController: UIViewController {
         DispatchQueue.main.async {
             let connectionPossible = Reachability.checkReachable()
             if connectionPossible == true {
-                self.selectedImageView.fetchRoverPhoto(from: self.photos[self.selectedPhoto].imgSrc)
+                self.selectedImageView.fetchPhoto(from: self.photos[self.selectedPhoto].imgSrc)
             } else {
                 self.presentAlert(description: NetworkingError
                     .noReachability.localizedDescription, viewController: self)
@@ -197,10 +198,10 @@ class RoverViewController: UIViewController {
         
         let viewWidth: CGFloat = view.frame.width
         let selectedImageSize: CGFloat = (3/4)*view.frame.width
-        let contentSidePadding = (viewWidth - selectedImageSize) / 2
+//        let contentSidePadding = (viewWidth - selectedImageSize) / 2
         let navigatorWidth = (viewWidth - selectedImageSize) / 2
         let navigatorHeigth = navigatorWidth * 2
-        let navigatorOffset: CGFloat = 2
+//        let navigatorOffset: CGFloat = 2
         
         NSLayoutConstraint.activate([
             // Current Selection
@@ -209,12 +210,12 @@ class RoverViewController: UIViewController {
             selectedImageView.heightAnchor.constraint(equalToConstant: selectedImageSize),
             selectedImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             
-            leftNavigator.trailingAnchor.constraint(equalTo: selectedImageView.leadingAnchor, constant: -navigatorOffset),
+            leftNavigator.trailingAnchor.constraint(equalTo: selectedImageView.leadingAnchor, constant: -Constant.photoNavigatorOffset),
             leftNavigator.centerYAnchor.constraint(equalTo: selectedImageView.centerYAnchor),
             leftNavigator.widthAnchor.constraint(equalToConstant: navigatorWidth),
             leftNavigator.heightAnchor.constraint(equalToConstant: navigatorHeigth),
             
-            rightNavigator.leadingAnchor.constraint(equalTo: selectedImageView.trailingAnchor, constant: navigatorOffset),
+            rightNavigator.leadingAnchor.constraint(equalTo: selectedImageView.trailingAnchor, constant: Constant.photoNavigatorOffset),
             rightNavigator.centerYAnchor.constraint(equalTo: selectedImageView.centerYAnchor),
             rightNavigator.widthAnchor.constraint(equalToConstant: navigatorWidth),
             rightNavigator.heightAnchor.constraint(equalToConstant: navigatorHeigth),
@@ -247,8 +248,8 @@ class RoverViewController: UIViewController {
             cameraSelectionButton.heightAnchor.constraint(equalToConstant: Constant.cameraButtonHeigth),
 
             roverDatePicker.topAnchor.constraint(equalTo: cameraSelectionButton.bottomAnchor, constant: Constant.contentPadding),
-            roverDatePicker.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: contentSidePadding),
-            roverDatePicker.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -contentSidePadding),
+            roverDatePicker.leadingAnchor.constraint(equalTo: selectedImageView.leadingAnchor),// constant: contentSidePadding),
+            roverDatePicker.trailingAnchor.constraint(equalTo: selectedImageView.trailingAnchor),// constant: -contentSidePadding),
             roverDatePicker.bottomAnchor.constraint(equalTo: sendButton.topAnchor, constant: -Constant.contentPadding),
             
             sendButton.widthAnchor.constraint(equalToConstant: Constant.sendButtonSize),
@@ -271,7 +272,7 @@ class RoverViewController: UIViewController {
         }
         cameraSelectionButton.setTitle("\(cameras[selectedCamera].fullName)", for: .normal)
         cameraInfoField.text = "\(cameras[selectedCamera].abbreviation)"
-        UserSelection.userRoverDataSelections.selectedRoverCamera = cameras[selectedCamera] // MARK: User Selection
+        MarsRoverQueryData.userRoverDataSelections.selectedRoverCamera = cameras[selectedCamera] // MARK: User Selection
         getRoverPhotos()
         print("Switching Camera")
     }
@@ -284,7 +285,7 @@ class RoverViewController: UIViewController {
                 selectedPhoto -= 1
             }
         }
-        selectedImageView.fetchRoverPhoto(from: photos[selectedPhoto].imgSrc)
+        selectedImageView.fetchPhoto(from: photos[selectedPhoto].imgSrc)
         print("Showing Previous Image: \(selectedPhoto)")
     }
     
@@ -296,7 +297,7 @@ class RoverViewController: UIViewController {
                 selectedPhoto = 0
             }
         }
-        selectedImageView.fetchRoverPhoto(from: photos[selectedPhoto].imgSrc)
+        selectedImageView.fetchPhoto(from: photos[selectedPhoto].imgSrc)
         print("Showing Next Image: \(selectedPhoto)")
 
     }

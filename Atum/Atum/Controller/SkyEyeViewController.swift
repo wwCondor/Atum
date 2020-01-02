@@ -10,26 +10,26 @@ import UIKit
 
 class SkyEyeViewController: UIViewController {
     
-    var widthAndHeightInDegrees: Float = 0.100 // 0.1 degrees = 11 km
+    var zoomWidthAndHeightInDegrees: Float = 0.100 // 0.1 degrees = 11 km
     
-    let selectableLocations: [String] = []
+    let selectableLocations: [Location] = [.randomField1, .randomField2, .randomField3, .randomField4]
     
-    lazy var skyEyeImageView: RetrievedImageView = {
-        let image = UIImage(named: .satImagePlaceHolder)
-        let skyEyeImageView = RetrievedImageView(image: image)
-        return skyEyeImageView
+    lazy var selectedImageView: RetrievedImageView = {
+        let image = UIImage(named: .placeholderImage)
+        let selectedImageView = RetrievedImageView(image: image)
+        return selectedImageView
     }()
     
-    lazy var satelliteImageView: UIImageView = {
+    lazy var satelliteIcon: UIImageView = {
         let inset: CGFloat = Constant.sliderImageInsets
         let edgeIndets = UIEdgeInsets(top: inset, left: inset, bottom: inset, right: inset)
         let image = UIImage(named: .skyEyeIcon)?.withRenderingMode(.alwaysTemplate).withAlignmentRectInsets(edgeIndets)
-        let satelliteImageView = UIImageView(image: image)
-        satelliteImageView.tintColor = UIColor(named: .iconColor)
-        satelliteImageView.contentMode = .scaleAspectFit
-        satelliteImageView.translatesAutoresizingMaskIntoConstraints = false
-        satelliteImageView.backgroundColor = UIColor.clear
-        return satelliteImageView
+        let satelliteIcon = UIImageView(image: image)
+        satelliteIcon.tintColor = UIColor(named: .iconColor)
+        satelliteIcon.contentMode = .scaleAspectFit
+        satelliteIcon.translatesAutoresizingMaskIntoConstraints = false
+        satelliteIcon.backgroundColor = UIColor.clear
+        return satelliteIcon
     }()
     
     lazy var zoomSlider: UISlider = {
@@ -37,8 +37,10 @@ class SkyEyeViewController: UIViewController {
         zoomSlider.translatesAutoresizingMaskIntoConstraints = false
         zoomSlider.transform = CGAffineTransform(rotationAngle: CGFloat(-Double.pi / 2))
         zoomSlider.backgroundColor = UIColor.clear
-        zoomSlider.minimumTrackTintColor = UIColor(named: .iconSelectedColor)
         zoomSlider.maximumTrackTintColor = UIColor(named: .iconColor)
+        zoomSlider.minimumTrackTintColor = UIColor(named: .iconSelectedColor)
+//        zoomSlider.setMaximumTrackImage(UIImage(named: .skyEyeIcon), for: .normal)
+//        zoomSlider.setMinimumTrackImage(UIImage(named: .planetIcon), for: .normal)
         zoomSlider.thumbTintColor = UIColor(named: .objectBorderColor)
         zoomSlider.minimumValue = 0
         zoomSlider.maximumValue = 5
@@ -47,73 +49,89 @@ class SkyEyeViewController: UIViewController {
         return zoomSlider
     }()
     
-    lazy var planetImageView: UIImageView = {
+    lazy var planetIcon: UIImageView = {
         let inset: CGFloat = Constant.sliderImageInsets
         let edgeIndets = UIEdgeInsets(top: inset, left: inset, bottom: inset, right: inset)
         let image = UIImage(named: .planetIcon)?.withRenderingMode(.alwaysTemplate).withAlignmentRectInsets(edgeIndets)
-        let planetImageView = UIImageView(image: image)
-        planetImageView.tintColor = UIColor(named: .iconColor)
-        planetImageView.contentMode = .scaleAspectFit
-        planetImageView.translatesAutoresizingMaskIntoConstraints = false
-        planetImageView.backgroundColor = UIColor.clear
-        return planetImageView
+        let planetIcon = UIImageView(image: image)
+        planetIcon.tintColor = UIColor(named: .iconColor)
+        planetIcon.contentMode = .scaleAspectFit
+        planetIcon.translatesAutoresizingMaskIntoConstraints = false
+        planetIcon.backgroundColor = UIColor.clear
+        return planetIcon
     }()
     
-    lazy var test2: UIImageView = {
-        let test2 = UIImageView()
-        test2.translatesAutoresizingMaskIntoConstraints = false
-        test2.backgroundColor = UIColor.yellow
-        return test2
+    lazy var locationPicker: UIPickerView = {
+        let locationPicker = UIPickerView()
+        locationPicker.translatesAutoresizingMaskIntoConstraints = false
+        locationPicker.backgroundColor = UIColor.clear
+        locationPicker.delegate = self
+        locationPicker.dataSource = self
+        return locationPicker
     }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         view.backgroundColor = UIColor(named: .appBackgroundColor)
-        
+
         setupView()
+        getEyeInTheSkyPhoto()
+    }
+    
+    private func getEyeInTheSkyPhoto() {
+        EyeInTheSkyDataManager.fetchPhoto(lat: "1.5", long: "100.75", dim: "0.8") { (data, error) in
+            DispatchQueue.main.async {
+                guard let photoData = data else {
+                    self.presentAlert(description: NetworkingError.noData.localizedDescription, viewController: self)
+                    return
+                }
+                self.selectedImageView.fetchPhoto(from: photoData.url)
+                print(photoData)
+            }
+        }
     }
     
     private func setupView() {
-        view.addSubview(skyEyeImageView)
-        view.addSubview(satelliteImageView)
+        view.addSubview(selectedImageView)
+        view.addSubview(satelliteIcon)
         view.addSubview(zoomSlider)
-        view.addSubview(planetImageView)
-        view.addSubview(test2) // datePicker
+        view.addSubview(planetIcon)
+        view.addSubview(locationPicker)
         
-        let viewWidth: CGFloat = view.frame.width
+        zoomSlider.removeConstraints(self.zoomSlider.constraints)
+        
         let selectedImageSize: CGFloat = (3/4)*view.frame.width
-        let contentPadding: CGFloat = (viewWidth - selectedImageSize) / 2
-        let sliderWidth: CGFloat = Constant.sliderImageViewSize
         
         NSLayoutConstraint.activate([
-            skyEyeImageView.topAnchor.constraint(equalTo: view.topAnchor, constant: Constant.contentPadding),
-            skyEyeImageView.widthAnchor.constraint(equalToConstant: selectedImageSize),
-            skyEyeImageView.heightAnchor.constraint(equalToConstant: selectedImageSize),
-            skyEyeImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            selectedImageView.topAnchor.constraint(equalTo: view.topAnchor, constant: Constant.contentPadding),
+            selectedImageView.widthAnchor.constraint(equalToConstant: selectedImageSize),
+            selectedImageView.heightAnchor.constraint(equalToConstant: selectedImageSize),
+            selectedImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             
             // Zoom Slider items
-            satelliteImageView.topAnchor.constraint(equalTo: skyEyeImageView.bottomAnchor, constant: Constant.contentPadding),
-            satelliteImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: contentPadding),
-            satelliteImageView.widthAnchor.constraint(equalToConstant: Constant.sliderImageViewSize),
-            satelliteImageView.heightAnchor.constraint(equalToConstant: Constant.sliderImageViewSize),
+            satelliteIcon.topAnchor.constraint(equalTo: selectedImageView.bottomAnchor, constant: Constant.contentPadding),
+            satelliteIcon.leadingAnchor.constraint(equalTo: selectedImageView.leadingAnchor),
+            satelliteIcon.widthAnchor.constraint(equalToConstant: Constant.sliderImageViewSize),
+            satelliteIcon.heightAnchor.constraint(equalToConstant: Constant.sliderImageViewSize),
             
-            zoomSlider.topAnchor.constraint(equalTo: satelliteImageView.bottomAnchor, constant: Constant.contentPadding),
-            zoomSlider.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: contentPadding),
-            zoomSlider.widthAnchor.constraint(equalToConstant: sliderWidth),
-            zoomSlider.bottomAnchor.constraint(equalTo: planetImageView.topAnchor, constant: -Constant.contentPadding),
+            zoomSlider.topAnchor.constraint(equalTo: satelliteIcon.bottomAnchor),// constant: Constant.contentPadding),
+            zoomSlider.leadingAnchor.constraint(equalTo: selectedImageView.leadingAnchor),
+            zoomSlider.centerYAnchor.constraint(equalTo: locationPicker.centerYAnchor),
+//            zoomSlider.widthAnchor.constraint(equalToConstant: Constant.sliderImageViewSize),
+//            zoomSlider.heightAnchor.constraint(equalToConstant: 3*Constant.sliderImageViewSize),
+            zoomSlider.bottomAnchor.constraint(equalTo: planetIcon.topAnchor),// constant: -Constant.contentPadding),
             
-            planetImageView.topAnchor.constraint(equalTo: zoomSlider.bottomAnchor, constant: Constant.contentPadding),
-            planetImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: contentPadding),
-            planetImageView.widthAnchor.constraint(equalToConstant: Constant.sliderImageViewSize),
-            planetImageView.heightAnchor.constraint(equalToConstant: Constant.sliderImageViewSize),
-            planetImageView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -Constant.bottomContentPadding),
+            planetIcon.leadingAnchor.constraint(equalTo: selectedImageView.leadingAnchor),
+            planetIcon.widthAnchor.constraint(equalToConstant: Constant.sliderImageViewSize),
+            planetIcon.heightAnchor.constraint(equalToConstant: Constant.sliderImageViewSize),
+            planetIcon.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -Constant.bottomContentPadding),
             
             // picker
-            test2.topAnchor.constraint(equalTo: skyEyeImageView.bottomAnchor, constant: Constant.contentPadding),
-            test2.leadingAnchor.constraint(equalTo: zoomSlider.trailingAnchor, constant: Constant.contentPadding),
-            test2.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -contentPadding),
-            test2.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -Constant.bottomContentPadding),
+            locationPicker.topAnchor.constraint(equalTo: selectedImageView.bottomAnchor, constant: Constant.contentPadding),
+            locationPicker.leadingAnchor.constraint(equalTo: satelliteIcon.trailingAnchor, constant: Constant.contentPadding),
+            locationPicker.trailingAnchor.constraint(equalTo: selectedImageView.trailingAnchor),// constant: -Constant.contentPadding),
+            locationPicker.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -Constant.bottomContentPadding),
         ])
     }
     
@@ -126,4 +144,62 @@ class SkyEyeViewController: UIViewController {
         //        bubbleRadiusInfoField.text = "Bubble radius: \(radiusSelected.clean)m"
     }
 }
+
+extension SkyEyeViewController: UIPickerViewDelegate, UIPickerViewDataSource {
+    
+    // We have 3 search input parameters for the users: Rover, Camera and Sol
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        if selectableLocations.count == 0 {
+            return 100
+        } else {
+            return selectableLocations.count
+        }
+    }
+    
+    // Data being returned for each column
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        if selectableLocations.count == 0 {
+            return "No dates obtained"
+        } else {
+            return selectableLocations[row].locationName
+        }
+    }
+    
+    // This part updates the selected categories
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        if selectableLocations.count == 0 {
+          //  greetingTextField.text = "No dates obtained"
+        } else {
+          //  greetingTextField.text = selectableLocations[row].locationName
+        }
+    }
+    
+    // MARK: Picker Customization
+    func pickerView(_ pickerView: UIPickerView, viewForRow row: Int, forComponent component: Int, reusing view: UIView?) -> UIView {
+        var label: UILabel
+        
+        if let view = view as? UILabel {
+            label = view
+        } else {
+            label = UILabel()
+        }
+        
+        label.textColor = UIColor(named: .textTintColor)
+        label.textAlignment = .center
+        label.font = UIFont.systemFont(ofSize: 15.0, weight: .semibold)
+        
+        if selectableLocations.count == 0 {
+            label.text = "No dates obtained"
+        } else {
+            label.text = selectableLocations[row].locationName
+        }
+        
+        return label
+    }
+}
+
 
