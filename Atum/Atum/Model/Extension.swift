@@ -55,31 +55,7 @@ extension UIViewController {
 }
 
 extension UIImage {
-//    func imageWithInsets(insets: UIEdgeInsets) -> UIImage? {
-//        UIGraphicsBeginImageContextWithOptions(
-//            CGSize(width: self.size.width + insets.left + insets.right,
-//                   height: self.size.height + insets.top + insets.bottom), false, self.scale)
-//        let _ = UIGraphicsGetCurrentContext()
-//        let origin = CGPoint(x: insets.left, y: insets.top)
-//        self.draw(at: origin)
-//        let imageWithInsets = UIGraphicsGetImageFromCurrentImageContext()
-//        UIGraphicsEndImageContext()
-//        return imageWithInsets
-//    }
-//
-//    func withBottomInset(inset: UIEdgeInsets) -> UIImage? {
-//        UIGraphicsBeginImageContextWithOptions(
-//            CGSize(width: self.size.width,
-//                   height: self.size.height + inset.bottom), false, self.scale)
-//        let _ = UIGraphicsGetCurrentContext()
-//        let origin = CGPoint(x: 0, y: inset.bottom)
-//        self.draw(at: origin)
-//        let imageWithInsets = UIGraphicsGetImageFromCurrentImageContext()
-//        UIGraphicsEndImageContext()
-//        return imageWithInsets
-//
-//    }
-    
+    // Used to position rocket image
     func withBottomInset(inset: CGFloat) -> UIImage? {
         let width: CGFloat = size.width
         let height: CGFloat = size.height + inset
@@ -88,20 +64,19 @@ extension UIImage {
         draw(at: origin)
         let imageWithPadding = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
-
         return imageWithPadding
     }
 }
 
-extension UIView {
-    // Used to make specific corners round
-    public func roundViewCorners(corners: UIRectCorner, radius: CGFloat) {
-        let path = UIBezierPath(roundedRect: bounds, byRoundingCorners: corners, cornerRadii: CGSize(width: radius, height: radius))
-        let mask = CAShapeLayer()
-        mask.path = path.cgPath
-        layer.mask = mask
-    }
-}
+//extension UIView {
+//    // Used to make specific corners round
+//    public func roundViewCorners(corners: UIRectCorner, radius: CGFloat) {
+//        let path = UIBezierPath(roundedRect: bounds, byRoundingCorners: corners, cornerRadii: CGSize(width: radius, height: radius))
+//        let mask = CAShapeLayer()
+//        mask.path = path.cgPath
+//        layer.mask = mask
+//    }
+//}
 
 extension UIButton{
     public func roundButtonCorners(corners: UIRectCorner, radius: CGFloat){

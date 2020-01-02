@@ -31,17 +31,15 @@ enum Endpoint {
     }
     
     func url() -> URL {
-        let rover = Rover.curiosity.name
         let camera = RoverCamera.navcam.abbreviation
 //        let sol = 1
         
-        let dateSelected: String = "2019-06-23"
+        let dateSelected: String = "2015-06-03" //"2015-6-3"
          
         switch self {
         case .marsRover:
-            var components = URLComponents(url: baseURL.appendingPathComponent("mars-photos/api/v1/rovers/\(rover)/photos"), resolvingAgainstBaseURL: false)
+            var components = URLComponents(url: baseURL.appendingPathComponent("mars-photos/api/v1/rovers/curiosity/photos"), resolvingAgainstBaseURL: false)
             components?.queryItems = [
-//                URLQueryItem(name: "sol",        value: "\(sol)"),
                 URLQueryItem(name: "earth_date", value: "\(dateSelected)"),
                 URLQueryItem(name: "camera",     value: "\(camera)"), // defaulted to all
                 URLQueryItem(name: "api_key",    value: "\(APIKey.key)"),
@@ -64,6 +62,58 @@ enum Endpoint {
 }
 
 /*
+https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos?earth_date=2015-08-03&camera=navcam&api_key=DEMO_KEY
+ 
+Example request for marsRover:
+https://api.nasa.gov/mars-photos/api/v1/rovers/ // Base for rover images
+https://api.nasa.gov/mars-photos/api/v1/rovers/
+Opportunity/photos?
+sol=1&
+camera=NAVCAM&
+api_key=MKjkqRBKMSLQxBfCIUFcFUxhVjhK3Q3m3HnXVB3w
+
+https://api.nasa.gov/mars-photos/api/v1/rovers/Opportunity/photos?sol=1&camera=NAVCAM&api_key=MKjkqRBKMSLQxBfCIUFcFUxhVjhK3Q3m3HnXVB3w
+
+
+https://api.nasa.gov/mars-photos/api/v1/?rovers=Opportunity/photos?&sol=1
+
+https://api.nasa.gov/mars-photos/api/v1/rovers/Opportunity/photos?sol=1
+
+Rovers: curiosity, opportunity, spirit
+
+Query parameters
+- sol: Int (sol - ranges from 0 to max found in endpoint) // Sol: Martian day
+- camera: String                                       - default is all
+- page: Int (25 item per page)                         - default is 1
+- api_key: String
+
+Response:
+
+- photos: []
+   - id: Int
+   - sol: Int
+   - camera: {}
+       - id: Int
+       - name: String
+       - rover_id: Int
+       - full_name: String
+   - img_src: String (http)
+   - earth_date: String
+   - rover: {}
+       - name: String
+       - landing_date: String
+       - launch_date: String
+       - status: String
+       - max_sol: Int
+       - max_date: String
+       - total_photos: Int
+       - cameras: []
+               - name: String
+               - full_name: String
+
+*/
+
+/*
  - make api call for available dates
  - save sated into array
  - create picker
@@ -83,57 +133,7 @@ https://api.nasa.gov/EPIC/api/natural/all?api_key=DEMO_KEY // Provides all dates
 
 
 
-/*
- https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos?earth_date=2015-6-3&api_key=DEMO_KEY
- 
- Example request for marsRover:
- https://api.nasa.gov/mars-photos/api/v1/rovers/ // Base for rover images
- https://api.nasa.gov/mars-photos/api/v1/rovers/
- Opportunity/photos?
- sol=1&
- camera=NAVCAM&
- api_key=MKjkqRBKMSLQxBfCIUFcFUxhVjhK3Q3m3HnXVB3w
- 
- https://api.nasa.gov/mars-photos/api/v1/rovers/Opportunity/photos?sol=1&camera=NAVCAM&api_key=MKjkqRBKMSLQxBfCIUFcFUxhVjhK3Q3m3HnXVB3w
 
- 
- https://api.nasa.gov/mars-photos/api/v1/?rovers=Opportunity/photos?&sol=1
- 
- https://api.nasa.gov/mars-photos/api/v1/rovers/Opportunity/photos?sol=1
- 
- Rovers: curiosity, opportunity, spirit
- 
- Query parameters
- - sol: Int (sol - ranges from 0 to max found in endpoint) // Sol: Martian day
- - camera: String                                       - default is all
- - page: Int (25 item per page)                         - default is 1
- - api_key: String
- 
- Response:
- 
- - photos: []
-    - id: Int
-    - sol: Int
-    - camera: {}
-        - id: Int
-        - name: String
-        - rover_id: Int
-        - full_name: String
-    - img_src: String (http)
-    - earth_date: String
-    - rover: {}
-        - name: String
-        - landing_date: String
-        - launch_date: String
-        - status: String
-        - max_sol: Int
-        - max_date: String
-        - total_photos: Int
-        - cameras: []
-                - name: String
-                - full_name: String
- 
- */
 
 
 /*

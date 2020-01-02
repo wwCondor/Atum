@@ -118,7 +118,6 @@ extension PageViewController: UIPageViewControllerDataSource {
 extension PageViewController: UIPageViewControllerDelegate {
     
     func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
-        print("Turned Page")
         if let firstViewController = viewControllers?.first,
             let index = pages.firstIndex(of: firstViewController) {
             currentPage = index

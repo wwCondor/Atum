@@ -9,9 +9,6 @@
 import UIKit
 
 struct Constant {
-    // NavigationBar
-    static let navigationBarHeight: CGFloat      = 60 // not used after refactor
-
     // MenuBar
     static let menuBarHeight: CGFloat            = 60
     static let menuBarIconSize: CGFloat          = Constant.menuBarHeight/2
@@ -22,18 +19,17 @@ struct Constant {
     static let sendButtonBorderWidth: CGFloat    = 2
     static let sendButtonIconInset: CGFloat      = 12
     
-    // Images above and under slider
+    // Images above and underneath slider
     static let sliderImageInsets: CGFloat        = -16
     
-    // CamerButton
-    static let cameraButtonHeigth: CGFloat       = 30
-//    static let cameraButtonWidth: CGFloat        = 180
+    // CameraButton
+    static let cameraButtonHeigth: CGFloat       = 60
 
     // Corner radius for UIImageViews and MapView
-    static let largeCornerRadius: CGFloat = 10
-    static let smallCornerRadius: CGFloat = 5
+    static let largeCornerRadius: CGFloat        = 10
+    static let smallCornerRadius: CGFloat        = 5
     
-    static let contentPadding: CGFloat           = 15
+    static let contentPadding: CGFloat           = 30
     static let contentSidePadding: CGFloat       = 30
     static let bottomContentPadding              = Constant.menuBarHeight + Constant.contentPadding
 

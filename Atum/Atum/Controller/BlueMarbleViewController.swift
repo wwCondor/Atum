@@ -13,14 +13,9 @@ class BlueMarbleViewController: UIViewController {
     var allNaturalDates = [String]()
     
     // Selected Image
-    lazy var selectedImageView: UIImageView = {
+    lazy var selectedImageView: RetrievedImageView = {
         let image = UIImage(named: .marbleImagePlaceholder)
-        let selectedImageView = UIImageView(image: image)
-        selectedImageView.contentMode = .scaleAspectFit
-        selectedImageView.translatesAutoresizingMaskIntoConstraints = false
-        selectedImageView.backgroundColor = UIColor.yellow
-        selectedImageView.layer.masksToBounds = true
-        selectedImageView.layer.cornerRadius = Constant.largeCornerRadius
+        let selectedImageView = RetrievedImageView(image: image)
         return selectedImageView
     }()
     
@@ -61,10 +56,6 @@ class BlueMarbleViewController: UIViewController {
         startPuzzleButton.imageEdgeInsets = UIEdgeInsets(top: inset, left: inset, bottom: inset, right: inset)
         startPuzzleButton.setImage(image, for: .normal)
         startPuzzleButton.addTarget(self, action: #selector(presentMarblePuzzle(tapGestureRecognizer:)), for: .touchUpInside)
-        startPuzzleButton.layer.masksToBounds = true
-        startPuzzleButton.layer.cornerRadius = Constant.smallCornerRadius
-        startPuzzleButton.layer.borderColor = UIColor(named: .objectBorderColor)?.cgColor
-        startPuzzleButton.layer.borderWidth = Constant.sendButtonBorderWidth
         return startPuzzleButton
     }()
     

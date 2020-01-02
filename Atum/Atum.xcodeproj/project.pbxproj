@@ -37,6 +37,7 @@
 		0BE3817C23BBC08600342DA5 /* RoverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BE3817B23BBC08600342DA5 /* RoverViewController.swift */; };
 		0BE3817E23BBC10C00342DA5 /* SkyEyeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BE3817D23BBC10C00342DA5 /* SkyEyeViewController.swift */; };
 		0BE3818023BBC13C00342DA5 /* BlueMarbleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BE3817F23BBC13C00342DA5 /* BlueMarbleViewController.swift */; };
+		0BE3818523BE34BD00342DA5 /* RetrievedImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BE3818423BE34BD00342DA5 /* RetrievedImageView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -84,6 +85,7 @@
 		0BE3817B23BBC08600342DA5 /* RoverViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoverViewController.swift; sourceTree = "<group>"; };
 		0BE3817D23BBC10C00342DA5 /* SkyEyeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkyEyeViewController.swift; sourceTree = "<group>"; };
 		0BE3817F23BBC13C00342DA5 /* BlueMarbleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlueMarbleViewController.swift; sourceTree = "<group>"; };
+		0BE3818423BE34BD00342DA5 /* RetrievedImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RetrievedImageView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -177,8 +179,9 @@
 		0BE3813523B200A300342DA5 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				0BE3814923B3EC4B00342DA5 /* CustomButton.swift */,
 				0BE3815423B4F46B00342DA5 /* NavigationButton.swift */,
+				0BE3818423BE34BD00342DA5 /* RetrievedImageView.swift */,
+				0BE3814923B3EC4B00342DA5 /* CustomButton.swift */,
 				0BE3815823B60A4500342DA5 /* TextField.swift */,
 			);
 			path = View;
@@ -331,6 +334,7 @@
 				0BE3813A23B201BE00342DA5 /* Error.swift in Sources */,
 				0BE3814023B2036B00342DA5 /* Reachability.swift in Sources */,
 				0BE3818023BBC13C00342DA5 /* BlueMarbleViewController.swift in Sources */,
+				0BE3818523BE34BD00342DA5 /* RetrievedImageView.swift in Sources */,
 				0BE3816E23BA3A3200342DA5 /* BlueMarble.swift in Sources */,
 				0BE3817E23BBC10C00342DA5 /* SkyEyeViewController.swift in Sources */,
 				0BE3811423B1FBE300342DA5 /* SceneDelegate.swift in Sources */,

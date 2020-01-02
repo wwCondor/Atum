@@ -16,7 +16,7 @@ class RoverViewController: UIViewController {
     private func getCurrentDate() -> String {
         let date = Date()
         let formatter = DateFormatter()
-        formatter.dateFormat = "dd.MM.yyyy"
+        formatter.dateFormat = "MM.dd.yyyy"
         let dateString = formatter.string(from: date)
         return dateString
     }
@@ -32,14 +32,9 @@ class RoverViewController: UIViewController {
     }
 
     // Selected Image
-    lazy var selectedImageView: UIImageView = {
+    lazy var selectedImageView: RetrievedImageView = {
         let image = UIImage(named: .placeholderImage)
-        let selectedImageView = UIImageView(image: image)
-        selectedImageView.contentMode = .scaleAspectFit
-        selectedImageView.translatesAutoresizingMaskIntoConstraints = false
-        selectedImageView.backgroundColor = UIColor.yellow
-        selectedImageView.layer.masksToBounds = true
-        selectedImageView.layer.cornerRadius = Constant.largeCornerRadius
+        let selectedImageView = RetrievedImageView(image: image)
         return selectedImageView
     }()
     
@@ -89,18 +84,15 @@ class RoverViewController: UIViewController {
         return navigator
     }()
     
-    lazy var cameraButton: CustomButton = {
-        let cameraButton = CustomButton(type: .custom)
-        cameraButton.setTitle("\(cameras[selectedCamera].fullName)", for: .normal)
-        cameraButton.titleLabel?.font = UIFont.systemFont(ofSize: 14.0, weight: .semibold)
-        cameraButton.addTarget(self, action: #selector(switchCamera(tapGestureRecognizer:)), for: .touchUpInside)
-        cameraButton.layer.masksToBounds = true
-        cameraButton.layer.cornerRadius = Constant.smallCornerRadius
-        cameraButton.layer.borderColor = UIColor(named: .objectBorderColor)?.cgColor
-        cameraButton.layer.borderWidth = Constant.sendButtonBorderWidth
-        return cameraButton
+    lazy var cameraSelectionButton: CustomButton = {
+        let cameraSelectionButton = CustomButton(type: .custom)
+        cameraSelectionButton.setTitle("\(cameras[selectedCamera].fullName)", for: .normal)
+        cameraSelectionButton.titleLabel?.font = UIFont.systemFont(ofSize: 15.0, weight: .semibold)
+        cameraSelectionButton.addTarget(self, action: #selector(switchCamera(tapGestureRecognizer:)), for: .touchUpInside)
+        return cameraSelectionButton
     }()
     
+    // Curiosity Landing Date: "2012-08-06" yyyy-MM-dd
     lazy var roverDatePicker: UIDatePicker = {
         let roverDatePicker = UIDatePicker()
         roverDatePicker.backgroundColor = UIColor.clear
@@ -110,12 +102,13 @@ class RoverViewController: UIViewController {
         roverDatePicker.addTarget(self, action: #selector(dateChanged(datePicker:)), for: .valueChanged)
         let calendar = Calendar(identifier: .gregorian)
         var components = DateComponents()
-        components.year = 100
-        let maxDate = calendar.date(byAdding: components, to: Date())
-        components.year = -100
-        let minDate = calendar.date(byAdding: components, to: Date())
-        roverDatePicker.minimumDate = minDate
-        roverDatePicker.maximumDate = maxDate
+        components.month = 08
+        components.day = 06
+        components.year = 2012
+        let startDate = calendar.date(from: components)
+        roverDatePicker.minimumDate = startDate
+        let currentDate = Date()
+        roverDatePicker.maximumDate = currentDate
         roverDatePicker.timeZone = NSTimeZone.local
         roverDatePicker.translatesAutoresizingMaskIntoConstraints = false
         return roverDatePicker
@@ -123,7 +116,7 @@ class RoverViewController: UIViewController {
     
     @objc func dateChanged(datePicker: UIDatePicker) {
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "dd.MM.yyyy"
+        dateFormatter.dateFormat = "MM.dd.yyyy"
         print(dateFormatter.string(from: datePicker.date))
         dateInfoField.text = dateFormatter.string(from: datePicker.date)
     }
@@ -135,10 +128,6 @@ class RoverViewController: UIViewController {
         sendButton.imageEdgeInsets = UIEdgeInsets(top: inset, left: inset, bottom: inset, right: inset)
         sendButton.setImage(image, for: .normal)
         sendButton.addTarget(self, action: #selector(sendPostcard(tapGestureRecognizer:)), for: .touchUpInside)
-        sendButton.layer.masksToBounds = true
-        sendButton.layer.cornerRadius = Constant.smallCornerRadius
-        sendButton.layer.borderColor = UIColor(named: .objectBorderColor)?.cgColor
-        sendButton.layer.borderWidth = Constant.sendButtonBorderWidth
         return sendButton
     }()
     
@@ -162,7 +151,7 @@ class RoverViewController: UIViewController {
         view.addSubview(cameraInfoField)
         view.addSubview(dateInfoField)
         
-        view.addSubview(cameraButton)
+        view.addSubview(cameraSelectionButton)
         view.addSubview(roverDatePicker)
         view.addSubview(sendButton)
         
@@ -210,14 +199,14 @@ class RoverViewController: UIViewController {
             dateInfoField.trailingAnchor.constraint(equalTo: selectedImageView.centerXAnchor),
             dateInfoField.heightAnchor.constraint(equalToConstant: Constant.textFieldHeight),
             dateInfoField.bottomAnchor.constraint(equalTo: selectedImageView.bottomAnchor, constant: -Constant.textFieldPadding),
-            //
             
-            cameraButton.topAnchor.constraint(equalTo: selectedImageView.bottomAnchor, constant: Constant.contentPadding),
-            cameraButton.leadingAnchor.constraint(equalTo: selectedImageView.leadingAnchor),
-            cameraButton.trailingAnchor.constraint(equalTo: selectedImageView.trailingAnchor),
-            cameraButton.heightAnchor.constraint(equalToConstant: Constant.cameraButtonHeigth),
+            // Buttons and Picker
+            cameraSelectionButton.topAnchor.constraint(equalTo: selectedImageView.bottomAnchor, constant: Constant.contentPadding),
+            cameraSelectionButton.leadingAnchor.constraint(equalTo: selectedImageView.leadingAnchor),
+            cameraSelectionButton.trailingAnchor.constraint(equalTo: selectedImageView.trailingAnchor),
+            cameraSelectionButton.heightAnchor.constraint(equalToConstant: Constant.cameraButtonHeigth),
 
-            roverDatePicker.topAnchor.constraint(equalTo: cameraButton.bottomAnchor, constant: Constant.contentPadding),
+            roverDatePicker.topAnchor.constraint(equalTo: cameraSelectionButton.bottomAnchor, constant: Constant.contentPadding),
             roverDatePicker.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: contentSidePadding),
             roverDatePicker.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -contentSidePadding),
             roverDatePicker.bottomAnchor.constraint(equalTo: sendButton.topAnchor, constant: -Constant.contentPadding),
@@ -240,7 +229,7 @@ class RoverViewController: UIViewController {
         } else {
             selectedCamera = 0
         }
-        cameraButton.setTitle("\(cameras[selectedCamera].fullName)", for: .normal)
+        cameraSelectionButton.setTitle("\(cameras[selectedCamera].fullName)", for: .normal)
         cameraInfoField.text = "\(cameras[selectedCamera].abbreviation)"
         
         print("Switching Camera")

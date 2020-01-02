@@ -12,7 +12,7 @@ class MenuBar: UIView {
     
     let cellId = "menuBarCellId"
     
-    let imageNames: [UIImage.Name] = [.roverIcon, .skyEyeIcon, .puzzleIcon]
+    let imageNames: [UIImage.Name] = [.roverIcon, .skyEyeIcon, .planetIcon]
         
     var horizontalSliderLeadingAnchorConstraint: NSLayoutConstraint?
     var pageViewController: PageViewController?

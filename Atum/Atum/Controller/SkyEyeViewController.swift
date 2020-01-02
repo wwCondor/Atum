@@ -12,14 +12,11 @@ class SkyEyeViewController: UIViewController {
     
     var widthAndHeightInDegrees: Float = 0.100 // 0.1 degrees = 11 km
     
-    lazy var skyEyeImageView: UIImageView = {
+    let selectableLocations: [String] = []
+    
+    lazy var skyEyeImageView: RetrievedImageView = {
         let image = UIImage(named: .satImagePlaceHolder)
-        let skyEyeImageView = UIImageView(image: image)
-        skyEyeImageView.contentMode = .scaleAspectFit
-        skyEyeImageView.backgroundColor = UIColor.yellow
-        skyEyeImageView.layer.masksToBounds = true
-        skyEyeImageView.layer.cornerRadius = Constant.largeCornerRadius
-        skyEyeImageView.translatesAutoresizingMaskIntoConstraints = false
+        let skyEyeImageView = RetrievedImageView(image: image)
         return skyEyeImageView
     }()
     

@@ -10,20 +10,15 @@ import Foundation
 
 enum Rover {
     case curiosity
-//    case opportunity
-//    case spirit
     
     var name: String {
         switch self {
         case .curiosity:      return "Curiosity"
-//        case .opportunity:    return "Opportunity"
-//        case .spirit:         return "Spirit"
         }
     }
 }
 
 enum RoverCamera {
-    // These cameras are available on all three rovers and have relatively high quality images
     case fhaz
     case rhaz
     case mast
@@ -32,6 +27,7 @@ enum RoverCamera {
     case mardi
     case navcam
     
+    // Used for cameraSelectionButton
     var fullName: String {
         switch self {
         case .fhaz:           return "Front Hazard Avoidance Camera"
@@ -44,6 +40,7 @@ enum RoverCamera {
         }
     }
     
+    // Used for Postcard metadata
     var abbreviation: String {
         switch self {
         case .fhaz:           return "FHAZ"

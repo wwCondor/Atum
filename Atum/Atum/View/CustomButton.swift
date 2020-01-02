@@ -20,11 +20,15 @@ class CustomButton: UIButton {
     }
     
     func setupButton() {
-
         contentMode = .center
         backgroundColor = UIColor(named: .objectColor)
-        tintColor = UIColor(named: .iconColor)
         imageView?.contentMode = .scaleAspectFit
+        imageView?.tintColor = UIColor(named: .iconColor)
+        adjustsImageWhenHighlighted = false
         translatesAutoresizingMaskIntoConstraints = false
+        layer.masksToBounds = true
+        layer.cornerRadius = Constant.smallCornerRadius
+        layer.borderColor = UIColor(named: .objectBorderColor)?.cgColor
+        layer.borderWidth = Constant.sendButtonBorderWidth
     }
 }

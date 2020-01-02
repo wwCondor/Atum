@@ -8,28 +8,6 @@
 
 import UIKit
 
-// Used for storing colors as string to CoreData
-//enum Color {
-//    case bubbleRed
-//    case bubbleYellow
-//    case bubbleBlue
-//    case bubbleOrange
-//    case bubblePink
-//    case bubbleGreen
-//
-//    var name: String {
-//        switch self {
-//        case .bubbleRed:      return "BubbleRed"
-//        case .bubbleYellow:   return "BubbleYellow"
-//        case .bubbleBlue:     return "BubbleBlue"
-//        case .bubbleOrange:   return "BubbleOrange"
-//        case .bubblePink:     return "BubblePink"
-//        case .bubbleGreen:    return "BubbleGreen"
-//        }
-//    }
-//}
-
-// Used for colors that dont need saving
 extension UIColor {
     struct Name: RawRepresentable {
         typealias RawValue = String
@@ -60,6 +38,5 @@ extension UIColor.Name {
     static let objectColor              = UIColor.Name(name: "ObjectColor")
     static let objectBorderColor        = UIColor.Name(name: "ObjectBorderColor")
     static let textTintColor            = UIColor.Name(name: "TextTintColor")
-    static let postcardTextColor        = UIColor.Name(name: "PostcardTextColor")
- 
+//    static let postcardTextColor        = UIColor.Name(name: "PostcardTextColor")
 }
