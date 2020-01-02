@@ -8,17 +8,7 @@
 
 import UIKit
 
-//protocol PageIndexDelegate: class {
-//    func pageViewController(pageViewController: PageViewController,
-//    didUpdatePageCount count: Int)
-//
-//    func pageViewController(pageViewController: PageViewController,
-//    didUpdatePageIndex index: Int)
-//}
-
 class PageViewController: UIPageViewController {
-    
-//    weak var pageDelegate: PageIndexDelegate?
     
     var currentPage: Int = 0
     
@@ -41,12 +31,6 @@ class PageViewController: UIPageViewController {
         return logoImageView
     }()
     
-//    lazy var pageControl: PageControl = {
-//        let pageControl = PageControl(frame: .zero)
-//        pageControl.numberOfPages = pages.count
-//        return pageControl
-//    }()
-    
     lazy var menuBar: MenuBar = {
         let menuBar = MenuBar()
         menuBar.pageViewController = self // creates reference inside menuBar
@@ -64,9 +48,6 @@ class PageViewController: UIPageViewController {
         if let firstViewController = pages.first {
             setViewControllers([firstViewController], direction: .forward, animated: true, completion: nil)
         }
-        
-//        pageDelegate?.pageViewController(pageViewController: self, didUpdatePageCount: pages.count)
-        
     }
     
     func navigateToPage(number: Int) {
@@ -81,28 +62,14 @@ class PageViewController: UIPageViewController {
         print(currentPage)
     }
     
-    
     private func setupMenuBar() {
-//        view.addSubview(collectionView)
-//        view.addSubview(pageViewController)
         view.addSubview(menuBar)
-//        view.addSubview(pageControl)
         
         NSLayoutConstraint.activate([
-//            collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-//            collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-//            collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-//            collectionView.bottomAnchor.constraint(equalTo: menuBar.topAnchor),
-            
             menuBar.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
             menuBar.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             menuBar.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             menuBar.heightAnchor.constraint(equalToConstant: Constant.menuBarHeight)
-            
-//            pageControl.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-//            pageControl.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-//            pageControl.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-//            pageControl.heightAnchor.constraint(equalToConstant: Constant.menuBarHeight)
         ])
     }
     
@@ -118,13 +85,8 @@ class PageViewController: UIPageViewController {
     }
     
     @objc private func activateRocket(sender: UITapGestureRecognizer) {
-        // In here we have an ignition sound
-        // image change to activeRocketIcon
-        // motion departure
-        // motion arriving
         print("Whooooooshhh!")
     }
-    
 }
 
 extension PageViewController: UIPageViewControllerDataSource {
@@ -151,35 +113,16 @@ extension PageViewController: UIPageViewControllerDataSource {
         
         return pages[nextIndex]
     }
-    
-    
-//    func presentationCount(for pageViewController: UIPageViewController) -> Int {
-//        <#code#>
-//    }
-//
-//    func presentationIndex(for pageViewController: UIPageViewController) -> Int {
-//        <#code#>
-//    }
 }
 
 extension PageViewController: UIPageViewControllerDelegate {
+    
     func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
         print("Turned Page")
         if let firstViewController = viewControllers?.first,
             let index = pages.firstIndex(of: firstViewController) {
-            
             currentPage = index
-//            menuBar.currentPage = index
-            
             menuBar.updateMenuBar(to: index)
-            
-//            menuBar.collectionView.selectItem(at: index, animated: true, scrollPosition: [])
-//            menuBar.collectionView.reloadData()
-//            print("PVC at page:\(currentPage)")
-//            print("MenuBar at page:\(menuBar.currentPage)")
-            // Here we have the index of the page we are at. Use this to update the menubar?
-            
-//            pageDelegate?.pageViewController(pageViewController: self, didUpdatePageIndex: index)
         }
     }
 }

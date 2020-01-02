@@ -70,5 +70,3 @@ class PostcardImageInfoField: CustomTextField {
         return bounds.insetBy(dx: Constant.textXInset, dy: 0)
     }
 }
-
-

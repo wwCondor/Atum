@@ -22,18 +22,13 @@
 		0BE3814A23B3EC4B00342DA5 /* CustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BE3814923B3EC4B00342DA5 /* CustomButton.swift */; };
 		0BE3814C23B3F3E100342DA5 /* ModeSelected.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BE3814B23B3F3E100342DA5 /* ModeSelected.swift */; };
 		0BE3814E23B3F5C500342DA5 /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BE3814D23B3F5C500342DA5 /* Constant.swift */; };
-		0BE3815123B409AB00342DA5 /* MainController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BE3815023B409AB00342DA5 /* MainController.swift */; };
 		0BE3815323B4C10600342DA5 /* SlideMenuManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BE3815223B4C10600342DA5 /* SlideMenuManager.swift */; };
 		0BE3815523B4F46B00342DA5 /* NavigationButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BE3815423B4F46B00342DA5 /* NavigationButton.swift */; };
 		0BE3815723B53DC000342DA5 /* MenuBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BE3815623B53DC000342DA5 /* MenuBar.swift */; };
 		0BE3815923B60A4500342DA5 /* TextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BE3815823B60A4500342DA5 /* TextField.swift */; };
 		0BE3815B23B6352500342DA5 /* APIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BE3815A23B6352500342DA5 /* APIService.swift */; };
-		0BE3815E23B67FB900342DA5 /* RoverScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BE3815D23B67FB900342DA5 /* RoverScreen.swift */; };
-		0BE3816023B7D86100342DA5 /* MarsRoverCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BE3815F23B7D86100342DA5 /* MarsRoverCell.swift */; };
-		0BE3816223B8B19800342DA5 /* EyeInSkyCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BE3816123B8B19800342DA5 /* EyeInSkyCell.swift */; };
 		0BE3816823B9E1EF00342DA5 /* RoverPhotos.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BE3816723B9E1EF00342DA5 /* RoverPhotos.swift */; };
 		0BE3816A23B9E8EE00342DA5 /* RoverPhotoDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BE3816923B9E8EE00342DA5 /* RoverPhotoDataManager.swift */; };
-		0BE3816C23BA327000342DA5 /* BlueMarbleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BE3816B23BA327000342DA5 /* BlueMarbleCell.swift */; };
 		0BE3816E23BA3A3200342DA5 /* BlueMarble.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BE3816D23BA3A3200342DA5 /* BlueMarble.swift */; };
 		0BE3817023BA3BD600342DA5 /* BlueMarbleDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BE3816F23BA3BD600342DA5 /* BlueMarbleDataManager.swift */; };
 		0BE3817223BA3D5600342DA5 /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BE3817123BA3D5600342DA5 /* Result.swift */; };
@@ -42,7 +37,6 @@
 		0BE3817C23BBC08600342DA5 /* RoverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BE3817B23BBC08600342DA5 /* RoverViewController.swift */; };
 		0BE3817E23BBC10C00342DA5 /* SkyEyeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BE3817D23BBC10C00342DA5 /* SkyEyeViewController.swift */; };
 		0BE3818023BBC13C00342DA5 /* BlueMarbleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BE3817F23BBC13C00342DA5 /* BlueMarbleViewController.swift */; };
-		0BE3818223BCCA3000342DA5 /* PageControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BE3818123BCCA3000342DA5 /* PageControl.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -75,18 +69,13 @@
 		0BE3814923B3EC4B00342DA5 /* CustomButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomButton.swift; sourceTree = "<group>"; };
 		0BE3814B23B3F3E100342DA5 /* ModeSelected.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModeSelected.swift; sourceTree = "<group>"; };
 		0BE3814D23B3F5C500342DA5 /* Constant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constant.swift; sourceTree = "<group>"; };
-		0BE3815023B409AB00342DA5 /* MainController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainController.swift; sourceTree = "<group>"; };
 		0BE3815223B4C10600342DA5 /* SlideMenuManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlideMenuManager.swift; sourceTree = "<group>"; };
 		0BE3815423B4F46B00342DA5 /* NavigationButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationButton.swift; sourceTree = "<group>"; };
 		0BE3815623B53DC000342DA5 /* MenuBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBar.swift; sourceTree = "<group>"; };
 		0BE3815823B60A4500342DA5 /* TextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextField.swift; sourceTree = "<group>"; };
 		0BE3815A23B6352500342DA5 /* APIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIService.swift; sourceTree = "<group>"; };
-		0BE3815D23B67FB900342DA5 /* RoverScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoverScreen.swift; sourceTree = "<group>"; };
-		0BE3815F23B7D86100342DA5 /* MarsRoverCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarsRoverCell.swift; sourceTree = "<group>"; };
-		0BE3816123B8B19800342DA5 /* EyeInSkyCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EyeInSkyCell.swift; sourceTree = "<group>"; };
 		0BE3816723B9E1EF00342DA5 /* RoverPhotos.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoverPhotos.swift; sourceTree = "<group>"; };
 		0BE3816923B9E8EE00342DA5 /* RoverPhotoDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoverPhotoDataManager.swift; sourceTree = "<group>"; };
-		0BE3816B23BA327000342DA5 /* BlueMarbleCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlueMarbleCell.swift; sourceTree = "<group>"; };
 		0BE3816D23BA3A3200342DA5 /* BlueMarble.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlueMarble.swift; sourceTree = "<group>"; };
 		0BE3816F23BA3BD600342DA5 /* BlueMarbleDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlueMarbleDataManager.swift; sourceTree = "<group>"; };
 		0BE3817123BA3D5600342DA5 /* Result.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Result.swift; sourceTree = "<group>"; };
@@ -95,7 +84,6 @@
 		0BE3817B23BBC08600342DA5 /* RoverViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoverViewController.swift; sourceTree = "<group>"; };
 		0BE3817D23BBC10C00342DA5 /* SkyEyeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkyEyeViewController.swift; sourceTree = "<group>"; };
 		0BE3817F23BBC13C00342DA5 /* BlueMarbleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlueMarbleViewController.swift; sourceTree = "<group>"; };
-		0BE3818123BCCA3000342DA5 /* PageControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageControl.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -179,14 +167,9 @@
 			children = (
 				0BE3817923BBBE0000342DA5 /* PageViewController.swift */,
 				0BE3815623B53DC000342DA5 /* MenuBar.swift */,
-				0BE3815023B409AB00342DA5 /* MainController.swift */,
 				0BE3817B23BBC08600342DA5 /* RoverViewController.swift */,
 				0BE3817D23BBC10C00342DA5 /* SkyEyeViewController.swift */,
 				0BE3817F23BBC13C00342DA5 /* BlueMarbleViewController.swift */,
-				0BE3815F23B7D86100342DA5 /* MarsRoverCell.swift */,
-				0BE3816123B8B19800342DA5 /* EyeInSkyCell.swift */,
-				0BE3816B23BA327000342DA5 /* BlueMarbleCell.swift */,
-				0BE3815D23B67FB900342DA5 /* RoverScreen.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -221,7 +204,6 @@
 			isa = PBXGroup;
 			children = (
 				0BE3815223B4C10600342DA5 /* SlideMenuManager.swift */,
-				0BE3818123BCCA3000342DA5 /* PageControl.swift */,
 			);
 			path = "Delete?";
 			sourceTree = "<group>";
@@ -331,18 +313,14 @@
 				0BE3817223BA3D5600342DA5 /* Result.swift in Sources */,
 				0BE3814A23B3EC4B00342DA5 /* CustomButton.swift in Sources */,
 				0BE3815B23B6352500342DA5 /* APIService.swift in Sources */,
-				0BE3816C23BA327000342DA5 /* BlueMarbleCell.swift in Sources */,
 				0BE3814E23B3F5C500342DA5 /* Constant.swift in Sources */,
 				0BE3815923B60A4500342DA5 /* TextField.swift in Sources */,
-				0BE3816023B7D86100342DA5 /* MarsRoverCell.swift in Sources */,
 				0BE3814223B2330400342DA5 /* Endpoint.swift in Sources */,
 				0BE3816A23B9E8EE00342DA5 /* RoverPhotoDataManager.swift in Sources */,
-				0BE3818223BCCA3000342DA5 /* PageControl.swift in Sources */,
 				0BE3813823B2017B00342DA5 /* Color.swift in Sources */,
 				0BE3813E23B2021400342DA5 /* Icon.swift in Sources */,
 				0BE3816823B9E1EF00342DA5 /* RoverPhotos.swift in Sources */,
 				0BE3811223B1FBE300342DA5 /* AppDelegate.swift in Sources */,
-				0BE3815123B409AB00342DA5 /* MainController.swift in Sources */,
 				0BE3817A23BBBE0000342DA5 /* PageViewController.swift in Sources */,
 				0BE3817023BA3BD600342DA5 /* BlueMarbleDataManager.swift in Sources */,
 				0BE3814C23B3F3E100342DA5 /* ModeSelected.swift in Sources */,
@@ -351,9 +329,7 @@
 				0BE3815723B53DC000342DA5 /* MenuBar.swift in Sources */,
 				0BE3817423BA43AD00342DA5 /* Rover.swift in Sources */,
 				0BE3813A23B201BE00342DA5 /* Error.swift in Sources */,
-				0BE3816223B8B19800342DA5 /* EyeInSkyCell.swift in Sources */,
 				0BE3814023B2036B00342DA5 /* Reachability.swift in Sources */,
-				0BE3815E23B67FB900342DA5 /* RoverScreen.swift in Sources */,
 				0BE3818023BBC13C00342DA5 /* BlueMarbleViewController.swift in Sources */,
 				0BE3816E23BA3A3200342DA5 /* BlueMarble.swift in Sources */,
 				0BE3817E23BBC10C00342DA5 /* SkyEyeViewController.swift in Sources */,

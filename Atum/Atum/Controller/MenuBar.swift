@@ -13,9 +13,7 @@ class MenuBar: UIView {
     let cellId = "menuBarCellId"
     
     let imageNames: [UIImage.Name] = [.roverIcon, .skyEyeIcon, .puzzleIcon]
-    
-//    var currentPage: Int = 0
-    
+        
     var horizontalSliderLeadingAnchorConstraint: NSLayoutConstraint?
     var pageViewController: PageViewController?
     
@@ -44,7 +42,6 @@ class MenuBar: UIView {
         
         translatesAutoresizingMaskIntoConstraints = false // menuBar
     }
-    
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
@@ -141,26 +138,6 @@ extension MenuBar: UICollectionViewDataSource, UICollectionViewDelegate, UIColle
         pageViewController?.navigateToPage(number: indexPath.item)
     }
 }
-
-//extension MenuBar: PageIndexDelegate {
-//    func pageViewController(pageViewController: PageViewController, didUpdatePageIndex index: Int) {
-//        let window = UIApplication.shared.windows.first { $0.isKeyWindow }
-//        if let window = window {
-//            currentPage = index
-//            print(index)
-//            horizontalSliderLeadingAnchorConstraint?.constant = CGFloat(currentPage) * window.frame.width/3 // width/3
-//        }
-//
-//    }
-//
-//    func pageViewController(pageViewController: PageViewController, didUpdatePageCount count: Int) {
-//        numberOfPages = count
-//        print(numberOfPages)
-//
-//
-//
-//    }
-//}
 
 class MenuBarCell: BaseCell {
     

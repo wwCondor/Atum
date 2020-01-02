@@ -10,14 +10,8 @@ import UIKit
 
 struct Constant {
     // NavigationBar
-    static let navigationBarHeight: CGFloat      = 60
-//    static let navigationBarIconInset: CGFloat   = 15
-    
-    // MenuButton (Slider)
-//    static let menuButtonSize: CGFloat           = 60
-//    static let menuButtonIconInset: CGFloat      = 15
-//    static let menuButtonCornerRadius: CGFloat   = Constant.menuButtonSize/4
-    
+    static let navigationBarHeight: CGFloat      = 60 // not used after refactor
+
     // MenuBar
     static let menuBarHeight: CGFloat            = 60
     static let menuBarIconSize: CGFloat          = Constant.menuBarHeight/2
@@ -39,9 +33,9 @@ struct Constant {
     static let largeCornerRadius: CGFloat = 10
     static let smallCornerRadius: CGFloat = 5
     
-    // Stack content padding
     static let contentPadding: CGFloat           = 15
     static let contentSidePadding: CGFloat       = 30
+    static let bottomContentPadding              = Constant.menuBarHeight + Constant.contentPadding
 
     // TextField
     static let textFieldHeight: CGFloat          = 20
