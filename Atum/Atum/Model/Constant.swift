@@ -20,7 +20,8 @@ struct Constant {
     static let sendButtonIconInset: CGFloat      = 12
     
     // Images above and underneath slider
-    static let sliderImageInsets: CGFloat        = -16
+    static let sliderImageInsets: CGFloat        = -8
+    static let sliderImageViewSize: CGFloat      = 40
     
     // CameraButton
     static let cameraButtonHeigth: CGFloat       = 60
@@ -41,4 +42,8 @@ struct Constant {
     static let textYInset: CGFloat               = 5
 }
 
+
+struct PlaceHolderText {
+    static let noRoverPhotos: String             = "No photos for camera/date"
+}
 

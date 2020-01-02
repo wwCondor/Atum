@@ -97,3 +97,35 @@ extension JSONDecoder {
         return decoder
     }
 }
+
+extension UIImageView { 
+    func fetchRoverPhoto(from path: String, contentMode mode: UIView.ContentMode = .scaleAspectFit) {
+
+//        let imageBaseURl: String = "https://image.tmdb.org/t/p/w500/"
+        
+        let url = URL(string: "\(path)")!
+        print("Trying to obtain image from: \(url)")
+        contentMode = mode
+        URLSession.shared.dataTask(with: url) { data, response, error in
+            DispatchQueue.main.async() {
+                guard let httpResponse = response as? HTTPURLResponse else {
+                    return
+                }
+                if httpResponse.statusCode == 200 {
+                    guard let data = data else {
+                        return
+                    }
+                    guard error == nil else {
+                        return
+                    }
+                    guard let image = UIImage(data: data) else {
+                        return
+                    }
+                    self.image = image
+                } else {
+                    print("Status Code: \(httpResponse.statusCode)")
+                }
+            }
+        }.resume()
+    }
+}

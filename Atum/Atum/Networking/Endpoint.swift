@@ -28,8 +28,6 @@ enum Endpoint {
         // Mars Rover Query
         let camera: String = UserSelection.userRoverDataSelections.selectedRoverCamera.abbreviation // Default: FHAZ
         let dateSelected: String = UserSelection.userRoverDataSelections.selectedRoverPhotoDate     // Default: Landing Date
-        
-        
          
         switch self {
         case .marsRover:

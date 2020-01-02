@@ -84,7 +84,7 @@ class SkyEyeViewController: UIViewController {
         let viewWidth: CGFloat = view.frame.width
         let selectedImageSize: CGFloat = (3/4)*view.frame.width
         let contentPadding: CGFloat = (viewWidth - selectedImageSize) / 2
-        let sliderWidth: CGFloat = Constant.sendButtonSize
+        let sliderWidth: CGFloat = Constant.sliderImageViewSize
         
         NSLayoutConstraint.activate([
             skyEyeImageView.topAnchor.constraint(equalTo: view.topAnchor, constant: Constant.contentPadding),
@@ -95,8 +95,8 @@ class SkyEyeViewController: UIViewController {
             // Zoom Slider items
             satelliteImageView.topAnchor.constraint(equalTo: skyEyeImageView.bottomAnchor, constant: Constant.contentPadding),
             satelliteImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: contentPadding),
-            satelliteImageView.widthAnchor.constraint(equalToConstant: Constant.sendButtonSize),
-            satelliteImageView.heightAnchor.constraint(equalToConstant: Constant.sendButtonSize),
+            satelliteImageView.widthAnchor.constraint(equalToConstant: Constant.sliderImageViewSize),
+            satelliteImageView.heightAnchor.constraint(equalToConstant: Constant.sliderImageViewSize),
             
             zoomSlider.topAnchor.constraint(equalTo: satelliteImageView.bottomAnchor, constant: Constant.contentPadding),
             zoomSlider.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: contentPadding),
@@ -105,8 +105,8 @@ class SkyEyeViewController: UIViewController {
             
             planetImageView.topAnchor.constraint(equalTo: zoomSlider.bottomAnchor, constant: Constant.contentPadding),
             planetImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: contentPadding),
-            planetImageView.widthAnchor.constraint(equalToConstant: Constant.sendButtonSize),
-            planetImageView.heightAnchor.constraint(equalToConstant: Constant.sendButtonSize),
+            planetImageView.widthAnchor.constraint(equalToConstant: Constant.sliderImageViewSize),
+            planetImageView.heightAnchor.constraint(equalToConstant: Constant.sliderImageViewSize),
             planetImageView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -Constant.bottomContentPadding),
             
             // picker

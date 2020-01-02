@@ -21,20 +21,14 @@ class RoverViewController: UIViewController {
         return dateString
     }
     
-//    private func getLandingData() -> String {
-//        var components = DateComponents()
-//        components.month = 08
-//        components.day = 06
-//        components.year = 2012
-//    }
-    
     let rovers: [Rover] = [Rover.curiosity]
     let cameras: [RoverCamera] = [RoverCamera.fhaz, RoverCamera.rhaz, RoverCamera.mast, RoverCamera.chemcam, RoverCamera.mahli, RoverCamera.mardi, RoverCamera.navcam]
     var selectedCamera: Int = 0
     
     var photos: [Photo] = [Photo]()
+    var selectedPhoto: Int = 0
     
-    var retrievedImages: [UIImage] = [UIImage]()
+//    var retrievedImages: [UIImage] = [UIImage]()
 
     // Selected Image
     lazy var selectedImageView: RetrievedImageView = {
@@ -77,14 +71,14 @@ class RoverViewController: UIViewController {
     
     lazy var leftNavigator: LeftNavigator = {
         let navigator = LeftNavigator()
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(showPreviousSuggestion))
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(showPreviousPhoto))
         navigator.addGestureRecognizer(tapGesture)
         return navigator
     }()
     
     lazy var rightNavigator: RightNavigator = {
         let navigator = RightNavigator()
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(showNextSuggestion))
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(showNextPhoto))
         navigator.addGestureRecognizer(tapGesture)
         return navigator
     }()
@@ -150,6 +144,7 @@ class RoverViewController: UIViewController {
     }
     
     private func getRoverPhotos() {
+        selectedPhoto = 0
         RoverPhotoDataManager.fetchPhotos(date: UserSelection.userRoverDataSelections.selectedRoverPhotoDate, camera: UserSelection.userRoverDataSelections.selectedRoverCamera.abbreviation) { (photos, error) in
             DispatchQueue.main.async {
                 guard let photos = photos else {
@@ -157,7 +152,29 @@ class RoverViewController: UIViewController {
                     return
                 }
                 self.photos = photos
+                self.updateUI()
                 print(self.photos)
+            }
+        }
+    }
+    
+    private func updateUI() {
+        if photos.count != 0 {
+            print(photos.count)
+            setRetrievedImage()
+        } else {
+            greetingTextField.text = PlaceHolderText.noRoverPhotos
+        }
+    }
+    
+    private func setRetrievedImage() {
+        DispatchQueue.main.async {
+            let connectionPossible = Reachability.checkReachable()
+            if connectionPossible == true {
+                self.selectedImageView.fetchRoverPhoto(from: self.photos[self.selectedPhoto].imgSrc)
+            } else {
+                self.presentAlert(description: NetworkingError
+                    .noReachability.localizedDescription, viewController: self)
             }
         }
     }
@@ -259,12 +276,29 @@ class RoverViewController: UIViewController {
         print("Switching Camera")
     }
     
-    @objc private func showPreviousSuggestion() {
-        print("Showing Previous Image")
+    @objc private func showPreviousPhoto(sender: LeftNavigator) {
+        if photos.count != 0 {
+            if selectedPhoto == 0 {
+                selectedPhoto = photos.count - 1
+            } else {
+                selectedPhoto -= 1
+            }
+        }
+        selectedImageView.fetchRoverPhoto(from: photos[selectedPhoto].imgSrc)
+        print("Showing Previous Image: \(selectedPhoto)")
     }
     
-    @objc private func showNextSuggestion() {
-        print("Showing Next Image")
+    @objc private func showNextPhoto(sender: RightNavigator) {
+        if photos.count != 0 {
+            if selectedPhoto != photos.count - 1 {
+                selectedPhoto += 1
+            } else {
+                selectedPhoto = 0
+            }
+        }
+        selectedImageView.fetchRoverPhoto(from: photos[selectedPhoto].imgSrc)
+        print("Showing Next Image: \(selectedPhoto)")
+
     }
     
 }

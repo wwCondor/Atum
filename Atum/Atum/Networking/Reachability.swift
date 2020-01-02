@@ -18,21 +18,21 @@ struct Reachability {
         
         var isReachable: Bool = false
         
-        if (isNetworkRachable(with: flags)) {
+        if (isNetworkReachable(with: flags)) {
             if flags.contains(.isWWAN) {
                 isReachable = true
             } else {
                 isReachable = true
             }
     
-        } else if (!isNetworkRachable(with: flags)) {
+        } else if (!isNetworkReachable(with: flags)) {
             isReachable = false
         }
         
         return isReachable
     }
     
-    private static func isNetworkRachable(with flags: SCNetworkReachabilityFlags) -> Bool {
+    private static func isNetworkReachable(with flags: SCNetworkReachabilityFlags) -> Bool {
         let isReachble = flags.contains(.reachable)
         let needsConnection = flags.contains(.connectionRequired)
         let canConnectAutomatically = flags.contains(.connectionOnDemand) || flags.contains(.connectionOnTraffic)
