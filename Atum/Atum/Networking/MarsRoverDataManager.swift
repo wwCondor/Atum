@@ -17,8 +17,8 @@ class MarsRoverDataManager {
     
     static func fetchPhotos(date: String, camera: String, completion: @escaping PhotoCompletionHandler) {
         let url = Endpoint.marsRover.url()
-//        print(url)
-        
+        print("Rover photo retrieval URL: \(url)")
+
         var allPhotos = [RoverPhoto]()
         fetchData(url: url) { (photoData, error) in
             guard let photos = photoData?.photos else {

@@ -42,11 +42,7 @@ class BlueMarbleViewController: UIViewController {
 //        greetingTextField.text = "Greetings from Mars!"
 //        return greetingTextField
 //    }()
-    
 
-    
-
-    
     lazy var naturalDatePicker: UIPickerView = {
         let naturalDatePicker = UIPickerView()
         naturalDatePicker.translatesAutoresizingMaskIntoConstraints = false
@@ -89,7 +85,6 @@ class BlueMarbleViewController: UIViewController {
         let navigatorHeigth = navigatorWidth * 2
         
         NSLayoutConstraint.activate([
-            // Current Selection
             leftNavigator.trailingAnchor.constraint(equalTo: selectedImageView.leadingAnchor, constant: -Constant.photoNavigatorOffset),
             leftNavigator.centerYAnchor.constraint(equalTo: selectedImageView.centerYAnchor),
             leftNavigator.widthAnchor.constraint(equalToConstant: navigatorWidth),
@@ -105,6 +100,7 @@ class BlueMarbleViewController: UIViewController {
             rightNavigator.widthAnchor.constraint(equalToConstant: navigatorWidth),
             rightNavigator.heightAnchor.constraint(equalToConstant: navigatorHeigth),
             
+            // Not used atm
             startPuzzleButton.widthAnchor.constraint(equalToConstant: Constant.sendButtonSize),
             startPuzzleButton.heightAnchor.constraint(equalToConstant: Constant.sendButtonSize),
             startPuzzleButton.centerXAnchor.constraint(equalTo: selectedImageView.centerXAnchor),
@@ -164,6 +160,7 @@ class BlueMarbleViewController: UIViewController {
         }
     }
     
+    // Not used atm
     @objc private func presentMarblePuzzle(tapGestureRecognizer: UITapGestureRecognizer) {
         print("Sending Email")
     }

@@ -16,7 +16,7 @@ class BlueMarbleDataManager {
     
     static func fetchPhotos(date: String, completion: @escaping PhotosCompletionHandler) {
         let url = Endpoint.blueMarbleImages.url()
-        print(url)
+        print("Blue Marble Image URL: \(url)")
         
         var allPhotos = [BlueMarblePhoto]()
         fetchPhotoData(url: url) { (photoData, error) in
@@ -63,8 +63,8 @@ class BlueMarbleDataManager {
 
     static func fetchDates(completion: @escaping DatesCompletionHandler) {
         let url = Endpoint.blueMarbleDates.url()
-//        print(url)
-        
+        print("Blue Marble Dates URL: \(url)")
+
         var allDates = [BlueMarbleDate]()
         fetchData(url: url) { (dateData, error) in
             guard let dates = dateData else {
