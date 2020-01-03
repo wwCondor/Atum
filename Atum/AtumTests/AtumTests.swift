@@ -71,7 +71,6 @@ class AtumTests: XCTestCase {
     }
     
     // MARK: Status Code Test
-    
     func testStatusResponseCode() {
         let expectation = self.expectation(description: "Status OK")
         let testUrl = URL(string: "https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos?earth_date=2015-08-06&camera=FHAZ&api_key=\(APIKey.key)")!
@@ -89,18 +88,82 @@ class AtumTests: XCTestCase {
         XCTAssertEqual(statusCode, 200)
     }
     
+    // MARK: Parsing Tests
+    // In here we should test the differt API calls and test whether data contains images
+    // If response does not contain images, test wether we don't crash
+    func testRetrievingRoverPhotoForData() {
+        let expectation = self.expectation(description: "allPhotos.count =! 0")
+        var responseError: Error?
+        var allPhotos: [RoverPhoto]?
+        let date: String = "2015-08-06"
+        let camera: RoverCamera = .fhaz
+        MarsRoverDataManager.fetchPhotos(date: date, camera: camera.abbreviation) { (photoData, error) in
+            guard let photos = photoData else {
+                responseError = error
+                return
+            }
+            allPhotos = photos
+            expectation.fulfill()
+        }
+        waitForExpectations(timeout: 5, handler: nil)
+        XCTAssertNil(responseError, "Error")
+        XCTAssertNotNil(allPhotos)
+    }
     
-    // MARK: Blue Marble API Tests
+    func testRetrievingSkyEyePhotoData() {
+        let expectation = self.expectation(description: "retrievedPhoto =! nil")
+        var responseError: Error?
+        var retrievedPhoto: EyeInTheSkyPhoto?
+        let location: Location = .mountEverest
+        let dim = "0.1"
+        EyeInTheSkyDataManager.fetchPhoto(lat: location.latitude, long: location.longitude, dim: dim) { (photoData, error) in
+            guard let photo = photoData else {
+                responseError = error
+                return
+            }
+            retrievedPhoto = photo
+            expectation.fulfill()
+        }
+        waitForExpectations(timeout: 5, handler: nil)
+        XCTAssertNil(responseError, "Error")
+        XCTAssertNotNil(retrievedPhoto)
+    }
+    
     func testNaturalDatesRetrieval() {
+        let expectation = self.expectation(description: "allDates.count =! 0")
+        var responseError: Error?
+        var allDates: [BlueMarbleDate]?
+        BlueMarbleDataManager.fetchDates { (data, error) in
+            guard let dates = data else {
+                responseError = error
+                return
+            }
+            allDates = dates
+            expectation.fulfill()
+        }
         
+        waitForExpectations(timeout: 5, handler: nil)
+        XCTAssertNil(responseError, "Error")
+        XCTAssertNotNil(allDates)
     }
     
     func testRetrievingEPICPhotoData() {
+        let expectation = self.expectation(description: "allPotosData.count =! 0")
+        var responseError: Error?
+        let date: String = "2019-06-27"
+        var allPotosData: [BlueMarblePhoto]?
+        BlueMarbleDataManager.fetchPhotos(date: date) { (photoData, error) in
+            guard let photos = photoData else {
+                responseError = error
+                return
+            }
+            allPotosData = photos
+            expectation.fulfill()
+        }
         
-    }
-    
-    func testRetrievingPhotoForData() {
-        
+        waitForExpectations(timeout: 5, handler: nil)
+        XCTAssertNil(responseError, "Error")
+        XCTAssertNotNil(allPotosData)
     }
 
     func testPerformanceExample() {
