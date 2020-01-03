@@ -37,12 +37,8 @@ extension UIImage.Name {
     static let roverIcon             = UIImage.Name(name: "RoverIcon")
     static let skyEyeIcon            = UIImage.Name(name: "SkyEyeIcon")
     static let planetIcon            = UIImage.Name(name: "PlanetIcon")
-    
     static let sendIcon              = UIImage.Name(name: "SendIcon")
     
-    static let placeholderImage         = UIImage.Name(name: "PlaceholderImage")
-//    static let satImagePlaceHolder      = UIImage.Name(name: "SatImagePlaceHolder")
-//    static let marbleImagePlaceholder   = UIImage.Name(name: "MarblePlaceholder")
-
+    static let placeholderImage      = UIImage.Name(name: "PlaceholderImage")
     
 }

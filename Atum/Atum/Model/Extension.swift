@@ -35,23 +35,6 @@ extension UIViewController {
         alert.addAction(confirmation)
         viewController.present(alert, animated: true, completion: nil)
     }
-    
-//    func presentFailedPermissionActionSheet(description: String, viewController: UIViewController) {
-//        // Actionsheet
-//        let actionSheet = UIAlertController(title: nil, message: description, preferredStyle: .actionSheet)
-//        
-//        actionSheet.addAction(UIAlertAction(title: "Ok, take me to Settings", style: .default, handler: { (action) in
-//            if let settingsURL = URL(string: UIApplication.openSettingsURLString + Bundle.main.bundleIdentifier!) {
-//                UIApplication.shared.open(settingsURL, options: [:], completionHandler: nil)
-//            }
-//        }))
-//        
-//        actionSheet.addAction(UIAlertAction(title: "Thanks, but I'll go to settings later", style: .cancel, handler: { (action) in
-//            
-//        }))
-//        
-//        viewController.present(actionSheet, animated: true, completion: nil)
-//    }
 }
 
 extension UIImage {
@@ -99,13 +82,46 @@ extension JSONDecoder {
 }
 
 extension UIImageView { 
-    func fetchPhoto(from path: String, contentMode mode: UIView.ContentMode = .scaleAspectFit) {
-
-//        let imageBaseURl: String = "https://image.tmdb.org/t/p/w500/"
-        
+    func fetchPhoto(from path: String) {//}, contentMode mode: UIView.ContentMode = .scaleAspectFit) {        
         let url = URL(string: "\(path)")!
+//        print("Trying to obtain image from: \(url)")
+        contentMode = .scaleAspectFit
+        URLSession.shared.dataTask(with: url) { data, response, error in
+            DispatchQueue.main.async() {
+                guard let httpResponse = response as? HTTPURLResponse else {
+                    return
+                }
+                if httpResponse.statusCode == 200 {
+                    guard let data = data else {
+                        return
+                    }
+                    guard error == nil else {
+                        return
+                    }
+                    guard let image = UIImage(data: data) else {
+                        return
+                    }
+                    self.image = image
+                } else {
+                    print("Status Code: \(httpResponse.statusCode)")
+                }
+            }
+        }.resume()
+    }
+    
+    func fetchPhoto(date: String, imageName: String) {
+        let fullDate: String = date
+        let fullDateArray: [String] = fullDate.components(separatedBy: "-")
+        
+        let imageBaseURl: String = "https://epic.gsfc.nasa.gov/archive/natural/"
+        
+        let year: String = fullDateArray[0]
+        let month: String = fullDateArray[1]
+        let day: String = fullDateArray[2]
+        
+        let url = URL(string: "\(imageBaseURl)\(year)/\(month)/\(day)/jpg/\(imageName).jpg")! // Best quality: png .png, fastest: thumb .jpg
         print("Trying to obtain image from: \(url)")
-        contentMode = mode
+        contentMode = .scaleAspectFit
         URLSession.shared.dataTask(with: url) { data, response, error in
             DispatchQueue.main.async() {
                 guard let httpResponse = response as? HTTPURLResponse else {

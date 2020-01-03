@@ -10,7 +10,7 @@ import UIKit
 
 class SkyEyeViewController: UIViewController {
     
-    var zoomWidthAndHeightInDegrees: Float = 0.100 // 0.1 degrees = 11 km
+//    var zoomWidthAndHeightInDegrees: Float = 0.100 // 0.1 degrees = 11 km
     
     let selectableLocations: [Location] = [.mountEverest, .edinBurghCastle, .pyramidOfGiza, .eiffelTower, .colosseum, .christTheRedeemer, .chichenItza, .tajMahal, .machuPichu, .towerOfPisa, .chineseWall, .uluru, .grandCanyon, .paricutin, .oukaimeden, .northernLight, .victoriaFalls]
     
@@ -53,7 +53,7 @@ class SkyEyeViewController: UIViewController {
         zoomSlider.thumbTintColor = UIColor(named: .objectBorderColor)
         zoomSlider.minimumValue = 0
         zoomSlider.maximumValue = 4
-        zoomSlider.setValue(0, animated: true)
+        zoomSlider.setValue(1, animated: true)
         zoomSlider.addTarget(self, action: #selector(setZoom(_:)), for: .valueChanged)
         return zoomSlider
     }()

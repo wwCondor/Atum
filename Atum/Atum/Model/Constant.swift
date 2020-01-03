@@ -41,8 +41,6 @@ struct Constant {
     static let textFieldBorderWidth: CGFloat     = 2
     static let textXInset: CGFloat               = 10
     static let textYInset: CGFloat               = 5
-    
-    static let sliderSizeOffset: CGFloat         = 3*Constant.contentPadding + 2*Constant.sliderImageViewSize + Constant.menuBarHeight
 }
 
 
@@ -50,6 +48,6 @@ struct PlaceHolderText {
     static let noRoverPhotos: String             = "No photos for camera/date"
     static let postcardDefaultMessage: String    = "Greetings from Mars!"
     static let roverInitialDateValue: String     = "2015-08-06"
-    static let initalZoomLevel: String           = "0.025"
+    static let initalZoomLevel: String           = "0.05"
 }
 

@@ -67,11 +67,14 @@ enum Endpoint {
         }
     }
 }
+
 /*
  https://api.nasa.gov/EPIC/api/natural/all?api_key=DEMO_KEY
  https://api.nasa.gov/EPIC/api/natural/all?api_key=MKjkqRBKMSLQxBfCIUFcFUxhVjhK3Q3m3HnXVB3w
  https://api.nasa.gov/planetary/earth/imagery/?lat=-27.1127&lon=-109.3497&dim=0.1&api_key=MKjkqRBKMSLQxBfCIUFcFUxhVjhK3Q3m3HnXVB3w
  
+ https://epic.gsfc.nasa.gov/archive/natural/2015/10/31/png/epic_1b_20151031074844.png
+ https://epic.gsfc.nasa.gov/archive/natural/20190627epic_1b_20190627011358
  
  */
 /*

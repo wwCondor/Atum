@@ -12,35 +12,40 @@ class BlueMarbleViewController: UIViewController {
     
     var allNaturalDates: [BlueMarbleDate] = [BlueMarbleDate]()
     var retrievedPhotos: [BlueMarblePhoto] = [BlueMarblePhoto]()
+    var imagesForDate: [UIImage] = [UIImage]() // Not used yet
     var selectedPhoto: Int = 0
     
     // Selected Image
+    lazy var leftNavigator: LeftNavigator = {
+        let navigator = LeftNavigator()
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(showPreviousPhoto(sender:)))
+        navigator.addGestureRecognizer(tapGesture)
+        return navigator
+    }()
+    
     lazy var selectedImageView: RetrievedImageView = {
         let image = UIImage(named: .placeholderImage)
         let selectedImageView = RetrievedImageView(image: image)
         return selectedImageView
     }()
     
-    // Image MetaData
-    lazy var greetingTextField: PostcardGreetingField = {
-        let greetingTextField = PostcardGreetingField()
-        greetingTextField.text = "Greetings from Mars!"
-        return greetingTextField
-    }()
-    
-    lazy var leftNavigator: LeftNavigator = {
-        let navigator = LeftNavigator()
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(showPreviousSuggestion))
-        navigator.addGestureRecognizer(tapGesture)
-        return navigator
-    }()
-    
     lazy var rightNavigator: RightNavigator = {
         let navigator = RightNavigator()
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(showNextSuggestion))
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(showNextPhoto(sender:)))
         navigator.addGestureRecognizer(tapGesture)
         return navigator
     }()
+    
+    // Image MetaData
+//    lazy var greetingTextField: PostcardGreetingField = {
+//        let greetingTextField = PostcardGreetingField()
+//        greetingTextField.text = "Greetings from Mars!"
+//        return greetingTextField
+//    }()
+    
+
+    
+
     
     lazy var naturalDatePicker: UIPickerView = {
         let naturalDatePicker = UIPickerView()
@@ -113,33 +118,49 @@ class BlueMarbleViewController: UIViewController {
     }
     
     private func getNaturalDates() {
-        BlueMarbleDataManager.fetchDates { (data, error) in
-            DispatchQueue.main.async {
-                guard let dates = data else {
-                    self.presentAlert(description: NetworkingError.noData.localizedDescription, viewController: self)
-                    return
+        let connetionPossible = Reachability.checkReachable()
+        if connetionPossible == true {
+            BlueMarbleDataManager.fetchDates { (data, error) in
+                DispatchQueue.main.async {
+                    guard let dates = data else {
+                        self.presentAlert(description: NetworkingError.noData.localizedDescription, viewController: self)
+                        return
+                    }
+                    for date in dates {
+                        self.allNaturalDates.append(date)
+                    }
+                    print("Dates with images: \(self.allNaturalDates.count)")
+                    self.naturalDatePicker.reloadAllComponents()
+                    self.getPhotosForDate(date: self.allNaturalDates[0].date
+                    )
                 }
-                for date in dates {
-                    self.allNaturalDates.append(date)
-                }
-                print(self.allNaturalDates.count)
-                self.naturalDatePicker.reloadAllComponents()
             }
+        } else {
+            self.presentAlert(description: NetworkingError.noReachability.localizedDescription, viewController: self)
         }
     }
     
-    private func getPhotoForDate(date: String) {
-        BlueMarbleDataManager.fetchPhotos(date: date) { (data, error) in
-            DispatchQueue.main.async {
-                guard let photos = data else {
-                    self.presentAlert(description: NetworkingError.noData.localizedDescription, viewController: self)
-                    return
+    private func getPhotosForDate(date: String) {
+        selectedPhoto = 0
+        let connetionPossible = Reachability.checkReachable()
+        if connetionPossible == true {
+            retrievedPhotos.removeAll() // Make sure array is empty
+            BlueMarbleDataManager.fetchPhotos(date: date) { (data, error) in
+                DispatchQueue.main.async {
+                    guard let photos = data else {
+                        self.presentAlert(description: NetworkingError.noData.localizedDescription, viewController: self)
+                        return
+                    }
+                    for photo in photos {
+                        self.retrievedPhotos.append(photo)
+                    }
+                    print("Photo Data retrieved from API: \(self.retrievedPhotos)")
+                    self.selectedImageView.fetchPhoto(date: BlueMarbleQueryData.userBlueMarbleDataSelection.selectedDate, imageName: self.retrievedPhotos[self.selectedPhoto].image)
                 }
-                for photo in photos {
-                    self.retrievedPhotos.append(photo)
-                }
-                print(self.retrievedPhotos)
             }
+        } else {
+            selectedImageView.image = UIImage(named: .placeholderImage)
+            self.presentAlert(description: NetworkingError.noReachability.localizedDescription, viewController: self)
         }
     }
     
@@ -147,12 +168,28 @@ class BlueMarbleViewController: UIViewController {
         print("Sending Email")
     }
     
-    @objc private func showPreviousSuggestion() {
-        print("Showing Previous Image")
+    @objc private func showPreviousPhoto(sender: LeftNavigator) {
+        if retrievedPhotos.count != 0 {
+            if selectedPhoto == 0 {
+                selectedPhoto = retrievedPhotos.count - 1
+            } else {
+                selectedPhoto -= 1
+            }
+            selectedImageView.fetchPhoto(date: BlueMarbleQueryData.userBlueMarbleDataSelection.selectedDate, imageName: retrievedPhotos[selectedPhoto].image)
+        }
+        print("Showing Previous Image: \(selectedPhoto)/\(retrievedPhotos.count)")
     }
     
-    @objc private func showNextSuggestion() {
-        print("Showing Next Image")
+    @objc private func showNextPhoto(sender: RightNavigator) {
+        if retrievedPhotos.count != 0 {
+            if selectedPhoto != retrievedPhotos.count - 1 {
+                selectedPhoto += 1
+            } else {
+                selectedPhoto = 0
+            }
+            selectedImageView.fetchPhoto(date: BlueMarbleQueryData.userBlueMarbleDataSelection.selectedDate, imageName: retrievedPhotos[selectedPhoto].image)
+        }
+        print("Showing Next Image: \(selectedPhoto)/\(retrievedPhotos.count)")
     }
 }
 
@@ -183,14 +220,8 @@ extension BlueMarbleViewController: UIPickerViewDelegate, UIPickerViewDataSource
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         print("Date selected: \(allNaturalDates[row].date)")
         BlueMarbleQueryData.userBlueMarbleDataSelection.selectedDate = allNaturalDates[row].date
-        getPhotoForDate(date: allNaturalDates[row].date)
-//
-//        if allNaturalDates.count == 0 {
-//            greetingTextField.text = "Retreiving dates..."
-//        } else {
-//            greetingTextField.text = allNaturalDates[row].date
-//            getPhotoForDate()
-//        }
+        print("Querydate stored: \(BlueMarbleQueryData.userBlueMarbleDataSelection.selectedDate)")
+        getPhotosForDate(date: allNaturalDates[row].date)
     }
     
     // MARK: Picker Customization
