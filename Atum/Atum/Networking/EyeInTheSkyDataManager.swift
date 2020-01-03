@@ -16,7 +16,7 @@ class EyeInTheSkyDataManager {
     
     static func fetchPhoto(lat: String, long: String, dim: String, completion: @escaping PhotoCompletionHandler) {
         let url = Endpoint.eyeInTheSky.url()
-        print(url)
+//        print(url)
         
         fetchData(url: url) { (photoData, error) in
             guard let photo = photoData else {

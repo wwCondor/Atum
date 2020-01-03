@@ -29,9 +29,8 @@
 		0BE3815723B53DC000342DA5 /* MenuBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BE3815623B53DC000342DA5 /* MenuBar.swift */; };
 		0BE3815923B60A4500342DA5 /* TextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BE3815823B60A4500342DA5 /* TextField.swift */; };
 		0BE3815B23B6352500342DA5 /* APIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BE3815A23B6352500342DA5 /* APIService.swift */; };
-		0BE3816823B9E1EF00342DA5 /* Photos.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BE3816723B9E1EF00342DA5 /* Photos.swift */; };
+		0BE3816823B9E1EF00342DA5 /* JSONModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BE3816723B9E1EF00342DA5 /* JSONModel.swift */; };
 		0BE3816A23B9E8EE00342DA5 /* MarsRoverDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BE3816923B9E8EE00342DA5 /* MarsRoverDataManager.swift */; };
-		0BE3816E23BA3A3200342DA5 /* BlueMarble.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BE3816D23BA3A3200342DA5 /* BlueMarble.swift */; };
 		0BE3817023BA3BD600342DA5 /* BlueMarbleDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BE3816F23BA3BD600342DA5 /* BlueMarbleDataManager.swift */; };
 		0BE3817223BA3D5600342DA5 /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BE3817123BA3D5600342DA5 /* Result.swift */; };
 		0BE3817423BA43AD00342DA5 /* Rover.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BE3817323BA43AD00342DA5 /* Rover.swift */; };
@@ -80,9 +79,8 @@
 		0BE3815623B53DC000342DA5 /* MenuBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBar.swift; sourceTree = "<group>"; };
 		0BE3815823B60A4500342DA5 /* TextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextField.swift; sourceTree = "<group>"; };
 		0BE3815A23B6352500342DA5 /* APIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIService.swift; sourceTree = "<group>"; };
-		0BE3816723B9E1EF00342DA5 /* Photos.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Photos.swift; sourceTree = "<group>"; };
+		0BE3816723B9E1EF00342DA5 /* JSONModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONModel.swift; sourceTree = "<group>"; };
 		0BE3816923B9E8EE00342DA5 /* MarsRoverDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarsRoverDataManager.swift; sourceTree = "<group>"; };
-		0BE3816D23BA3A3200342DA5 /* BlueMarble.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlueMarble.swift; sourceTree = "<group>"; };
 		0BE3816F23BA3BD600342DA5 /* BlueMarbleDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlueMarbleDataManager.swift; sourceTree = "<group>"; };
 		0BE3817123BA3D5600342DA5 /* Result.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Result.swift; sourceTree = "<group>"; };
 		0BE3817323BA43AD00342DA5 /* Rover.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Rover.swift; sourceTree = "<group>"; };
@@ -206,8 +204,7 @@
 				0BE3814D23B3F5C500342DA5 /* Constant.swift */,
 				0BE3814B23B3F3E100342DA5 /* ModeSelected.swift */,
 				0BE3817323BA43AD00342DA5 /* Rover.swift */,
-				0BE3816723B9E1EF00342DA5 /* Photos.swift */,
-				0BE3816D23BA3A3200342DA5 /* BlueMarble.swift */,
+				0BE3816723B9E1EF00342DA5 /* JSONModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -332,7 +329,7 @@
 				0BE3816A23B9E8EE00342DA5 /* MarsRoverDataManager.swift in Sources */,
 				0BE3813823B2017B00342DA5 /* Color.swift in Sources */,
 				0BE3813E23B2021400342DA5 /* Icon.swift in Sources */,
-				0BE3816823B9E1EF00342DA5 /* Photos.swift in Sources */,
+				0BE3816823B9E1EF00342DA5 /* JSONModel.swift in Sources */,
 				0BE3811223B1FBE300342DA5 /* AppDelegate.swift in Sources */,
 				0BE3817A23BBBE0000342DA5 /* PageViewController.swift in Sources */,
 				0BE3817023BA3BD600342DA5 /* BlueMarbleDataManager.swift in Sources */,
@@ -347,7 +344,6 @@
 				0BE3814023B2036B00342DA5 /* Reachability.swift in Sources */,
 				0BE3818023BBC13C00342DA5 /* BlueMarbleViewController.swift in Sources */,
 				0BE3818523BE34BD00342DA5 /* RetrievedImageView.swift in Sources */,
-				0BE3816E23BA3A3200342DA5 /* BlueMarble.swift in Sources */,
 				0BE3817E23BBC10C00342DA5 /* SkyEyeViewController.swift in Sources */,
 				0BE3811423B1FBE300342DA5 /* SceneDelegate.swift in Sources */,
 				0BE3815323B4C10600342DA5 /* SlideMenuManager.swift in Sources */,

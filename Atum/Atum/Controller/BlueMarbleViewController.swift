@@ -10,7 +10,9 @@ import UIKit
 
 class BlueMarbleViewController: UIViewController {
     
-    var allNaturalDates = [String]()
+    var allNaturalDates: [BlueMarbleDate] = [BlueMarbleDate]()
+    var retrievedPhotos: [BlueMarblePhoto] = [BlueMarblePhoto]()
+    var selectedPhoto: Int = 0
     
     // Selected Image
     lazy var selectedImageView: RetrievedImageView = {
@@ -65,10 +67,10 @@ class BlueMarbleViewController: UIViewController {
         view.backgroundColor = UIColor(named: .appBackgroundColor)
         
         setupView()
+        getNaturalDates()
     }
     
     private func setupView() {
-        // selectedImageContainerView content
         view.addSubview(leftNavigator)
         view.addSubview(selectedImageView)
         view.addSubview(rightNavigator)
@@ -77,11 +79,9 @@ class BlueMarbleViewController: UIViewController {
         
         let viewWidth: CGFloat = view.frame.width
         let selectedImageSize: CGFloat = (3/4)*view.frame.width
-//        let contentPadding: CGFloat = (viewWidth - selectedImageSize) / 2
         
         let navigatorWidth = (viewWidth - selectedImageSize) / 2
         let navigatorHeigth = navigatorWidth * 2
-//        let navigatorOffset: CGFloat = 2
         
         NSLayoutConstraint.activate([
             // Current Selection
@@ -106,16 +106,44 @@ class BlueMarbleViewController: UIViewController {
             startPuzzleButton.topAnchor.constraint(equalTo: selectedImageView.bottomAnchor, constant: Constant.contentPadding),
             
             naturalDatePicker.topAnchor.constraint(equalTo: startPuzzleButton.bottomAnchor, constant: Constant.contentPadding),
-            naturalDatePicker.leadingAnchor.constraint(equalTo: selectedImageView.leadingAnchor),// constant: Constant.contentPadding),
-            naturalDatePicker.trailingAnchor.constraint(equalTo: selectedImageView.trailingAnchor),// constant: -Constant.contentPadding),
+            naturalDatePicker.leadingAnchor.constraint(equalTo: selectedImageView.leadingAnchor),
+            naturalDatePicker.trailingAnchor.constraint(equalTo: selectedImageView.trailingAnchor),
             naturalDatePicker.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -Constant.bottomContentPadding),
         ])
     }
     
+    private func getNaturalDates() {
+        BlueMarbleDataManager.fetchDates { (data, error) in
+            DispatchQueue.main.async {
+                guard let dates = data else {
+                    self.presentAlert(description: NetworkingError.noData.localizedDescription, viewController: self)
+                    return
+                }
+                for date in dates {
+                    self.allNaturalDates.append(date)
+                }
+                print(self.allNaturalDates.count)
+                self.naturalDatePicker.reloadAllComponents()
+            }
+        }
+    }
+    
+    private func getPhotoForDate(date: String) {
+        BlueMarbleDataManager.fetchPhotos(date: date) { (data, error) in
+            DispatchQueue.main.async {
+                guard let photos = data else {
+                    self.presentAlert(description: NetworkingError.noData.localizedDescription, viewController: self)
+                    return
+                }
+                for photo in photos {
+                    self.retrievedPhotos.append(photo)
+                }
+                print(self.retrievedPhotos)
+            }
+        }
+    }
+    
     @objc private func presentMarblePuzzle(tapGestureRecognizer: UITapGestureRecognizer) {
-        //        marblePuzzleController.managedObjectContext = self.managedObjectContext
-        //        newEntryController.resetLabels()
-        //        navigationController?.pushViewController(marblePuzzleController, animated: true)
         print("Sending Email")
     }
     
@@ -130,14 +158,13 @@ class BlueMarbleViewController: UIViewController {
 
 extension BlueMarbleViewController: UIPickerViewDelegate, UIPickerViewDataSource {
     
-    // We have 3 search input parameters for the users: Rover, Camera and Sol
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         if allNaturalDates.count == 0 {
-            return 100
+            return 1
         } else {
             return allNaturalDates.count
         }
@@ -146,19 +173,24 @@ extension BlueMarbleViewController: UIPickerViewDelegate, UIPickerViewDataSource
     // Data being returned for each column
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         if allNaturalDates.count == 0 {
-            return "No dates obtained"
+            return "Retreiving dates..."
         } else {
-            return allNaturalDates[row]
+            return allNaturalDates[row].date
         }
     }
     
-    // This part updates the selected categories
+    // Action after selection
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        if allNaturalDates.count == 0 {
-            greetingTextField.text = "No dates obtained"
-        } else {
-            greetingTextField.text = allNaturalDates[row]
-        }
+        print("Date selected: \(allNaturalDates[row].date)")
+        BlueMarbleQueryData.userBlueMarbleDataSelection.selectedDate = allNaturalDates[row].date
+        getPhotoForDate(date: allNaturalDates[row].date)
+//
+//        if allNaturalDates.count == 0 {
+//            greetingTextField.text = "Retreiving dates..."
+//        } else {
+//            greetingTextField.text = allNaturalDates[row].date
+//            getPhotoForDate()
+//        }
     }
     
     // MARK: Picker Customization
@@ -176,9 +208,9 @@ extension BlueMarbleViewController: UIPickerViewDelegate, UIPickerViewDataSource
         label.font = UIFont.systemFont(ofSize: 15.0, weight: .semibold)
         
         if allNaturalDates.count == 0 {
-            label.text = "No dates obtained"
+            label.text = "Retreiving dates..."
         } else {
-            label.text = allNaturalDates[row]
+            label.text = allNaturalDates[row].date
         }
         
         return label

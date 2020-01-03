@@ -11,7 +11,7 @@ import UIKit
 class RoverViewController: UIViewController {
     
     // used to set one of the limits for the datePicker
-    lazy var currentDate: String = getCurrentDate() // Cou
+    lazy var currentDate: String = getCurrentDate()
     
     private func getCurrentDate() -> String {
         let date = Date()
@@ -28,8 +28,6 @@ class RoverViewController: UIViewController {
     var photos: [RoverPhoto] = [RoverPhoto]()
     var selectedPhoto: Int = 0
     
-//    var retrievedImages: [UIImage] = [UIImage]()
-
     // Selected Image
     lazy var selectedImageView: RetrievedImageView = {
         let image = UIImage(named: .placeholderImage)
@@ -60,13 +58,6 @@ class RoverViewController: UIViewController {
         let dateInfoField = PostcardImageInfoField()
         dateInfoField.text = "\(MarsRoverQueryData.userRoverDataSelections.selectedRoverPhotoDate)"
         return dateInfoField
-    }()
-    
-    lazy var test: UIImageView = {
-        let test = UIImageView()
-        test.translatesAutoresizingMaskIntoConstraints = false
-        test.backgroundColor = UIColor.black
-        return test
     }()
     
     lazy var leftNavigator: LeftNavigator = {
@@ -110,19 +101,8 @@ class RoverViewController: UIViewController {
         roverDatePicker.maximumDate = currentDate
         roverDatePicker.timeZone = NSTimeZone.local
         roverDatePicker.translatesAutoresizingMaskIntoConstraints = false
-        roverDatePicker.date = startDate!
         return roverDatePicker
     }()
-    
-    @objc func dateChanged(datePicker: UIDatePicker) {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd"
-        let dateString = dateFormatter.string(from: datePicker.date)
-        print(dateString)
-        dateInfoField.text = dateString
-        MarsRoverQueryData.userRoverDataSelections.selectedRoverPhotoDate = dateString
-        getRoverPhotos()
-    }
     
     lazy var sendButton: CustomButton = {
         let sendButton = CustomButton(type: .custom)
@@ -141,43 +121,6 @@ class RoverViewController: UIViewController {
         
         setupView()
         getRoverPhotos()
-    }
-    
-    private func getRoverPhotos() {
-        selectedPhoto = 0
-        MarsRoverDataManager.fetchPhotos(date: MarsRoverQueryData.userRoverDataSelections.selectedRoverPhotoDate, camera: MarsRoverQueryData.userRoverDataSelections.selectedRoverCamera.abbreviation) { (photos, error) in
-            DispatchQueue.main.async {
-                guard let photos = photos else {
-                    self.presentAlert(description: NetworkingError.noData.localizedDescription, viewController: self)
-                    return
-                }
-                self.photos = photos
-                self.updateUI()
-                print(self.photos)
-            }
-        }
-    }
-    
-    private func updateUI() {
-        if photos.count != 0 {
-            print(photos.count)
-            setRetrievedImage()
-            greetingTextField.text = PlaceHolderText.postcardDefaultMessage
-        } else {
-            greetingTextField.text = PlaceHolderText.noRoverPhotos
-        }
-    }
-    
-    private func setRetrievedImage() {
-        DispatchQueue.main.async {
-            let connectionPossible = Reachability.checkReachable()
-            if connectionPossible == true {
-                self.selectedImageView.fetchPhoto(from: self.photos[self.selectedPhoto].imgSrc)
-            } else {
-                self.presentAlert(description: NetworkingError
-                    .noReachability.localizedDescription, viewController: self)
-            }
-        }
     }
     
     func setupView() {
@@ -239,7 +182,7 @@ class RoverViewController: UIViewController {
             dateInfoField.leadingAnchor.constraint(equalTo: selectedImageView.leadingAnchor, constant: Constant.textFieldPadding),
             dateInfoField.trailingAnchor.constraint(equalTo: selectedImageView.centerXAnchor),
             dateInfoField.heightAnchor.constraint(equalToConstant: Constant.textFieldHeight),
-            dateInfoField.bottomAnchor.constraint(equalTo: selectedImageView.bottomAnchor, constant: -Constant.textFieldPadding),
+            dateInfoField.bottomAnchor.constraint(equalTo: selectedImageView.bottomAnchor, constant: -2*Constant.textFieldPadding),
             
             // Buttons and Picker
             cameraSelectionButton.topAnchor.constraint(equalTo: selectedImageView.bottomAnchor, constant: Constant.contentPadding),
@@ -259,9 +202,66 @@ class RoverViewController: UIViewController {
         ])
     }
     
-    @objc private func sendPostcard(tapGestureRecognizer: UITapGestureRecognizer) {
-        getRoverPhotos()
-        print("Sending Email")
+    private func getRoverPhotos() {
+        selectedPhoto = 0 // Each API call we reset selectedPhoto
+        MarsRoverDataManager.fetchPhotos(date: MarsRoverQueryData.userRoverDataSelections.selectedRoverPhotoDate, camera: MarsRoverQueryData.userRoverDataSelections.selectedRoverCamera.abbreviation) { (photos, error) in
+            DispatchQueue.main.async {
+                guard let photos = photos else {
+                    self.presentAlert(description: NetworkingError.noData.localizedDescription, viewController: self)
+                    return
+                }
+                self.photos = photos
+                self.updateUI()
+//                print(self.photos) //
+            }
+        }
+    }
+    
+    private func updateUI() {
+        if photos.count != 0 {
+            print(photos.count)
+            setRetrievedImage()
+            greetingTextField.text = PlaceHolderText.postcardDefaultMessage
+        } else {
+            greetingTextField.text = PlaceHolderText.noRoverPhotos
+            selectedImageView.image = UIImage(named: .placeholderImage)
+        }
+    }
+    
+    private func setRetrievedImage() {
+        DispatchQueue.main.async {
+            let connectionPossible = Reachability.checkReachable()
+            if connectionPossible == true {
+                self.selectedImageView.fetchPhoto(from: self.photos[self.selectedPhoto].imgSrc)
+            } else {
+                self.presentAlert(description: NetworkingError
+                    .noReachability.localizedDescription, viewController: self)
+            }
+        }
+    }
+    
+    @objc private func showPreviousPhoto(sender: LeftNavigator) {
+        if photos.count != 0 {
+            if selectedPhoto == 0 {
+                selectedPhoto = photos.count - 1
+            } else {
+                selectedPhoto -= 1
+            }
+            selectedImageView.fetchPhoto(from: photos[selectedPhoto].imgSrc)
+        }
+        print("Showing Previous Image: \(selectedPhoto)")
+    }
+    
+    @objc private func showNextPhoto(sender: RightNavigator) {
+        if photos.count != 0 {
+            if selectedPhoto != photos.count - 1 {
+                selectedPhoto += 1
+            } else {
+                selectedPhoto = 0
+            }
+            selectedImageView.fetchPhoto(from: photos[selectedPhoto].imgSrc)
+        }
+        print("Showing Next Image: \(selectedPhoto)")
     }
     
     @objc private func switchCamera(tapGestureRecognizer: UITapGestureRecognizer) {
@@ -277,29 +277,18 @@ class RoverViewController: UIViewController {
         print("Switching Camera")
     }
     
-    @objc private func showPreviousPhoto(sender: LeftNavigator) {
-        if photos.count != 0 {
-            if selectedPhoto == 0 {
-                selectedPhoto = photos.count - 1
-            } else {
-                selectedPhoto -= 1
-            }
-        }
-        selectedImageView.fetchPhoto(from: photos[selectedPhoto].imgSrc)
-        print("Showing Previous Image: \(selectedPhoto)")
+    @objc func dateChanged(datePicker: UIDatePicker) {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        let dateString = dateFormatter.string(from: datePicker.date)
+        print(dateString)
+        dateInfoField.text = dateString
+        MarsRoverQueryData.userRoverDataSelections.selectedRoverPhotoDate = dateString
+        getRoverPhotos()
     }
     
-    @objc private func showNextPhoto(sender: RightNavigator) {
-        if photos.count != 0 {
-            if selectedPhoto != photos.count - 1 {
-                selectedPhoto += 1
-            } else {
-                selectedPhoto = 0
-            }
-        }
-        selectedImageView.fetchPhoto(from: photos[selectedPhoto].imgSrc)
-        print("Showing Next Image: \(selectedPhoto)")
-
+    @objc private func sendPostcard(tapGestureRecognizer: UITapGestureRecognizer) {
+        getRoverPhotos()
+        print("Sending Email")
     }
-    
 }

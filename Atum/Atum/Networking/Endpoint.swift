@@ -13,11 +13,10 @@ struct APIKey {
 }
 
 enum Endpoint {
-    case marsRover
-    case eyeInTheSky
-    
-    //    case earthImagery
+    case marsRover  // Mars Rover API
+    case eyeInTheSky // Earth (Eye in the Sky) API
     case blueMarbleDates // DSCOVR's Earth Polychromatic Imaging Camera (EPIC)
+    
     case blueMarbleImages
     
     private var baseURL: URL {
@@ -29,11 +28,12 @@ enum Endpoint {
         let camera: String = MarsRoverQueryData.userRoverDataSelections.selectedRoverCamera.abbreviation // Default: FHAZ
         let dateSelected: String = MarsRoverQueryData.userRoverDataSelections.selectedRoverPhotoDate     // Default: Landing Date
         
-        let longitude: String = "100.75"
-        let latitude: String = "1.5"
-        let zoom: String = "0.8"
+        let longitude: String = SkyEyeQueryData.userEyeDataSelections.selectedLocation.longitude         // Default: Mount Everest
+        let latitude: String = SkyEyeQueryData.userEyeDataSelections.selectedLocation.latitude
+        let zoom: String = SkyEyeQueryData.userEyeDataSelections.selectedZoomLevel
         
-         
+        let naturalDateSelected: String = BlueMarbleQueryData.userBlueMarbleDataSelection.selectedDate
+        
         switch self {
         case .marsRover:
             var components = URLComponents(url: baseURL.appendingPathComponent("mars-photos/api/v1/rovers/curiosity/photos"), resolvingAgainstBaseURL: false)
@@ -59,7 +59,7 @@ enum Endpoint {
             ]
             return components!.url!
         case .blueMarbleImages:
-            var components = URLComponents(url: baseURL.appendingPathComponent("EPIC/api/natural/date/\(dateSelected)"), resolvingAgainstBaseURL: false)
+            var components = URLComponents(url: baseURL.appendingPathComponent("EPIC/api/natural/date/\(naturalDateSelected)"), resolvingAgainstBaseURL: false)
             components?.queryItems = [
                 URLQueryItem(name: "api_key",   value: "\(APIKey.key)"),
             ]
@@ -67,7 +67,13 @@ enum Endpoint {
         }
     }
 }
-
+/*
+ https://api.nasa.gov/EPIC/api/natural/all?api_key=DEMO_KEY
+ https://api.nasa.gov/EPIC/api/natural/all?api_key=MKjkqRBKMSLQxBfCIUFcFUxhVjhK3Q3m3HnXVB3w
+ https://api.nasa.gov/planetary/earth/imagery/?lat=-27.1127&lon=-109.3497&dim=0.1&api_key=MKjkqRBKMSLQxBfCIUFcFUxhVjhK3Q3m3HnXVB3w
+ 
+ 
+ */
 /*
  
  https://api.nasa.gov/planetary/earth/imagery?lon=100.75&lat=1.5&api_key=MKjkqRBKMSLQxBfCIUFcFUxhVjhK3Q3m3HnXVB3w

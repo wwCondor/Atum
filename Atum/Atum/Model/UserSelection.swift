@@ -9,14 +9,18 @@
 import Foundation
 
 struct MarsRoverQueryData {
-    // Mars rover selected data
     var selectedRoverCamera: RoverCamera
     var selectedRoverPhotoDate: String
-    static var userRoverDataSelections = MarsRoverQueryData(selectedRoverCamera: RoverCamera.fhaz, selectedRoverPhotoDate: "2015-08-06")
+    static var userRoverDataSelections = MarsRoverQueryData(selectedRoverCamera: RoverCamera.fhaz, selectedRoverPhotoDate: PlaceHolderText.roverInitialDateValue)
 }
 
 struct SkyEyeQueryData {
     var selectedLocation: Location
     var selectedZoomLevel: String
-//    static var userEyeDataSelections = UserEyeSelection(selectedLocation:         , selectedZoomLevel:            )
+    static var userEyeDataSelections = SkyEyeQueryData(selectedLocation: .mountEverest, selectedZoomLevel: PlaceHolderText.initalZoomLevel)
+}
+
+struct BlueMarbleQueryData {
+    var selectedDate: String
+    static var userBlueMarbleDataSelection = BlueMarbleQueryData(selectedDate: "2019-06-27")
 }
