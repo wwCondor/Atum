@@ -140,8 +140,6 @@ Response:
 
 */
 
-
-
 /*
  - make api call for available dates
  - save sated into array
@@ -157,13 +155,6 @@ https://api.nasa.gov/EPIC/api/natural/date/2015-10-31?api_key=DEMO_KEY natural/d
  
 https://api.nasa.gov/EPIC/api/natural/all?api_key=DEMO_KEY // Provides all dates available
 */
-
-
-
-
-
-
-
 
 /*
 https://api.nasa.gov/planetary/apod?api_key=MKjkqRBKMSLQxBfCIUFcFUxhVjhK3Q3m3HnXVB3w

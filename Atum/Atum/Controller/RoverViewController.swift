@@ -10,18 +10,10 @@ import UIKit
 
 class RoverViewController: UIViewController {
     
-    // used to set one of the limits for the datePicker
     lazy var currentDate: String = getCurrentDate()
-    
-    private func getCurrentDate() -> String {
-        let date = Date()
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy.MM.dd"
-        let dateString = formatter.string(from: date)
-        return dateString
-    }
-    
+    let sliderManager = SliderManager()
     let rovers: [Rover] = [Rover.curiosity]
+    
     let cameras: [RoverCamera] = [RoverCamera.fhaz, RoverCamera.rhaz, RoverCamera.mast, RoverCamera.chemcam, RoverCamera.mahli, RoverCamera.mardi, RoverCamera.navcam]
     var selectedCamera: Int = 0
     
@@ -110,7 +102,7 @@ class RoverViewController: UIViewController {
         let inset: CGFloat = Constant.sendButtonIconInset
         sendButton.imageEdgeInsets = UIEdgeInsets(top: inset, left: inset, bottom: inset, right: inset)
         sendButton.setImage(image, for: .normal)
-        sendButton.addTarget(self, action: #selector(sendPostcard(tapGestureRecognizer:)), for: .touchUpInside)
+        sendButton.addTarget(self, action: #selector(presentSlider(tapGestureRecognizer:)), for: .touchUpInside)
         return sendButton
     }()
     
@@ -202,6 +194,14 @@ class RoverViewController: UIViewController {
         ])
     }
     
+    private func getCurrentDate() -> String {
+        let date = Date()
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy.MM.dd"
+        let dateString = formatter.string(from: date)
+        return dateString
+    }
+    
     private func getRoverPhotos() {
         selectedPhoto = 0 // Each API call we reset selectedPhoto
         MarsRoverDataManager.fetchPhotos(date: MarsRoverQueryData.userRoverDataSelections.selectedRoverPhotoDate, camera: MarsRoverQueryData.userRoverDataSelections.selectedRoverCamera.abbreviation) { (photos, error) in
@@ -224,7 +224,7 @@ class RoverViewController: UIViewController {
             greetingTextField.text = PlaceHolderText.postcardDefaultMessage
         } else {
             greetingTextField.text = PlaceHolderText.noRoverPhotos
-            selectedImageView.image = UIImage(named: .placeholderImage)
+            selectedImageView.image = UIImage(named: .placeholderImage)?.croppedToSquare(size: Constant.croppedSquareSize)
         }
     }
     
@@ -287,8 +287,9 @@ class RoverViewController: UIViewController {
         getRoverPhotos()
     }
     
-    @objc private func sendPostcard(tapGestureRecognizer: UITapGestureRecognizer) {
-        getRoverPhotos()
+    @objc private func presentSlider(tapGestureRecognizer: UITapGestureRecognizer) {
+        sliderManager.presentSlider()
+        sliderManager.selectedImage = selectedImageView.image
         print("Sending Email")
     }
 }

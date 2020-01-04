@@ -40,5 +40,4 @@ extension UIImage.Name {
     static let sendIcon              = UIImage.Name(name: "SendIcon")
     
     static let placeholderImage      = UIImage.Name(name: "PlaceholderImage")
-    
 }

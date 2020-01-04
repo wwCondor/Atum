@@ -27,7 +27,6 @@ class AtumTests: XCTestCase {
     
     // MARK: URL Tests
     func testRoverPhotoUrl() {
-//        let hypothesis = expectation(description: "Test if constructed URL matches expected URL")
         let roverCamera: RoverCamera = .fhaz
         MarsRoverQueryData.userRoverDataSelections.selectedRoverCamera = roverCamera
         MarsRoverQueryData.userRoverDataSelections.selectedRoverPhotoDate = "2015-08-06"
@@ -82,7 +81,6 @@ class AtumTests: XCTestCase {
             responseError = error
             expectation.fulfill()
         }.resume()
-        
         waitForExpectations(timeout: 5, handler: nil)
         XCTAssertNil(responseError, "Status code != 200")
         XCTAssertEqual(statusCode, 200)
@@ -141,7 +139,6 @@ class AtumTests: XCTestCase {
             allDates = dates
             expectation.fulfill()
         }
-        
         waitForExpectations(timeout: 5, handler: nil)
         XCTAssertNil(responseError, "Error")
         XCTAssertNotNil(allDates)
@@ -160,7 +157,6 @@ class AtumTests: XCTestCase {
             allPotosData = photos
             expectation.fulfill()
         }
-        
         waitForExpectations(timeout: 5, handler: nil)
         XCTAssertNil(responseError, "Error")
         XCTAssertNotNil(allPotosData)
@@ -172,5 +168,4 @@ class AtumTests: XCTestCase {
             // Put the code you want to measure the time of here.
         }
     }
-
 }

@@ -57,7 +57,6 @@ class BlueMarbleDataManager {
         task.resume()
     }
     
-    
     // Blue Marble Dates
     typealias DatesCompletionHandler = ([BlueMarbleDate]?, Error?) -> Void
 
@@ -104,5 +103,3 @@ class BlueMarbleDataManager {
         task.resume()
     }
 }
-
-

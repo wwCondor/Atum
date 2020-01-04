@@ -54,6 +54,28 @@ class PostcardGreetingField: CustomTextField {
     }
 }
 
+class EmailInputField: CustomTextField {
+    override func additionalSettings() {
+        autocapitalizationType = UITextAutocapitalizationType.none
+        textColor = UIColor(named: .textTintColor)
+        backgroundColor = UIColor(named: .appBackgroundColor)
+        layer.masksToBounds = true
+        layer.cornerRadius = Constant.smallCornerRadius
+        isUserInteractionEnabled = true
+        font = UIFont.systemFont(ofSize: 13.0, weight: .medium)
+        textAlignment = .left
+//        attributedPlaceholder = NSAttributedString(string: "placeholder text", attributes: [NSAttributedString.Key.foregroundColor: UIColor(named: .textTintColor)!]) // Handles placeholder text color
+    }
+    
+    override func textRect(forBounds bounds: CGRect) -> CGRect {
+        return bounds.insetBy(dx: Constant.textXInset, dy: 0)
+    }
+    
+    override func editingRect(forBounds bounds: CGRect) -> CGRect {
+        return bounds.insetBy(dx: Constant.textXInset, dy: 0)
+    }
+}
+
 class PostcardImageInfoField: CustomTextField {
     override func additionalSettings() {
         backgroundColor = UIColor.clear

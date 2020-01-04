@@ -23,7 +23,7 @@
 		0BE3814223B2330400342DA5 /* Endpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BE3814123B2330400342DA5 /* Endpoint.swift */; };
 		0BE3814A23B3EC4B00342DA5 /* CustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BE3814923B3EC4B00342DA5 /* CustomButton.swift */; };
 		0BE3814E23B3F5C500342DA5 /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BE3814D23B3F5C500342DA5 /* Constant.swift */; };
-		0BE3815323B4C10600342DA5 /* SlideMenuManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BE3815223B4C10600342DA5 /* SlideMenuManager.swift */; };
+		0BE3815323B4C10600342DA5 /* SliderManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BE3815223B4C10600342DA5 /* SliderManager.swift */; };
 		0BE3815523B4F46B00342DA5 /* NavigationButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BE3815423B4F46B00342DA5 /* NavigationButton.swift */; };
 		0BE3815723B53DC000342DA5 /* MenuBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BE3815623B53DC000342DA5 /* MenuBar.swift */; };
 		0BE3815923B60A4500342DA5 /* TextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BE3815823B60A4500342DA5 /* TextField.swift */; };
@@ -70,7 +70,7 @@
 		0BE3814123B2330400342DA5 /* Endpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Endpoint.swift; sourceTree = "<group>"; };
 		0BE3814923B3EC4B00342DA5 /* CustomButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomButton.swift; sourceTree = "<group>"; };
 		0BE3814D23B3F5C500342DA5 /* Constant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constant.swift; sourceTree = "<group>"; };
-		0BE3815223B4C10600342DA5 /* SlideMenuManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlideMenuManager.swift; sourceTree = "<group>"; };
+		0BE3815223B4C10600342DA5 /* SliderManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SliderManager.swift; sourceTree = "<group>"; };
 		0BE3815423B4F46B00342DA5 /* NavigationButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationButton.swift; sourceTree = "<group>"; };
 		0BE3815623B53DC000342DA5 /* MenuBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBar.swift; sourceTree = "<group>"; };
 		0BE3815823B60A4500342DA5 /* TextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextField.swift; sourceTree = "<group>"; };
@@ -169,6 +169,7 @@
 				0BE3817B23BBC08600342DA5 /* RoverViewController.swift */,
 				0BE3817D23BBC10C00342DA5 /* SkyEyeViewController.swift */,
 				0BE3817F23BBC13C00342DA5 /* BlueMarbleViewController.swift */,
+				0BE3815223B4C10600342DA5 /* SliderManager.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -203,7 +204,6 @@
 		0BE3815C23B63B6F00342DA5 /* Delete? */ = {
 			isa = PBXGroup;
 			children = (
-				0BE3815223B4C10600342DA5 /* SlideMenuManager.swift */,
 			);
 			path = "Delete?";
 			sourceTree = "<group>";
@@ -334,7 +334,7 @@
 				0BE3818523BE34BD00342DA5 /* RetrievedImageView.swift in Sources */,
 				0BE3817E23BBC10C00342DA5 /* SkyEyeViewController.swift in Sources */,
 				0BE3811423B1FBE300342DA5 /* SceneDelegate.swift in Sources */,
-				0BE3815323B4C10600342DA5 /* SlideMenuManager.swift in Sources */,
+				0BE3815323B4C10600342DA5 /* SliderManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -504,7 +504,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.wouterwillebrands.Atum;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -522,7 +522,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.wouterwillebrands.Atum;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

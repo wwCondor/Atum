@@ -10,6 +10,8 @@ import UIKit
 
 class BlueMarbleViewController: UIViewController {
     
+    let sliderManager = SliderManager()
+    
     var allNaturalDates: [BlueMarbleDate] = [BlueMarbleDate]()
     var retrievedPhotos: [BlueMarblePhoto] = [BlueMarblePhoto]()
     var imagesForDate: [UIImage] = [UIImage]() // Not used yet
@@ -52,14 +54,14 @@ class BlueMarbleViewController: UIViewController {
         return naturalDatePicker
     }()
     
-    lazy var startPuzzleButton: CustomButton = {
-        let startPuzzleButton = CustomButton(type: .custom)
+    lazy var sendButton: CustomButton = {
+        let sendButton = CustomButton(type: .custom)
         let image = UIImage(named: .sendIcon)?.withRenderingMode(.alwaysTemplate)
         let inset: CGFloat = Constant.sendButtonIconInset
-        startPuzzleButton.imageEdgeInsets = UIEdgeInsets(top: inset, left: inset, bottom: inset, right: inset)
-        startPuzzleButton.setImage(image, for: .normal)
-        startPuzzleButton.addTarget(self, action: #selector(presentMarblePuzzle(tapGestureRecognizer:)), for: .touchUpInside)
-        return startPuzzleButton
+        sendButton.imageEdgeInsets = UIEdgeInsets(top: inset, left: inset, bottom: inset, right: inset)
+        sendButton.setImage(image, for: .normal)
+        sendButton.addTarget(self, action: #selector(presentSlider(tapGestureRecognizer:)), for: .touchUpInside)
+        return sendButton
     }()
     
     override func viewDidLoad() {
@@ -75,7 +77,7 @@ class BlueMarbleViewController: UIViewController {
         view.addSubview(leftNavigator)
         view.addSubview(selectedImageView)
         view.addSubview(rightNavigator)
-        view.addSubview(startPuzzleButton)
+        view.addSubview(sendButton)
         view.addSubview(naturalDatePicker)
         
         let viewWidth: CGFloat = view.frame.width
@@ -100,16 +102,16 @@ class BlueMarbleViewController: UIViewController {
             rightNavigator.widthAnchor.constraint(equalToConstant: navigatorWidth),
             rightNavigator.heightAnchor.constraint(equalToConstant: navigatorHeigth),
             
-            // Not used atm
-            startPuzzleButton.widthAnchor.constraint(equalToConstant: Constant.sendButtonSize),
-            startPuzzleButton.heightAnchor.constraint(equalToConstant: Constant.sendButtonSize),
-            startPuzzleButton.centerXAnchor.constraint(equalTo: selectedImageView.centerXAnchor),
-            startPuzzleButton.topAnchor.constraint(equalTo: selectedImageView.bottomAnchor, constant: Constant.contentPadding),
-            
-            naturalDatePicker.topAnchor.constraint(equalTo: startPuzzleButton.bottomAnchor, constant: Constant.contentPadding),
+            naturalDatePicker.topAnchor.constraint(equalTo: selectedImageView.bottomAnchor, constant: Constant.contentPadding),
             naturalDatePicker.leadingAnchor.constraint(equalTo: selectedImageView.leadingAnchor),
             naturalDatePicker.trailingAnchor.constraint(equalTo: selectedImageView.trailingAnchor),
-            naturalDatePicker.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -Constant.bottomContentPadding),
+            naturalDatePicker.bottomAnchor.constraint(equalTo: sendButton.topAnchor, constant: -Constant.contentPadding),
+            
+            // Not used atm
+            sendButton.widthAnchor.constraint(equalToConstant: Constant.sendButtonSize),
+            sendButton.heightAnchor.constraint(equalToConstant: Constant.sendButtonSize),
+            sendButton.centerXAnchor.constraint(equalTo: selectedImageView.centerXAnchor),
+            sendButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -Constant.bottomContentPadding),
         ])
     }
     
@@ -160,8 +162,8 @@ class BlueMarbleViewController: UIViewController {
         }
     }
     
-    // Not used atm
-    @objc private func presentMarblePuzzle(tapGestureRecognizer: UITapGestureRecognizer) {
+    @objc private func presentSlider(tapGestureRecognizer: UITapGestureRecognizer) {
+        sliderManager.presentSlider()
         print("Sending Email")
     }
     
@@ -240,7 +242,6 @@ extension BlueMarbleViewController: UIPickerViewDelegate, UIPickerViewDataSource
         } else {
             label.text = allNaturalDates[row].date
         }
-        
         return label
     }
 }

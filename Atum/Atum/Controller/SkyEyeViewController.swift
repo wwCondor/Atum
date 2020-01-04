@@ -12,7 +12,7 @@ class SkyEyeViewController: UIViewController {
     
 //    var zoomWidthAndHeightInDegrees: Float = 0.100 // 0.1 degrees = 11 km
     
-    let selectableLocations: [Location] = [.mountEverest, .edinBurghCastle, .pyramidOfGiza, .eiffelTower, .colosseum, .christTheRedeemer, .chichenItza, .tajMahal, .machuPichu, .towerOfPisa, .chineseWall, .uluru, .grandCanyon, .paricutin, .oukaimeden, .northernLight, .victoriaFalls]
+    let selectableLocations: [Location] = [.mountEverest, .edinBurghCastle, .pyramidOfGiza, .eiffelTower, .colosseum, .christTheRedeemer, .chichenItza, .machuPichu, .towerOfPisa, .chineseWall, .uluru, .grandCanyon, .paricutin, .oukaimeden, .northernLight, .victoriaFalls]
     
     lazy var selectedImageView: RetrievedImageView = {
         let image = UIImage(named: .placeholderImage)
@@ -208,5 +208,3 @@ extension SkyEyeViewController: UIPickerViewDelegate, UIPickerViewDataSource {
         return label
     }
 }
-
-

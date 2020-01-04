@@ -9,16 +9,22 @@
 import UIKit
 
 // MARK: Keyboard
-extension UIViewController {
-    // Hides keyboard when view is tapped
+extension NSObject {
+    // Hides keyboard when window is tapped
     func hideKeyboardOnBackgroundTap() {
-        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(UIViewController.dismissKeyboard))
-        tap.cancelsTouchesInView = false
-        view.addGestureRecognizer(tap)
+        let window = UIApplication.shared.windows.first { $0.isKeyWindow }
+        if let window = window {
+            let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(UIViewController.dismissKeyboard))
+            tap.cancelsTouchesInView = false
+            window.addGestureRecognizer(tap)
+        }
     }
 
     @objc func dismissKeyboard() {
-        view.endEditing(true)
+        let window = UIApplication.shared.windows.first { $0.isKeyWindow }
+        if let window = window {
+            window.endEditing(true)
+        }
     }
 }
 
@@ -61,17 +67,17 @@ extension UIImage {
 //    }
 //}
 
-extension UIButton{
-    public func roundButtonCorners(corners: UIRectCorner, radius: CGFloat){
-        let maskPath1 = UIBezierPath(roundedRect: bounds,
-            byRoundingCorners: [corners],
-            cornerRadii: CGSize(width: radius, height: radius))
-        let maskLayer1 = CAShapeLayer()
-        maskLayer1.frame = bounds
-        maskLayer1.path = maskPath1.cgPath
-        layer.mask = maskLayer1
-    }
-}
+//extension UIButton{
+//    public func roundButtonCorners(corners: UIRectCorner, radius: CGFloat){
+//        let maskPath1 = UIBezierPath(roundedRect: bounds,
+//            byRoundingCorners: [corners],
+//            cornerRadii: CGSize(width: radius, height: radius))
+//        let maskLayer1 = CAShapeLayer()
+//        maskLayer1.frame = bounds
+//        maskLayer1.path = maskPath1.cgPath
+//        layer.mask = maskLayer1
+//    }
+//}
 
 extension JSONDecoder {
     static var dataDecoder: JSONDecoder {
@@ -101,7 +107,7 @@ extension UIImageView {
                     guard let image = UIImage(data: data) else {
                         return
                     }
-                    self.image = image
+                    self.image = image.croppedToSquare(size: Constant.croppedSquareSize)
                 } else {
                     print("Status Code: \(httpResponse.statusCode)")
                 }
@@ -137,11 +143,46 @@ extension UIImageView {
                     guard let image = UIImage(data: data) else {
                         return
                     }
-                    self.image = image
+                    self.image = image.croppedToSquare(size: Constant.croppedSquareSize)
                 } else {
                     print("Status Code: \(httpResponse.statusCode)")
                 }
             }
         }.resume()
+    }
+}
+
+extension UIImage {
+    func croppedToSquare(size: Double) -> UIImage {
+        let cgImage = self.cgImage!
+        let contextImage: UIImage = UIImage(cgImage: cgImage)
+        let contextSize: CGSize = contextImage.size
+        var posX: CGFloat = 0.0
+        var posY: CGFloat = 0.0
+        var cgWidth: CGFloat = CGFloat(size)
+        var cgHeight: CGFloat = CGFloat(size)
+
+        // See what size is longer and create the center of that
+        if contextSize.width > contextSize.height {
+            posX = ((contextSize.width - contextSize.height) / 2)
+            posY = 0
+            cgWidth = contextSize.height
+            cgHeight = contextSize.height
+        } else {
+            posX = 0
+            posY = ((contextSize.height - contextSize.width) / 2)
+            cgWidth = contextSize.width
+            cgHeight = contextSize.width
+        }
+
+        let rect: CGRect = CGRect(x: posX, y: posY, width: cgWidth, height: cgHeight)
+
+        // Create bitmap image from context using the rect
+        let imageRef: CGImage = cgImage.cropping(to: rect)!
+
+        // Create a new image based on the imageRef and rotate back to the original orientation
+        let image: UIImage = UIImage(cgImage: imageRef, scale: self.scale, orientation: self.imageOrientation)
+
+        return image
     }
 }
