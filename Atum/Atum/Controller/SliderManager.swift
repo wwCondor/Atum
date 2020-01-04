@@ -36,6 +36,8 @@ class SliderManager: NSObject {
         let sliderView = UIView()
         sliderView.translatesAutoresizingMaskIntoConstraints = false
         sliderView.backgroundColor = UIColor(named: .objectColor)
+        sliderView.layer.masksToBounds = true
+        sliderView.addBorders(edges: [.top], color: UIColor(named: .objectBorderColor)!)
         let swipeGesture = UISwipeGestureRecognizer(target: self, action: #selector(dismissSlider(sender:)))
         swipeGesture.direction = .down
         sliderView.addGestureRecognizer(swipeGesture)

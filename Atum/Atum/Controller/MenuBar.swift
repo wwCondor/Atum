@@ -31,7 +31,6 @@ class MenuBar: UIView {
         let horizontalSliderBar = UIView()
         horizontalSliderBar.backgroundColor = UIColor(named: .iconSliderColor)
         horizontalSliderBar.translatesAutoresizingMaskIntoConstraints = false
-        
         return horizontalSliderBar
     }()
     

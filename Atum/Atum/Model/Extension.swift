@@ -59,7 +59,8 @@ extension UIImage {
 
 //extension UIView {
 //    // Used to make specific corners round
-//    public func roundViewCorners(corners: UIRectCorner, radius: CGFloat) {
+//    public func roundCorners(corners: UIRectCorner) {//}, radius: CGFloat) {
+//        let radius = Constant.smallCornerRadius
 //        let path = UIBezierPath(roundedRect: bounds, byRoundingCorners: corners, cornerRadii: CGSize(width: radius, height: radius))
 //        let mask = CAShapeLayer()
 //        mask.path = path.cgPath
@@ -67,17 +68,50 @@ extension UIImage {
 //    }
 //}
 
-//extension UIButton{
-//    public func roundButtonCorners(corners: UIRectCorner, radius: CGFloat){
-//        let maskPath1 = UIBezierPath(roundedRect: bounds,
-//            byRoundingCorners: [corners],
-//            cornerRadii: CGSize(width: radius, height: radius))
-//        let maskLayer1 = CAShapeLayer()
-//        maskLayer1.frame = bounds
-//        maskLayer1.path = maskPath1.cgPath
-//        layer.mask = maskLayer1
-//    }
-//}
+extension UIView {
+    // Used to apply border(s) for views at the indicated sides
+    @discardableResult
+    func addBorders(edges: UIRectEdge,
+                    color: UIColor,
+                    inset: CGFloat = 0.0,
+                    thickness: CGFloat = Constant.sliderBorderWidth) -> [UIView] {
+
+        var borders = [UIView]()
+
+        @discardableResult
+        func addBorder(formats: String...) -> UIView {
+            let border = UIView(frame: .zero)
+            border.backgroundColor = color
+            border.translatesAutoresizingMaskIntoConstraints = false
+            addSubview(border)
+            addConstraints(formats.flatMap {
+                NSLayoutConstraint.constraints(withVisualFormat: $0,
+                                               options: [],
+                                               metrics: ["inset": inset, "thickness": thickness],
+                                               views: ["border": border]) })
+            borders.append(border)
+            return border
+        }
+
+        if edges.contains(.top) || edges.contains(.all) {
+            addBorder(formats: "V:|-0-[border(==thickness)]", "H:|-inset-[border]-inset-|")
+        }
+
+        if edges.contains(.bottom) || edges.contains(.all) {
+            addBorder(formats: "V:[border(==thickness)]-0-|", "H:|-inset-[border]-inset-|")
+        }
+
+        if edges.contains(.left) || edges.contains(.all) {
+            addBorder(formats: "V:|-inset-[border]-inset-|", "H:|-0-[border(==thickness)]")
+        }
+
+        if edges.contains(.right) || edges.contains(.all) {
+            addBorder(formats: "V:|-inset-[border]-inset-|", "H:[border(==thickness)]-0-|")
+        }
+
+        return borders
+    }
+}
 
 extension JSONDecoder {
     static var dataDecoder: JSONDecoder {

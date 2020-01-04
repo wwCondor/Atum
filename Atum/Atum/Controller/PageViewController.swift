@@ -33,6 +33,7 @@ class PageViewController: UIPageViewController {
     
     lazy var menuBar: MenuBar = {
         let menuBar = MenuBar()
+        menuBar.addBorders(edges: [.top], color: UIColor(named: .objectBorderColor)!)
         menuBar.pageViewController = self // creates reference inside menuBar
         return menuBar
     }()
@@ -78,6 +79,7 @@ class PageViewController: UIPageViewController {
         let logoImageHeight = navigationController!.navigationBar.frame.size.height
         logoImageView.frame = CGRect(x: 0, y: 0, width: logoImageViewWidth, height: logoImageHeight)
         navigationItem.titleView = logoImageView
+        navigationController?.navigationBar.addBorders(edges: [.bottom], color: UIColor(named: .objectBorderColor)!)
     }
     
     private func getViewController(withIdentifier identifier: String) -> UIViewController {

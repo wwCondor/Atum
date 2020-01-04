@@ -12,11 +12,13 @@ class CustomButton: UIButton {
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupButton()
+        additionalSetup()
     }
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         setupButton()
+        additionalSetup()
     }
     
     func setupButton() {
@@ -26,9 +28,19 @@ class CustomButton: UIButton {
         imageView?.tintColor = UIColor(named: .iconColor)
         adjustsImageWhenHighlighted = false
         translatesAutoresizingMaskIntoConstraints = false
+    }
+    
+    func additionalSetup() {
         layer.masksToBounds = true
         layer.cornerRadius = Constant.smallCornerRadius
         layer.borderColor = UIColor(named: .objectBorderColor)?.cgColor
         layer.borderWidth = Constant.sendButtonBorderWidth
     }
 }
+
+class SendEmailButton: CustomButton {
+    override func additionalSetup() {
+        
+    }
+}
+
