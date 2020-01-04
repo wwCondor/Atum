@@ -8,14 +8,26 @@
 
 import UIKit
 
-class SliderManager: NSObject {
+enum ModeSelected {
+    case marsRoverMode
+    case blueMarbleMode
+}
+
+class SliderMenuManager: NSObject {
     
-    var selectedImage: UIImage?
-        
+    var modeSelected: ModeSelected = .marsRoverMode
+            
     lazy var selectedImageView: RetrievedImageView = {
-        let image = UIImage(named: .placeholderImage)
+        var image = UIImage(named: .placeholderImage)
         let selectedImageView = RetrievedImageView(image: image)
         return selectedImageView
+    }()
+    
+    lazy var greetingTextField: PostcardGreetingField = {
+        let greetingTextField = PostcardGreetingField()
+        greetingTextField.text = PlaceHolderText.postcardDefaultMessage
+        greetingTextField.backgroundColor = UIColor.clear
+        return greetingTextField
     }()
     
     lazy var emailInputField: EmailInputField = {
@@ -55,18 +67,19 @@ class SliderManager: NSObject {
     override init() {
         super.init()
         emailInputField.delegate = self
+        greetingTextField.delegate = self
     }
     
-    private func setImage() {
-        if selectedImage != nil {
-            selectedImageView.image = selectedImage
-        } else {
-            selectedImageView.image = UIImage(named: .placeholderImage)
+    private func updateUIForSelectedMode() {
+        if modeSelected == .marsRoverMode {
+            greetingTextField.isHidden = false
+        } else if modeSelected == .blueMarbleMode {
+            greetingTextField.isHidden = true
         }
     }
 
     func presentSlider() {
-        setImage()
+        updateUIForSelectedMode()
         hideKeyboardOnBackgroundTap()
 
         let window = UIApplication.shared.windows.first { $0.isKeyWindow }
@@ -77,6 +90,7 @@ class SliderManager: NSObject {
             window.addSubview(emailInputField)
             window.addSubview(sendButton)
             window.addSubview(selectedImageView)
+            window.addSubview(greetingTextField)
             
             fadeView.frame = window.frame
             
@@ -86,7 +100,7 @@ class SliderManager: NSObject {
             NSLayoutConstraint.activate([
                 sliderView.leadingAnchor.constraint(equalTo: window.leadingAnchor),
                 sliderView.trailingAnchor.constraint(equalTo: window.trailingAnchor),
-                sliderView.topAnchor.constraint(equalTo: window.centerYAnchor), //constant: -window.frame.height/4),
+                sliderView.topAnchor.constraint(equalTo: window.centerYAnchor, constant: -window.frame.height/4),
                 sliderView.bottomAnchor.constraint(equalTo: window.bottomAnchor),
                 
                 emailInputField.topAnchor.constraint(equalTo: sliderView.topAnchor, constant: Constant.contentPadding),
@@ -103,6 +117,11 @@ class SliderManager: NSObject {
                 selectedImageView.widthAnchor.constraint(equalToConstant: contentSize),
                 selectedImageView.heightAnchor.constraint(equalToConstant: contentSize),
                 selectedImageView.centerXAnchor.constraint(equalTo: window.centerXAnchor),
+                
+                greetingTextField.leadingAnchor.constraint(equalTo: selectedImageView.leadingAnchor, constant: Constant.contentSidePadding),
+                greetingTextField.trailingAnchor.constraint(equalTo: selectedImageView.trailingAnchor, constant: -Constant.contentSidePadding),
+                greetingTextField.centerYAnchor.constraint(equalTo: selectedImageView.centerYAnchor),
+                greetingTextField.heightAnchor.constraint(equalToConstant: Constant.textFieldHeight),
             ])
 
             UIView.animate(
@@ -115,6 +134,7 @@ class SliderManager: NSObject {
                     self.emailInputField.center.y -= windowHeight
                     self.sendButton.center.y -= windowHeight
                     self.selectedImageView.center.y -= windowHeight
+                    self.greetingTextField.center.y -= windowHeight
             },
                 completion: nil)
         }
@@ -131,6 +151,8 @@ class SliderManager: NSObject {
                 self.emailInputField.center.y += self.sliderView.bounds.height
                 self.sendButton.center.y += self.sliderView.bounds.height
                 self.selectedImageView.center.y += self.sliderView.bounds.height
+                self.greetingTextField.center.y += self.sliderView.bounds.height
+
         },
             completion: { _ in
                 self.fadeView.removeFromSuperview()
@@ -138,6 +160,7 @@ class SliderManager: NSObject {
                 self.emailInputField.removeFromSuperview()
                 self.sendButton.removeFromSuperview()
                 self.selectedImageView.removeFromSuperview()
+                self.greetingTextField.removeFromSuperview()
         })
     }
     
@@ -169,7 +192,7 @@ class SliderManager: NSObject {
     }
 }
 
-extension SliderManager: UITextFieldDelegate {
+extension SliderMenuManager: UITextFieldDelegate {
     func textFieldDidBeginEditing(_ textField: UITextField) {
         textField.becomeFirstResponder() // show Keyboard when user taps textField
         // If current text is placeholder text, reset it to ""
@@ -179,16 +202,31 @@ extension SliderManager: UITextFieldDelegate {
             if text == PlaceHolderText.enterEmail {
                 emailInputField.text = ""
             }
+        case greetingTextField:
+            if text == PlaceHolderText.postcardDefaultMessage {
+                greetingTextField.text = ""
+            }
         default: break
         }
     }
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        // Makes sure all input is lowercase
-        if let _ = string.rangeOfCharacter(from: .uppercaseLetters) {
-            return false
+        let maxCharacters = 25
+        
+        switch textField {
+        case emailInputField:
+            // Makes sure all input is lowercase
+            if let _ = string.rangeOfCharacter(from: .uppercaseLetters) {
+                return false
+            }
+        case greetingTextField:
+            let currentString = greetingTextField.text! as NSString
+            let newString: NSString = currentString.replacingCharacters(in: range, with: string) as NSString
+            return newString.length <= maxCharacters
+        default:
+            return true // Allows backspace
         }
-        return true
+        return false
     }
 
     func textFieldDidEndEditing(_ textField: UITextField) {
@@ -200,6 +238,10 @@ extension SliderManager: UITextFieldDelegate {
             if input.isEmpty {
                 emailInputField.text = PlaceHolderText.enterEmail
             }
+//        case greetingTextField:
+//            if input.isEmpty {
+//                greetingTextField.text = PlaceHolderText.postcardDefaultMessage
+//            }
         default:
             break
         }

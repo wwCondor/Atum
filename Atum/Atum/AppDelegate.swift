@@ -52,5 +52,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         - No runtime issues identified
     2. Memory Management:
         - Enabled Malloc Stack for Live Allocations showed no issues
+    3. Image Loading Time:
+        - The loading time for the images took considerable time.
+            Fix 1: The API call retrieving the BlueMarblePhotos has been switched from .png to a .jpg query.
+            Fix 2: The images retrieved from various endpoints are reduced to a smaller size before loaded into the UIImageViews.
  
  */

@@ -10,7 +10,7 @@ import UIKit
 
 class BlueMarbleViewController: UIViewController {
     
-    let sliderManager = SliderManager()
+    let sliderMenuManager = SliderMenuManager()
     
     var allNaturalDates: [BlueMarbleDate] = [BlueMarbleDate]()
     var retrievedPhotos: [BlueMarblePhoto] = [BlueMarblePhoto]()
@@ -163,8 +163,14 @@ class BlueMarbleViewController: UIViewController {
     }
     
     @objc private func presentSlider(tapGestureRecognizer: UITapGestureRecognizer) {
-        sliderManager.presentSlider()
-        print("Sending Email")
+        if selectedImageView.image == UIImage(named: .placeholderImage) {
+            presentAlert(description: NetworkingError.noImage.localizedDescription, viewController: self)
+        } else {
+            sliderMenuManager.selectedImageView.image = self.selectedImageView.image
+            sliderMenuManager.modeSelected = .blueMarbleMode
+            sliderMenuManager.presentSlider()
+            print("Presenting Slider Menu")
+        }
     }
     
     @objc private func showPreviousPhoto(sender: LeftNavigator) {

@@ -19,6 +19,7 @@ enum NetworkingError: Error {
     case invalidUrl
     case missingKey
     case noReachability
+    case noImage
 }
 
 extension NetworkingError: LocalizedError {
@@ -34,6 +35,7 @@ extension NetworkingError: LocalizedError {
         case .invalidUrl:            return "Invalid URL"
         case .missingKey:            return "Please set your key in APIkey.swift"
         case .noReachability:        return "Check connection and try again"
+        case .noImage:               return "Please wait until image has finished loading try again"
         }
     }
 }

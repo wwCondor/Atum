@@ -11,7 +11,7 @@ import UIKit
 class RoverViewController: UIViewController {
     
     lazy var currentDate: String = getCurrentDate()
-    let sliderManager = SliderManager()
+    let sliderMenuManager = SliderMenuManager()
     let rovers: [Rover] = [Rover.curiosity]
     
     let cameras: [RoverCamera] = [RoverCamera.fhaz, RoverCamera.rhaz, RoverCamera.mast, RoverCamera.chemcam, RoverCamera.mahli, RoverCamera.mardi, RoverCamera.navcam]
@@ -109,6 +109,7 @@ class RoverViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        greetingTextField.delegate = self
         view.backgroundColor = UIColor(named: .appBackgroundColor)
         
         setupView()
@@ -136,7 +137,6 @@ class RoverViewController: UIViewController {
 //        let contentSidePadding = (viewWidth - selectedImageSize) / 2
         let navigatorWidth = (viewWidth - selectedImageSize) / 2
         let navigatorHeigth = navigatorWidth * 2
-//        let navigatorOffset: CGFloat = 2
         
         NSLayoutConstraint.activate([
             // Current Selection
@@ -288,8 +288,61 @@ class RoverViewController: UIViewController {
     }
     
     @objc private func presentSlider(tapGestureRecognizer: UITapGestureRecognizer) {
-        sliderManager.presentSlider()
-        sliderManager.selectedImage = selectedImageView.image
-        print("Sending Email")
+        if selectedImageView.image == UIImage(named: .placeholderImage) {
+            presentAlert(description: NetworkingError.noImage.localizedDescription, viewController: self)
+        } else {
+            sliderMenuManager.selectedImageView.image = self.selectedImageView.image
+            sliderMenuManager.greetingTextField.text = self.greetingTextField.text
+            sliderMenuManager.modeSelected = .marsRoverMode
+            sliderMenuManager.presentSlider()
+            print("Presenting Slider Menu")
+        }
     }
 }
+
+extension RoverViewController: UITextFieldDelegate {
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        textField.becomeFirstResponder() // show Keyboard when user taps textField
+        // If current text is placeholder text, reset it to ""
+        guard let text = textField.text else { return }
+        switch textField {
+        case greetingTextField:
+            if text == PlaceHolderText.postcardDefaultMessage {
+                greetingTextField.text = ""
+            }
+        default: break
+        }
+    }
+    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        let maxCharacters = 25
+        
+        switch textField {
+        case greetingTextField:
+            let currentString = greetingTextField.text! as NSString
+            let newString: NSString = currentString.replacingCharacters(in: range, with: string) as NSString
+            return newString.length <= maxCharacters
+        default:
+            return true // Allows backspace
+        }
+    }
+
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        textField.resignFirstResponder()
+        guard let input = textField.text else { return }
+        switch textField {
+        case greetingTextField:
+            if input.isEmpty {
+                greetingTextField.text = PlaceHolderText.postcardDefaultMessage
+            }
+        default:
+            break
+        }
+    }
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        // Dismiss Keyboard if "return" is tapped
+        textField.resignFirstResponder()
+        return true
+    }
+}
+
