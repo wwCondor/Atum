@@ -37,10 +37,3 @@ class CustomButton: UIButton {
         layer.borderWidth = Constant.sendButtonBorderWidth
     }
 }
-
-class SendEmailButton: CustomButton {
-    override func additionalSetup() {
-        
-    }
-}
-

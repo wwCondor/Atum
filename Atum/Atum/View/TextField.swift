@@ -32,25 +32,42 @@ class CustomTextField: UITextField {
     func additionalSettings() { }
 }
 
-class PositionInfoField: CustomTextField {
-    override func additionalSettings() {
-        layer.masksToBounds = true
-        layer.cornerRadius = Constant.smallCornerRadius
-        isUserInteractionEnabled = false
-        font = UIFont.systemFont(ofSize: 13.0, weight: .medium)
-        textAlignment = .left
-    }
-}
+//class PositionInfoField: CustomTextField {
+//    override func additionalSettings() {
+//        layer.masksToBounds = true
+//        layer.cornerRadius = Constant.smallCornerRadius
+//        isUserInteractionEnabled = false
+//        font = UIFont.systemFont(ofSize: 13.0, weight: .medium)
+//        textAlignment = .left
+//    }
+//}
 
 // max 25 characters, so 20 should be safe for all sizes
 class PostcardGreetingField: CustomTextField {
     override func additionalSettings() {
-        backgroundColor = UIColor.clear.withAlphaComponent(0.2)
+        backgroundColor = UIColor.clear//.withAlphaComponent(0.2)
         layer.masksToBounds = true
         layer.cornerRadius = Constant.smallCornerRadius
         isUserInteractionEnabled = true
         font = UIFont.systemFont(ofSize: 16.0, weight: .semibold)
         textAlignment = .center
+    }
+}
+
+class PostcardImageInfoField: CustomTextField {
+    override func additionalSettings() {
+        backgroundColor = UIColor.clear
+        isUserInteractionEnabled = false
+        font = UIFont.systemFont(ofSize: 13.0, weight: .medium)
+        textAlignment = .left
+    }
+    
+    override func textRect(forBounds bounds: CGRect) -> CGRect {
+        return bounds.insetBy(dx: Constant.textXInset, dy: 0)
+    }
+    
+    override func editingRect(forBounds bounds: CGRect) -> CGRect {
+        return bounds.insetBy(dx: Constant.textXInset, dy: 0)
     }
 }
 
@@ -65,23 +82,6 @@ class EmailInputField: CustomTextField {
         font = UIFont.systemFont(ofSize: 13.0, weight: .medium)
         textAlignment = .left
 //        attributedPlaceholder = NSAttributedString(string: "placeholder text", attributes: [NSAttributedString.Key.foregroundColor: UIColor(named: .textTintColor)!]) // Handles placeholder text color
-    }
-    
-    override func textRect(forBounds bounds: CGRect) -> CGRect {
-        return bounds.insetBy(dx: Constant.textXInset, dy: 0)
-    }
-    
-    override func editingRect(forBounds bounds: CGRect) -> CGRect {
-        return bounds.insetBy(dx: Constant.textXInset, dy: 0)
-    }
-}
-
-class PostcardImageInfoField: CustomTextField {
-    override func additionalSettings() {
-        backgroundColor = UIColor.clear
-        isUserInteractionEnabled = false
-        font = UIFont.systemFont(ofSize: 13.0, weight: .medium)
-        textAlignment = .left
     }
     
     override func textRect(forBounds bounds: CGRect) -> CGRect {

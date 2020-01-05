@@ -293,6 +293,9 @@ class RoverViewController: UIViewController {
         } else {
             sliderMenuManager.selectedImageView.image = self.selectedImageView.image
             sliderMenuManager.greetingTextField.text = self.greetingTextField.text
+            sliderMenuManager.roverInfoField.text = self.roverInfoField.text
+            sliderMenuManager.cameraInfoField.text = self.cameraInfoField.text
+            sliderMenuManager.dateInfoField.text = self.dateInfoField.text
             sliderMenuManager.modeSelected = .marsRoverMode
             sliderMenuManager.presentSlider()
             print("Presenting Slider Menu")

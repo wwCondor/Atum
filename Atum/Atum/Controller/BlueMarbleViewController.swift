@@ -167,6 +167,10 @@ class BlueMarbleViewController: UIViewController {
             presentAlert(description: NetworkingError.noImage.localizedDescription, viewController: self)
         } else {
             sliderMenuManager.selectedImageView.image = self.selectedImageView.image
+            sliderMenuManager.greetingTextField.text = PlaceHolderText.postcardDefaultMessage
+            sliderMenuManager.roverInfoField.text = ""
+            sliderMenuManager.cameraInfoField.text = ""
+            sliderMenuManager.dateInfoField.text = ""
             sliderMenuManager.modeSelected = .blueMarbleMode
             sliderMenuManager.presentSlider()
             print("Presenting Slider Menu")

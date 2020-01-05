@@ -31,7 +31,7 @@ struct Constant {
     static let smallCornerRadius: CGFloat        = 5
     
     static let photoNavigatorOffset: CGFloat     = 2
-    static let contentPadding: CGFloat           = 30
+    static let contentPadding: CGFloat           = 20
     static let contentSidePadding: CGFloat       = 30
     static let bottomContentPadding              = Constant.menuBarHeight + Constant.contentPadding
 
@@ -47,12 +47,14 @@ struct Constant {
     // Send Email Slider Content
     static let emailInputFieldHeight: CGFloat    = 40
     static let sliderBorderWidth: CGFloat        = 2
+    static let itemSpacing: CGFloat              = 8
 }
 
 struct PlaceHolderText {
     static let noRoverPhotos: String             = "No photos for camera/date"
-    static let postcardDefaultMessage: String    = "Greetings from Mars!"
+    static let postcardDefaultMessage: String    = "Your personal message"
     static let roverInitialDateValue: String     = "2015-08-06"
     static let initalZoomLevel: String           = "0.05"
     static let enterEmail: String                = "Enter Email"
+    static let sendImageWithText: String         = "Add Text to Image"
 }
