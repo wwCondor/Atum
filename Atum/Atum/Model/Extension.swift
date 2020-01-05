@@ -49,24 +49,13 @@ extension UIImage {
         let width: CGFloat = size.width
         let height: CGFloat = size.height + inset
         UIGraphicsBeginImageContextWithOptions(CGSize(width: width, height: height), false, 0)
-        let origin: CGPoint = CGPoint(x: 0, y: 0) // (height - size.height) / 2
+        let origin: CGPoint = CGPoint(x: 0, y: 0)
         draw(at: origin)
         let imageWithPadding = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         return imageWithPadding
     }
 }
-
-//extension UIView {
-//    // Used to make specific corners round
-//    public func roundCorners(corners: UIRectCorner) {//}, radius: CGFloat) {
-//        let radius = Constant.smallCornerRadius
-//        let path = UIBezierPath(roundedRect: bounds, byRoundingCorners: corners, cornerRadii: CGSize(width: radius, height: radius))
-//        let mask = CAShapeLayer()
-//        mask.path = path.cgPath
-//        layer.mask = mask
-//    }
-//}
 
 extension UIView {
     // Used to apply border(s) for views at the indicated sides
@@ -122,9 +111,9 @@ extension JSONDecoder {
 }
 
 extension UIImageView { 
-    func fetchPhoto(from path: String) {//}, contentMode mode: UIView.ContentMode = .scaleAspectFit) {        
+    func fetchPhoto(from path: String) {
+        // Used to obtain image
         let url = URL(string: "\(path)")!
-//        print("Trying to obtain image from: \(url)")
         contentMode = .scaleAspectFit
         URLSession.shared.dataTask(with: url) { data, response, error in
             DispatchQueue.main.async() {
@@ -150,6 +139,7 @@ extension UIImageView {
     }
     
     func fetchPhoto(date: String, imageName: String) {
+        // Used to obtain image from EPIC API which needs date to be
         let fullDate: String = date
         let fullDateArray: [String] = fullDate.components(separatedBy: "-")
         
@@ -221,17 +211,11 @@ extension UIImage {
     }
 }
 
-
 extension UIImage {
     func withText(forMode: ModeSelected, drawText text: String, inImage image: UIImage, atPoint point: CGPoint) -> UIImage {
         let textColor = UIColor.white
         let textFont: UIFont = UIFont.systemFont(ofSize: 16.0, weight: .semibold)
-        
-        //        if font == .messageFont {
-        //            textFont = UIFont.systemFont(ofSize: 16.0, weight: .semibold)
-        //        } else if font == .infoFont {
-        //            textFont = UIFont.systemFont(ofSize: 13.0, weight: .medium)
-        //        }
+        let imageText: String = "\(text) - This message was sent with Atum"
         
         let scale = UIScreen.main.scale
         UIGraphicsBeginImageContextWithOptions(image.size, false, scale)
@@ -243,7 +227,7 @@ extension UIImage {
         image.draw(in: CGRect(origin: CGPoint.zero, size: image.size))
         
         let rect = CGRect(origin: point, size: image.size)
-        text.draw(in: rect, withAttributes: textFontAttributes)
+        imageText.draw(in: rect, withAttributes: textFontAttributes)
         
         let newImage = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()

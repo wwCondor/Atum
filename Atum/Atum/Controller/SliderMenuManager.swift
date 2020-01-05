@@ -14,11 +14,6 @@ enum ModeSelected {
     case blueMarbleMode
 }
 
-enum Font {
-    case messageFont
-    case infoFont
-}
-
 class SliderMenuManager: NSObject {
     
     var modeSelected: ModeSelected = .marsRoverMode
@@ -108,10 +103,10 @@ class SliderMenuManager: NSObject {
     
     @objc private func flipSwitch(sender: UISwitch) {
         if sender.isOn == true {
-            addTextToImage = false
+            addTextToImage = true
             hideTextFields()
         } else {
-            addTextToImage = true
+            addTextToImage = false
             showTextFields()
         }
         print("Add text to image: \(addTextToImage)")
@@ -307,24 +302,41 @@ class SliderMenuManager: NSObject {
         case .blueMarbleMode: messageBody = PlaceHolderText.emailBodyTextDSCOVR
         }
         
-        if MFMailComposeViewController.canSendMail() {
-            let mail = MFMailComposeViewController()
-            mail.mailComposeDelegate = self
-            mail.setToRecipients([address])
-            mail.setSubject(PlaceHolderText.emailSubject)
-            mail.setMessageBody(messageBody, isHTML: false)
-            
-            let point: CGPoint = CGPoint(x: Constant.textFieldPadding, y: Constant.textFieldPadding)
-            let drawText: String = greetingTextField.text!
-            let imageWithText = image.withText(forMode: modeSelected, drawText: drawText, inImage: image, atPoint: point).pngData()!
-            let imageData: Data = addText ? imageWithText : image.pngData()!
-            let uuid = UUID().uuidString
-            mail.addAttachmentData(imageData, mimeType: "image/png", fileName: "Atum-\(uuid).png")
-        } else {
-            print("Can't send mail")
+        let window = UIApplication.shared.windows.first { $0.isKeyWindow }
+        if let window = window {
+            if MFMailComposeViewController.canSendMail() {
+                let composer = MFMailComposeViewController()
+                composer.mailComposeDelegate = self
+                composer.setToRecipients([address])
+                composer.setSubject(PlaceHolderText.emailSubject)
+                composer.setMessageBody(messageBody, isHTML: false)
+                let point: CGPoint = CGPoint(x: Constant.textFieldPadding, y: Constant.textFieldPadding)
+                
+                guard let greeting = greetingTextField.text else { return }
+                guard let roverName = roverInfoField.text else { return }
+                guard let roverCamera = cameraInfoField.text else { return }
+                guard let date = dateInfoField.text else { return }
+                
+                var drawText: String = "\(greeting)"
+                
+                switch modeSelected {
+                case .marsRoverMode: drawText = "\(greeting). Photo: \(roverName) (\(roverCamera), \(date))"
+                case .blueMarbleMode: drawText = "\(greeting). Photo: DSCOVR, \(date)"
+                }
+                // Depening on selection here image is created with or without text added
+                let imageWithText = image.withText(forMode: modeSelected, drawText: drawText, inImage: image, atPoint: point).pngData()!
+                let imageData: Data = addText ? imageWithText : image.pngData()!
+                let uuid = UUID().uuidString
+                composer.addAttachmentData(imageData, mimeType: "image/png", fileName: "Atum-\(uuid).png")
+                window.rootViewController?.present(composer, animated: true, completion: nil)
+            } else {
+                greetingTextField.text = "Device cannot send mail"
+                dismissSliderMenu()
+            }
         }
     }
     
+    // w.p.willebrands@hotmail.com
     @objc private func sendMail(sender: CustomButton) {
         guard let input = emailInputField.text else { return }
         
@@ -333,19 +345,14 @@ class SliderMenuManager: NSObject {
             shakeInputLabel()
         } else if isValidEmail(input) == true {
             if addTextToImage == true {
-                sendEmail(to: input, contentOf: selectedImageView, addText: true)
-                // send email with text
+                sendEmail(to: input, contentOf: selectedImageView, addText: true) // send email with text
             } else if addTextToImage == false {
-                sendEmail(to: input, contentOf: selectedImageView, addText: false)
-                // send email without text
+                sendEmail(to: input, contentOf: selectedImageView, addText: false) // send email without text
             }
-            print("Sent!")
         } else if isValidEmail(input) == false {
             print("Enter valid email address")
         }
     }
-    
-
 }
 
 extension SliderMenuManager: UITextFieldDelegate {
@@ -366,17 +373,10 @@ extension SliderMenuManager: UITextFieldDelegate {
         }
     }
     
-    
-    
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         let maxCharacters = 25
-        
+        // Set max
         switch textField {
-        case emailInputField:
-            // Makes sure all input is lowercase
-            if let _ = string.rangeOfCharacter(from: .uppercaseLetters) {
-                return false
-            }
         case greetingTextField:
             let currentString = greetingTextField.text! as NSString
             let newString: NSString = currentString.replacingCharacters(in: range, with: string) as NSString
@@ -384,7 +384,6 @@ extension SliderMenuManager: UITextFieldDelegate {
         default:
             return true // Allows backspace
         }
-        return false
     }
     
     func textFieldDidEndEditing(_ textField: UITextField) {
@@ -413,6 +412,26 @@ extension SliderMenuManager: UITextFieldDelegate {
 
 extension SliderMenuManager: MFMailComposeViewControllerDelegate {
     func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
-//        dismissSliderMenu()
+        let window = UIApplication.shared.windows.first { $0.isKeyWindow }
+        if let window = window {
+            if error != nil {
+                controller.dismiss(animated: true, completion: nil)
+            } else {
+                print("2")
+                switch result {
+                case .cancelled:
+                    print(result)
+                case .saved:
+                    print(result)
+                case .sent:
+                    print(result)
+                case .failed:
+                    print(result)
+                @unknown default:
+                    print(result)
+                }
+                window.rootViewController?.dismiss(animated: true, completion: nil)
+            }
+        }
     }
 }

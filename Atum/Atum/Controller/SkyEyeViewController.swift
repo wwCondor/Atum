@@ -9,9 +9,7 @@
 import UIKit
 
 class SkyEyeViewController: UIViewController {
-    
-//    var zoomWidthAndHeightInDegrees: Float = 0.100 // 0.1 degrees = 11 km
-    
+        
     let selectableLocations: [Location] = [.mountEverest, .edinBurghCastle, .pyramidOfGiza, .eiffelTower, .colosseum, .christTheRedeemer, .chichenItza, .machuPichu, .towerOfPisa, .chineseWall, .uluru, .grandCanyon, .paricutin, .oukaimeden, .northernLight, .victoriaFalls]
     
     lazy var selectedImageView: RetrievedImageView = {
@@ -20,55 +18,55 @@ class SkyEyeViewController: UIViewController {
         return selectedImageView
     }()
     
-    lazy var satelliteIcon: UIImageView = {
-        let inset: CGFloat = Constant.sliderImageInsets
-        let edgeIndets = UIEdgeInsets(top: inset, left: inset, bottom: inset, right: inset)
-        let image = UIImage(named: .skyEyeIcon)?.withRenderingMode(.alwaysTemplate).withAlignmentRectInsets(edgeIndets)
-        let satelliteIcon = UIImageView(image: image)
-        satelliteIcon.tintColor = UIColor(named: .iconColor)
-        satelliteIcon.contentMode = .scaleAspectFit
-        satelliteIcon.translatesAutoresizingMaskIntoConstraints = false
-        satelliteIcon.backgroundColor = UIColor.clear
-        return satelliteIcon
-    }()
+//    lazy var satelliteIcon: UIImageView = {
+//        let inset: CGFloat = Constant.sliderImageInsets
+//        let edgeIndets = UIEdgeInsets(top: inset, left: inset, bottom: inset, right: inset)
+//        let image = UIImage(named: .skyEyeIcon)?.withRenderingMode(.alwaysTemplate).withAlignmentRectInsets(edgeIndets)
+//        let satelliteIcon = UIImageView(image: image)
+//        satelliteIcon.tintColor = UIColor(named: .iconColor)
+//        satelliteIcon.contentMode = .scaleAspectFit
+//        satelliteIcon.translatesAutoresizingMaskIntoConstraints = false
+//        satelliteIcon.backgroundColor = UIColor.clear
+//        return satelliteIcon
+//    }()
     
-    lazy var sliderBackground: UIImageView = {
-        let sliderBackground = UIImageView()
-        sliderBackground.translatesAutoresizingMaskIntoConstraints = false
-        sliderBackground.backgroundColor = UIColor(named: .objectColor)
-        sliderBackground.layer.masksToBounds = true
-        sliderBackground.layer.cornerRadius = Constant.smallCornerRadius
-        sliderBackground.layer.borderColor = UIColor(named: .objectBorderColor)?.cgColor
-        sliderBackground.layer.borderWidth = Constant.sendButtonBorderWidth
-        return sliderBackground
-    }()
+//    lazy var sliderBackground: UIImageView = {
+//        let sliderBackground = UIImageView()
+//        sliderBackground.translatesAutoresizingMaskIntoConstraints = false
+//        sliderBackground.backgroundColor = UIColor(named: .objectColor)
+//        sliderBackground.layer.masksToBounds = true
+//        sliderBackground.layer.cornerRadius = Constant.smallCornerRadius
+//        sliderBackground.layer.borderColor = UIColor(named: .objectBorderColor)?.cgColor
+//        sliderBackground.layer.borderWidth = Constant.sendButtonBorderWidth
+//        return sliderBackground
+//    }()
+//
+//    lazy var zoomSlider: UISlider = {
+//        let zoomSlider = UISlider()
+//        zoomSlider.translatesAutoresizingMaskIntoConstraints = false
+//        zoomSlider.transform = CGAffineTransform(rotationAngle: CGFloat(Double.pi / 2))
+//        zoomSlider.backgroundColor = UIColor.clear
+//        zoomSlider.maximumTrackTintColor = UIColor(named: .iconColor)
+//        zoomSlider.minimumTrackTintColor = UIColor(named: .iconSelectedColor)
+//        zoomSlider.thumbTintColor = UIColor(named: .objectBorderColor)
+//        zoomSlider.minimumValue = 0
+//        zoomSlider.maximumValue = 4
+//        zoomSlider.setValue(1, animated: true)
+//        zoomSlider.addTarget(self, action: #selector(setZoom(_:)), for: .valueChanged)
+//        return zoomSlider
+//    }()
     
-    lazy var zoomSlider: UISlider = {
-        let zoomSlider = UISlider()
-        zoomSlider.translatesAutoresizingMaskIntoConstraints = false
-        zoomSlider.transform = CGAffineTransform(rotationAngle: CGFloat(Double.pi / 2))
-        zoomSlider.backgroundColor = UIColor.clear
-        zoomSlider.maximumTrackTintColor = UIColor(named: .iconColor)
-        zoomSlider.minimumTrackTintColor = UIColor(named: .iconSelectedColor)
-        zoomSlider.thumbTintColor = UIColor(named: .objectBorderColor)
-        zoomSlider.minimumValue = 0
-        zoomSlider.maximumValue = 4
-        zoomSlider.setValue(1, animated: true)
-        zoomSlider.addTarget(self, action: #selector(setZoom(_:)), for: .valueChanged)
-        return zoomSlider
-    }()
-    
-    lazy var planetIcon: UIImageView = {
-        let inset: CGFloat = Constant.sliderImageInsets
-        let edgeIndets = UIEdgeInsets(top: inset, left: inset, bottom: inset, right: inset)
-        let image = UIImage(named: .planetIcon)?.withRenderingMode(.alwaysTemplate).withAlignmentRectInsets(edgeIndets)
-        let planetIcon = UIImageView(image: image)
-        planetIcon.tintColor = UIColor(named: .iconColor)
-        planetIcon.contentMode = .scaleAspectFit
-        planetIcon.translatesAutoresizingMaskIntoConstraints = false
-        planetIcon.backgroundColor = UIColor.clear
-        return planetIcon
-    }()
+//    lazy var planetIcon: UIImageView = {
+//        let inset: CGFloat = Constant.sliderImageInsets
+//        let edgeIndets = UIEdgeInsets(top: inset, left: inset, bottom: inset, right: inset)
+//        let image = UIImage(named: .planetIcon)?.withRenderingMode(.alwaysTemplate).withAlignmentRectInsets(edgeIndets)
+//        let planetIcon = UIImageView(image: image)
+//        planetIcon.tintColor = UIColor(named: .iconColor)
+//        planetIcon.contentMode = .scaleAspectFit
+//        planetIcon.translatesAutoresizingMaskIntoConstraints = false
+//        planetIcon.backgroundColor = UIColor.clear
+//        return planetIcon
+//    }()
     
     lazy var locationPicker: UIPickerView = {
         let locationPicker = UIPickerView()
@@ -104,18 +102,15 @@ class SkyEyeViewController: UIViewController {
     
     private func setupView() {
         view.addSubview(selectedImageView)
-        view.addSubview(satelliteIcon)
         
-        view.addSubview(sliderBackground)
-        view.addSubview(zoomSlider)
+//        view.addSubview(satelliteIcon)
+//        view.addSubview(sliderBackground)
+//        sliderBackground.addSubview(zoomSlider)
+//        view.addSubview(planetIcon)
         
-        view.addSubview(planetIcon)
         view.addSubview(locationPicker)
-        
-//        zoomSlider.removeConstraints(self.zoomSlider.constraints)
-        
+
         let selectedImageSize: CGFloat = (3/4)*view.frame.width
-//        let sliderHeigth: CGFloat = view.frame.height - selectedImageSize - Constant.sliderSizeOffset
         
         NSLayoutConstraint.activate([
             selectedImageView.topAnchor.constraint(equalTo: view.topAnchor, constant: Constant.contentPadding),
@@ -124,44 +119,38 @@ class SkyEyeViewController: UIViewController {
             selectedImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             
             // Zoom Slider items
-            satelliteIcon.topAnchor.constraint(equalTo: selectedImageView.bottomAnchor, constant: Constant.contentPadding),
-            satelliteIcon.leadingAnchor.constraint(equalTo: selectedImageView.leadingAnchor),
-            satelliteIcon.widthAnchor.constraint(equalToConstant: Constant.sliderImageViewSize),
-            satelliteIcon.heightAnchor.constraint(equalToConstant: Constant.sliderImageViewSize),
+//            satelliteIcon.topAnchor.constraint(equalTo: selectedImageView.bottomAnchor, constant: Constant.contentPadding),
+//            satelliteIcon.leadingAnchor.constraint(equalTo: selectedImageView.leadingAnchor),
+//            satelliteIcon.widthAnchor.constraint(equalToConstant: Constant.sliderImageViewSize),
+//            satelliteIcon.heightAnchor.constraint(equalToConstant: Constant.sliderImageViewSize),
             
-            sliderBackground.topAnchor.constraint(equalTo: satelliteIcon.bottomAnchor),// constant: Constant.contentPadding),
-            sliderBackground.leadingAnchor.constraint(equalTo: selectedImageView.leadingAnchor),
-            sliderBackground.widthAnchor.constraint(equalToConstant: Constant.sliderImageViewSize),
-            sliderBackground.bottomAnchor.constraint(equalTo: planetIcon.topAnchor),// constant: -Constant.contentPadding),
-            
-//            zoomSlider.topAnchor.constraint(equalTo: sliderBackground.topAnchor),// constant: Constant.contentPadding),
-            zoomSlider.centerXAnchor.constraint(equalTo: sliderBackground.centerXAnchor),
-            zoomSlider.centerYAnchor.constraint(equalTo: sliderBackground.centerYAnchor),
-
-//            zoomSlider.leadingAnchor.constraint(equalTo: sliderBackground.leadingAnchor),
-//            zoomSlider.trailingAnchor.constraint(equalTo: sliderBackground.trailingAnchor),
+//            sliderBackground.topAnchor.constraint(equalTo: satelliteIcon.bottomAnchor),
+//            sliderBackground.leadingAnchor.constraint(equalTo: selectedImageView.leadingAnchor),
+//            sliderBackground.widthAnchor.constraint(equalToConstant: Constant.sliderImageViewSize),
+//            sliderBackground.bottomAnchor.constraint(equalTo: planetIcon.topAnchor),
+//
+//            zoomSlider.topAnchor.constraint(equalTo: sliderBackground.topAnchor),
 //            zoomSlider.widthAnchor.constraint(equalToConstant: Constant.sliderImageViewSize),
-//            zoomSlider.heightAnchor.constraint(equalToConstant: 180),
-//            zoomSlider.bottomAnchor.constraint(equalTo: sliderBackground.bottomAnchor),// constant: -Constant.contentPadding),
+//            zoomSlider.bottomAnchor.constraint(equalTo: sliderBackground.bottomAnchor),
             
-            planetIcon.leadingAnchor.constraint(equalTo: selectedImageView.leadingAnchor),
-            planetIcon.widthAnchor.constraint(equalToConstant: Constant.sliderImageViewSize),
-            planetIcon.heightAnchor.constraint(equalToConstant: Constant.sliderImageViewSize),
-            planetIcon.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -Constant.bottomContentPadding),
+//            planetIcon.leadingAnchor.constraint(equalTo: selectedImageView.leadingAnchor),
+//            planetIcon.widthAnchor.constraint(equalToConstant: Constant.sliderImageViewSize),
+//            planetIcon.heightAnchor.constraint(equalToConstant: Constant.sliderImageViewSize),
+//            planetIcon.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -Constant.bottomContentPadding),
             
             // picker
             locationPicker.topAnchor.constraint(equalTo: selectedImageView.bottomAnchor, constant: Constant.contentPadding),
-            locationPicker.leadingAnchor.constraint(equalTo: satelliteIcon.trailingAnchor, constant: Constant.contentPadding),
-            locationPicker.trailingAnchor.constraint(equalTo: selectedImageView.trailingAnchor),// constant: -Constant.contentPadding),
+            locationPicker.leadingAnchor.constraint(equalTo: selectedImageView.leadingAnchor),// constant: Constant.contentPadding),
+            locationPicker.trailingAnchor.constraint(equalTo: selectedImageView.trailingAnchor),
             locationPicker.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -Constant.bottomContentPadding),
         ])
     }
     
     @objc func setZoom(_ sender: UISlider) {
-        sender.value = roundf(sender.value) // this allows thumb to snap between values
-        let zoomLevel: [Float] = [0.025, 0.050, 0.100, 0.200, 0.500]
-        let zoomSelected = Double(zoomLevel[Int(roundf(sender.value))])
-        SkyEyeQueryData.userEyeDataSelections.selectedZoomLevel = "\(zoomSelected)"
+//        sender.value = roundf(sender.value) // this allows thumb to snap between values
+//        let zoomLevel: [Float] = [0.025, 0.050, 0.100, 0.200, 0.500]
+//        let zoomSelected = Double(zoomLevel[Int(roundf(sender.value))])
+//        SkyEyeQueryData.userEyeDataSelections.selectedZoomLevel = "\(zoomSelected)"
     }
 }
 

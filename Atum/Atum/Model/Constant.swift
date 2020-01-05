@@ -19,9 +19,9 @@ struct Constant {
     static let sendButtonBorderWidth: CGFloat    = 2
     static let sendButtonIconInset: CGFloat      = 12
     
-    // Images above and underneath slider
-    static let sliderImageInsets: CGFloat        = -8
-    static let sliderImageViewSize: CGFloat      = 40
+    // Images above and underneath slider (not used atm)
+//    static let sliderImageInsets: CGFloat        = -8
+//    static let sliderImageViewSize: CGFloat      = 40
     
     // CameraButton
     static let cameraButtonHeigth: CGFloat       = 40
@@ -42,7 +42,7 @@ struct Constant {
     static let textXInset: CGFloat               = 10
     static let textYInset: CGFloat               = 5
     
-    static let croppedSquareSize: Double         = 300
+    static let croppedSquareSize: Double         = 300 // Reduced size to optimise UI response
     
     // Send Email Slider Content
     static let emailInputFieldHeight: CGFloat    = 40

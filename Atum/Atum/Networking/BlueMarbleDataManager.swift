@@ -14,6 +14,7 @@ class BlueMarbleDataManager {
     
     typealias PhotosCompletionHandler = ([BlueMarblePhoto]?, Error?) -> Void
     
+    // Blue Marble 
     static func fetchPhotos(date: String, completion: @escaping PhotosCompletionHandler) {
         let url = Endpoint.blueMarbleImages.url()
         print("Blue Marble Image URL: \(url)")

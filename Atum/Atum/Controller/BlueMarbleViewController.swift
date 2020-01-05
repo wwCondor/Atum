@@ -37,13 +37,6 @@ class BlueMarbleViewController: UIViewController {
         navigator.addGestureRecognizer(tapGesture)
         return navigator
     }()
-    
-    // Image MetaData
-//    lazy var greetingTextField: PostcardGreetingField = {
-//        let greetingTextField = PostcardGreetingField()
-//        greetingTextField.text = "Greetings from Mars!"
-//        return greetingTextField
-//    }()
 
     lazy var naturalDatePicker: UIPickerView = {
         let naturalDatePicker = UIPickerView()
@@ -60,7 +53,7 @@ class BlueMarbleViewController: UIViewController {
         let inset: CGFloat = Constant.sendButtonIconInset
         sendButton.imageEdgeInsets = UIEdgeInsets(top: inset, left: inset, bottom: inset, right: inset)
         sendButton.setImage(image, for: .normal)
-        sendButton.addTarget(self, action: #selector(presentSlider(tapGestureRecognizer:)), for: .touchUpInside)
+        sendButton.addTarget(self, action: #selector(presentMenuSlider(tapGestureRecognizer:)), for: .touchUpInside)
         return sendButton
     }()
     
@@ -162,7 +155,7 @@ class BlueMarbleViewController: UIViewController {
         }
     }
     
-    @objc private func presentSlider(tapGestureRecognizer: UITapGestureRecognizer) {
+    @objc private func presentMenuSlider(tapGestureRecognizer: UITapGestureRecognizer) {
         if selectedImageView.image == UIImage(named: .placeholderImage) {
             presentAlert(description: NetworkingError.noImage.localizedDescription, viewController: self)
         } else {
@@ -170,7 +163,7 @@ class BlueMarbleViewController: UIViewController {
             sliderMenuManager.greetingTextField.text = PlaceHolderText.postcardDefaultMessage
             sliderMenuManager.roverInfoField.text = ""
             sliderMenuManager.cameraInfoField.text = ""
-            sliderMenuManager.dateInfoField.text = ""
+            sliderMenuManager.dateInfoField.text = BlueMarbleQueryData.userBlueMarbleDataSelection.selectedDate
             sliderMenuManager.modeSelected = .blueMarbleMode
             sliderMenuManager.presentSlider()
             print("Presenting Slider Menu")

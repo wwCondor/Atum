@@ -20,18 +20,10 @@ class RoverViewController: UIViewController {
     var photos: [RoverPhoto] = [RoverPhoto]()
     var selectedPhoto: Int = 0
     
-    // Selected Image
     lazy var selectedImageView: RetrievedImageView = {
         let image = UIImage(named: .placeholderImage)
         let selectedImageView = RetrievedImageView(image: image)
         return selectedImageView
-    }()
-    
-    // Image MetaData
-    lazy var greetingTextField: PostcardGreetingField = {
-        let greetingTextField = PostcardGreetingField()
-        greetingTextField.text = PlaceHolderText.postcardDefaultMessage
-        return greetingTextField
     }()
     
     lazy var roverInfoField: PostcardImageInfoField = {
@@ -102,14 +94,13 @@ class RoverViewController: UIViewController {
         let inset: CGFloat = Constant.sendButtonIconInset
         sendButton.imageEdgeInsets = UIEdgeInsets(top: inset, left: inset, bottom: inset, right: inset)
         sendButton.setImage(image, for: .normal)
-        sendButton.addTarget(self, action: #selector(presentSlider(tapGestureRecognizer:)), for: .touchUpInside)
+        sendButton.addTarget(self, action: #selector(presentMenuSlider(tapGestureRecognizer:)), for: .touchUpInside)
         return sendButton
     }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        greetingTextField.delegate = self
         view.backgroundColor = UIColor(named: .appBackgroundColor)
         
         setupView()
@@ -123,7 +114,6 @@ class RoverViewController: UIViewController {
         view.addSubview(rightNavigator)
         
         // Meta Data TextFields
-        view.addSubview(greetingTextField)
         view.addSubview(roverInfoField)
         view.addSubview(cameraInfoField)
         view.addSubview(dateInfoField)
@@ -154,12 +144,7 @@ class RoverViewController: UIViewController {
             rightNavigator.widthAnchor.constraint(equalToConstant: navigatorWidth),
             rightNavigator.heightAnchor.constraint(equalToConstant: navigatorHeigth),
             
-            // Postcard metadata
-            greetingTextField.leadingAnchor.constraint(equalTo: selectedImageView.leadingAnchor, constant: Constant.contentSidePadding),
-            greetingTextField.trailingAnchor.constraint(equalTo: selectedImageView.trailingAnchor, constant: -Constant.contentSidePadding),
-            greetingTextField.centerYAnchor.constraint(equalTo: selectedImageView.centerYAnchor),
-            greetingTextField.heightAnchor.constraint(equalToConstant: Constant.textFieldHeight),
-            
+            // Photo data
             roverInfoField.leadingAnchor.constraint(equalTo: selectedImageView.leadingAnchor, constant: Constant.textFieldPadding),
             roverInfoField.trailingAnchor.constraint(equalTo: selectedImageView.centerXAnchor),
             roverInfoField.heightAnchor.constraint(equalToConstant: Constant.textFieldHeight),
@@ -220,9 +205,7 @@ class RoverViewController: UIViewController {
         if photos.count != 0 {
             print(photos.count)
             setRetrievedImage()
-            greetingTextField.text = PlaceHolderText.postcardDefaultMessage
         } else {
-            greetingTextField.text = PlaceHolderText.noRoverPhotos
             selectedImageView.image = UIImage(named: .placeholderImage)?.croppedToSquare(size: Constant.croppedSquareSize)
         }
     }
@@ -286,12 +269,11 @@ class RoverViewController: UIViewController {
         getRoverPhotos()
     }
     
-    @objc private func presentSlider(tapGestureRecognizer: UITapGestureRecognizer) {
+    @objc private func presentMenuSlider(tapGestureRecognizer: UITapGestureRecognizer) {
         if selectedImageView.image == UIImage(named: .placeholderImage) {
             presentAlert(description: NetworkingError.noImage.localizedDescription, viewController: self)
         } else {
             sliderMenuManager.selectedImageView.image = self.selectedImageView.image
-            sliderMenuManager.greetingTextField.text = self.greetingTextField.text
             sliderMenuManager.roverInfoField.text = self.roverInfoField.text
             sliderMenuManager.cameraInfoField.text = self.cameraInfoField.text
             sliderMenuManager.dateInfoField.text = self.dateInfoField.text
@@ -301,50 +283,3 @@ class RoverViewController: UIViewController {
         }
     }
 }
-
-extension RoverViewController: UITextFieldDelegate {
-    func textFieldDidBeginEditing(_ textField: UITextField) {
-        textField.becomeFirstResponder() // show Keyboard when user taps textField
-        // If current text is placeholder text, reset it to ""
-        guard let text = textField.text else { return }
-        switch textField {
-        case greetingTextField:
-            if text == PlaceHolderText.postcardDefaultMessage {
-                greetingTextField.text = ""
-            }
-        default: break
-        }
-    }
-    
-    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        let maxCharacters = 25
-        
-        switch textField {
-        case greetingTextField:
-            let currentString = greetingTextField.text! as NSString
-            let newString: NSString = currentString.replacingCharacters(in: range, with: string) as NSString
-            return newString.length <= maxCharacters
-        default:
-            return true // Allows backspace
-        }
-    }
-
-    func textFieldDidEndEditing(_ textField: UITextField) {
-        textField.resignFirstResponder()
-        guard let input = textField.text else { return }
-        switch textField {
-        case greetingTextField:
-            if input.isEmpty {
-                greetingTextField.text = PlaceHolderText.postcardDefaultMessage
-            }
-        default:
-            break
-        }
-    }
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        // Dismiss Keyboard if "return" is tapped
-        textField.resignFirstResponder()
-        return true
-    }
-}
-

@@ -63,6 +63,8 @@ class PostcardImageInfoField: CustomTextField {
 class EmailInputField: CustomTextField {
     override func additionalSettings() {
         autocapitalizationType = UITextAutocapitalizationType.none
+        autocorrectionType = UITextAutocorrectionType.no
+        spellCheckingType = UITextSpellCheckingType.no
         textColor = UIColor(named: .textTintColor)
         backgroundColor = UIColor(named: .appBackgroundColor)
         layer.masksToBounds = true

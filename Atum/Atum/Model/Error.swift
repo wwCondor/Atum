@@ -21,23 +21,25 @@ enum NetworkingError: Error {
     case noReachability
     case noImage
     case noEmailAddress
+    case deviceNotAbleToSendEmail
 }
 
 extension NetworkingError: LocalizedError {
     public var localizedDescription: String {
         switch self {
-        case .requestFailed:         return "Request Failed"
-        case .invalidData:           return "Invalid Data"
-        case .noData:                return "No Data"
-        case .responseUnsuccessful:  return "Response Unsuccessful"
-        case .jsonParsingFailure:    return "JSON Parsing Failure"
-        case .jsonConversionFailure: return "JSON Conversion Failure"
-        case .jsonDecodingFailure:   return "JSON Decoding Failure"
-        case .invalidUrl:            return "Invalid URL"
-        case .missingKey:            return "Please set your key in APIkey.swift"
-        case .noReachability:        return "Check connection and try again"
-        case .noImage:               return "Please wait until image has finished loading try again"
-        case .noEmailAddress:        return "Please provide an email address"
+        case .requestFailed:                  return "Request Failed"
+        case .invalidData:                    return "Invalid Data"
+        case .noData:                         return "No Data"
+        case .responseUnsuccessful:           return "Response Unsuccessful"
+        case .jsonParsingFailure:             return "JSON Parsing Failure"
+        case .jsonConversionFailure:          return "JSON Conversion Failure"
+        case .jsonDecodingFailure:            return "JSON Decoding Failure"
+        case .invalidUrl:                     return "Invalid URL"
+        case .missingKey:                     return "Please set your key in APIkey.swift"
+        case .noReachability:                 return "Check connection and try again"
+        case .noImage:                        return "Please wait until image has finished loading try again"
+        case .noEmailAddress:                 return "Please provide an email address"
+        case .deviceNotAbleToSendEmail:       return "Your device is not able to send email"
         }
     }
 }
