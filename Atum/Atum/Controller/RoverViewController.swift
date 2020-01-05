@@ -134,7 +134,6 @@ class RoverViewController: UIViewController {
         
         let viewWidth: CGFloat = view.frame.width
         let selectedImageSize: CGFloat = (3/4)*view.frame.width
-//        let contentSidePadding = (viewWidth - selectedImageSize) / 2
         let navigatorWidth = (viewWidth - selectedImageSize) / 2
         let navigatorHeigth = navigatorWidth * 2
         

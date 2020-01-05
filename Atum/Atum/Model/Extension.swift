@@ -220,3 +220,34 @@ extension UIImage {
         return image
     }
 }
+
+
+extension UIImage {
+    func withText(forMode: ModeSelected, drawText text: String, inImage image: UIImage, atPoint point: CGPoint) -> UIImage {
+        let textColor = UIColor.white
+        let textFont: UIFont = UIFont.systemFont(ofSize: 16.0, weight: .semibold)
+        
+        //        if font == .messageFont {
+        //            textFont = UIFont.systemFont(ofSize: 16.0, weight: .semibold)
+        //        } else if font == .infoFont {
+        //            textFont = UIFont.systemFont(ofSize: 13.0, weight: .medium)
+        //        }
+        
+        let scale = UIScreen.main.scale
+        UIGraphicsBeginImageContextWithOptions(image.size, false, scale)
+        
+        let textFontAttributes = [
+            NSAttributedString.Key.font: textFont,
+            NSAttributedString.Key.foregroundColor: textColor,
+            ] as [NSAttributedString.Key : Any]
+        image.draw(in: CGRect(origin: CGPoint.zero, size: image.size))
+        
+        let rect = CGRect(origin: point, size: image.size)
+        text.draw(in: rect, withAttributes: textFontAttributes)
+        
+        let newImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        
+        return newImage!
+    }
+}

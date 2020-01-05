@@ -67,7 +67,6 @@ class SliderMenuManager: NSObject {
     lazy var greetingTextField: PostcardGreetingField = {
         let greetingTextField = PostcardGreetingField()
         greetingTextField.text = PlaceHolderText.postcardDefaultMessage
-        //        greetingTextField.backgroundColor = UIColor.clear
         return greetingTextField
     }()
     
@@ -149,7 +148,6 @@ class SliderMenuManager: NSObject {
     }
     
     func presentSlider() {
-        print(addTextToImage)
         updateUIForSelectedMode()
         hideKeyboardOnBackgroundTap()
         
@@ -284,32 +282,47 @@ class SliderMenuManager: NSObject {
         dismissSliderMenu()
     }
     
-    func textToImage(font: Font, drawText text: String, inImage image: UIImage, atPoint point: CGPoint) -> UIImage {
-        let textColor = UIColor.white
-        var textFont: UIFont = UIFont.systemFont(ofSize: 16.0, weight: .semibold)
+    private func shakeInputLabel() {
+        let animation = CABasicAnimation(keyPath: "position")
+        animation.duration = 0.05
+        animation.repeatCount = 3
+        animation.autoreverses = true
+        animation.fromValue = NSValue(cgPoint: CGPoint(x: emailInputField.center.x - 5, y: emailInputField.center.y))
+        animation.toValue = NSValue(cgPoint: CGPoint(x: emailInputField.center.x + 5, y: emailInputField.center.y))
+        emailInputField.layer.add(animation, forKey: "position")
+    }
+    
+    private func isValidEmail(_ email: String) -> Bool {
+        let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
+        let emailPred = NSPredicate(format:"SELF MATCHES %@", emailRegEx)
+        return emailPred.evaluate(with: email)
+    }
+    
+    private func sendEmail(to address: String, contentOf imageView: UIImageView, addText: Bool) {
+        guard let image = imageView.image else { return }
+        var messageBody: String = "This does not work"
         
-        if font == .messageFont {
-            textFont = UIFont.systemFont(ofSize: 16.0, weight: .semibold)
-        } else if font == .infoFont {
-            textFont = UIFont.systemFont(ofSize: 13.0, weight: .medium)
+        switch modeSelected {
+        case .marsRoverMode: messageBody = PlaceHolderText.emailBodyTextMars
+        case .blueMarbleMode: messageBody = PlaceHolderText.emailBodyTextDSCOVR
         }
         
-        let scale = UIScreen.main.scale
-        UIGraphicsBeginImageContextWithOptions(image.size, false, scale)
-        
-        let textFontAttributes = [
-            NSAttributedString.Key.font: textFont,
-            NSAttributedString.Key.foregroundColor: textColor,
-            ] as [NSAttributedString.Key : Any]
-        image.draw(in: CGRect(origin: CGPoint.zero, size: image.size))
-        
-        let rect = CGRect(origin: point, size: image.size)
-        text.draw(in: rect, withAttributes: textFontAttributes)
-        
-        let newImage = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
-        
-        return newImage!
+        if MFMailComposeViewController.canSendMail() {
+            let mail = MFMailComposeViewController()
+            mail.mailComposeDelegate = self
+            mail.setToRecipients([address])
+            mail.setSubject(PlaceHolderText.emailSubject)
+            mail.setMessageBody(messageBody, isHTML: false)
+            
+            let point: CGPoint = CGPoint(x: Constant.textFieldPadding, y: Constant.textFieldPadding)
+            let drawText: String = greetingTextField.text!
+            let imageWithText = image.withText(forMode: modeSelected, drawText: drawText, inImage: image, atPoint: point).pngData()!
+            let imageData: Data = addText ? imageWithText : image.pngData()!
+            let uuid = UUID().uuidString
+            mail.addAttachmentData(imageData, mimeType: "image/png", fileName: "Atum-\(uuid).png")
+        } else {
+            print("Can't send mail")
+        }
     }
     
     @objc private func sendMail(sender: CustomButton) {
@@ -317,21 +330,22 @@ class SliderMenuManager: NSObject {
         
         if input.isEmpty || input == PlaceHolderText.enterEmail {
             print("Not sent")
-            // MARK: Feedback to User
-            // This shakes the label when test fails
-            let animation = CABasicAnimation(keyPath: "position")
-            animation.duration = 0.05
-            animation.repeatCount = 3
-            animation.autoreverses = true
-            animation.fromValue = NSValue(cgPoint: CGPoint(x: emailInputField.center.x - 5, y: emailInputField.center.y))
-            animation.toValue = NSValue(cgPoint: CGPoint(x: emailInputField.center.x + 5, y: emailInputField.center.y))
-            emailInputField.layer.add(animation, forKey: "position")
-        } else {
-            // Flatten Image
-            // Compose Email with attachment
+            shakeInputLabel()
+        } else if isValidEmail(input) == true {
+            if addTextToImage == true {
+                sendEmail(to: input, contentOf: selectedImageView, addText: true)
+                // send email with text
+            } else if addTextToImage == false {
+                sendEmail(to: input, contentOf: selectedImageView, addText: false)
+                // send email without text
+            }
             print("Sent!")
+        } else if isValidEmail(input) == false {
+            print("Enter valid email address")
         }
     }
+    
+
 }
 
 extension SliderMenuManager: UITextFieldDelegate {
@@ -399,6 +413,6 @@ extension SliderMenuManager: UITextFieldDelegate {
 
 extension SliderMenuManager: MFMailComposeViewControllerDelegate {
     func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
-        dismissSliderMenu()
+//        dismissSliderMenu()
     }
 }

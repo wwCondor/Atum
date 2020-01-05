@@ -57,4 +57,7 @@ struct PlaceHolderText {
     static let initalZoomLevel: String           = "0.05"
     static let enterEmail: String                = "Enter Email"
     static let sendImageWithText: String         = "Add Text to Image"
+    static let emailSubject: String              = "Image retrieved from one of the NASA API's with Atum app"
+    static let emailBodyTextMars: String         = "I found this amazing image, made by the \(Rover.curiosity.name) Mars Rover's \(MarsRoverQueryData.userRoverDataSelections.selectedRoverCamera.fullName) on \(MarsRoverQueryData.userRoverDataSelections.selectedRoverPhotoDate), using the Atum application"
+    static let emailBodyTextDSCOVR: String       = "I found this amazing image made by the DSCVR Spacecraft's Earth Polychromatic Imaging Camera (EPIC) using the Atum app."
 }
