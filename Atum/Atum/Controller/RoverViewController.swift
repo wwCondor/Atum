@@ -310,7 +310,6 @@ class RoverViewController: UIViewController {
             sliderMenuManager.dateInfoField.text = self.dateInfoField.text
             sliderMenuManager.modeSelected = .marsRoverMode
             sliderMenuManager.presentSlider()
-            print("Presenting Slider Menu")
         }
     }
 }
