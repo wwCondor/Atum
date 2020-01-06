@@ -29,7 +29,7 @@ class AtumTests: XCTestCase {
     func testRoverPhotoUrl() {
         let roverCamera: RoverCamera = .fhaz
         MarsRoverQueryData.userRoverDataSelections.selectedRoverCamera = roverCamera
-        MarsRoverQueryData.userRoverDataSelections.selectedRoverPhotoDate = "2015-08-06"
+        MarsRoverQueryData.userRoverDataSelections.selectedRoverPhotoDate = PlaceHolderText.roverInitialDate
         let endpoint = Endpoint.marsRover.url()
         let expectedURL = URL(string: "https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos?earth_date=2015-08-06&camera=FHAZ&api_key=\(APIKey.key)")
         XCTAssertEqual(endpoint, expectedURL)
@@ -38,7 +38,7 @@ class AtumTests: XCTestCase {
     func testSkyEyePhotoUrl() {
         let location: Location = .mountEverest
         SkyEyeQueryData.userEyeDataSelections.selectedLocation = location
-        SkyEyeQueryData.userEyeDataSelections.selectedZoomLevel = "0.05"
+        SkyEyeQueryData.userEyeDataSelections.selectedZoomLevel = PlaceHolderText.initalZoomLevel
         let endpoint = Endpoint.eyeInTheSky.url()
         let expectedURL = URL(string: "https://api.nasa.gov/planetary/earth/imagery/?lat=27.9881&lon=86.9250&dim=0.05&api_key=\(APIKey.key)")
         XCTAssertEqual(endpoint, expectedURL)

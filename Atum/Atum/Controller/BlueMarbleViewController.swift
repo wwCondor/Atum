@@ -77,9 +77,9 @@ class BlueMarbleViewController: UIViewController {
     }
     
     private func setupView() {
-        view.addSubview(selectedImageView)
         view.addSubview(leftNavigator)
         view.addSubview(rightNavigator)
+        view.addSubview(selectedImageView)
         view.addSubview(photoCountInfoField)
         
         view.addSubview(timeInfoField)

@@ -125,7 +125,6 @@
 		0BE3811023B1FBE300342DA5 /* Atum */ = {
 			isa = PBXGroup;
 			children = (
-				0BE3815C23B63B6F00342DA5 /* Delete? */,
 				0BE3813623B200A700342DA5 /* Model */,
 				0BE3813523B200A300342DA5 /* View */,
 				0BE3813423B200A200342DA5 /* Controller */,
@@ -199,13 +198,6 @@
 				0BE3816723B9E1EF00342DA5 /* ItemModel.swift */,
 			);
 			path = Model;
-			sourceTree = "<group>";
-		};
-		0BE3815C23B63B6F00342DA5 /* Delete? */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = "Delete?";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

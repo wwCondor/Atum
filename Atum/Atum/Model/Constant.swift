@@ -56,14 +56,15 @@ struct Constant {
 }
 
 struct PlaceHolderText {
-    static let noRoverPhotos: String             = "No photos for camera/date"
-    static let postcardDefaultMessage: String    = "Your personal message"
-    static let roverInitialDateValue: String     = "2015-08-06"
-    static let initalZoomLevel: String           = "0.05"
-    static let enterEmail: String                = "Enter Email"
-    static let sendImageWithText: String         = "Text on image enabled"
-    static let sendImageWithoutText: String      = "Text on image disabled"
-    static let emailSubject: String              = "Image retrieved from one of the NASA API's with Atum app"
-    static let emailBodyTextMars: String         = "I found this amazing image, made by the \(Rover.curiosity.name) Mars Rover's \(MarsRoverQueryData.userRoverDataSelections.selectedRoverCamera.fullName) on \(MarsRoverQueryData.userRoverDataSelections.selectedRoverPhotoDate), using the Atum application"
-    static let emailBodyTextDSCOVR: String       = "I found this amazing image made by the DSCVR Spacecraft's Earth Polychromatic Imaging Camera (EPIC) using the Atum app."
+    static let noRoverPhotos: String                = "No photos for camera/date"
+    static let postcardDefaultMessage: String       = "Your personal message"
+    static let roverInitialDate: String             = "2015-08-06"
+    static let blueMarbleInitialDate: String        = "2019-06-27"
+    static let initalZoomLevel: String              = "0.05"
+    static let enterEmail: String                   = "Enter Email"
+    static let sendImageWithText: String            = "Text on image enabled"
+    static let sendImageWithoutText: String         = "Text on image disabled"
+    static let emailSubject: String                 = "Image retrieved from one of the NASA API's with Atum app"
+    static let emailBodyTextMars: String            = "I found this amazing image, made by the \(Rover.curiosity.name) Mars Rover's \(MarsRoverQueryData.userRoverDataSelections.selectedRoverCamera.fullName) on \(MarsRoverQueryData.userRoverDataSelections.selectedRoverPhotoDate), using the Atum application"
+    static let emailBodyTextDSCOVR: String          = "I found this amazing image made by the DSCVR Spacecraft's Earth Polychromatic Imaging Camera (EPIC) using the Atum app."
 }

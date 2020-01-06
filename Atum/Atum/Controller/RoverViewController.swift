@@ -121,9 +121,9 @@ class RoverViewController: UIViewController {
     }
     
     private func setupView() {
-        view.addSubview(selectedImageView)
         view.addSubview(leftNavigator)
         view.addSubview(rightNavigator)
+        view.addSubview(selectedImageView)
         view.addSubview(photoCountInfoField)
         
         view.addSubview(roverInfoField)
@@ -247,8 +247,7 @@ class RoverViewController: UIViewController {
             if connectionPossible == true {
                 self.selectedImageView.fetchPhoto(from: self.photos[self.selectedPhoto].imgSrc)
             } else {
-                self.presentAlert(description: NetworkingError
-                    .noReachability.localizedDescription, viewController: self)
+                self.presentAlert(description: NetworkingError.noReachability.localizedDescription, viewController: self)
             }
         }
     }

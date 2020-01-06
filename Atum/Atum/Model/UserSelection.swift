@@ -11,7 +11,7 @@ import Foundation
 struct MarsRoverQueryData {
     var selectedRoverCamera: RoverCamera
     var selectedRoverPhotoDate: String
-    static var userRoverDataSelections = MarsRoverQueryData(selectedRoverCamera: RoverCamera.fhaz, selectedRoverPhotoDate: PlaceHolderText.roverInitialDateValue)
+    static var userRoverDataSelections = MarsRoverQueryData(selectedRoverCamera: RoverCamera.fhaz, selectedRoverPhotoDate: PlaceHolderText.roverInitialDate)
 }
 
 struct SkyEyeQueryData {
@@ -22,5 +22,5 @@ struct SkyEyeQueryData {
 
 struct BlueMarbleQueryData {
     var selectedDate: String
-    static var userBlueMarbleDataSelection = BlueMarbleQueryData(selectedDate: "2019-06-27")
+    static var userBlueMarbleDataSelection = BlueMarbleQueryData(selectedDate: PlaceHolderText.blueMarbleInitialDate)
 }
