@@ -120,7 +120,7 @@ class BlueMarbleViewController: UIViewController {
             timeInfoField.leadingAnchor.constraint(equalTo: selectedImageView.leadingAnchor, constant: Constant.textFieldPadding),
             timeInfoField.trailingAnchor.constraint(equalTo: selectedImageView.centerXAnchor),
             timeInfoField.heightAnchor.constraint(equalToConstant: Constant.textFieldHeight),
-            timeInfoField.bottomAnchor.constraint(equalTo: selectedImageView.bottomAnchor, constant: -2*Constant.textFieldPadding),
+            timeInfoField.bottomAnchor.constraint(equalTo: selectedImageView.bottomAnchor, constant: -Constant.bottomTextFieldPadding),
             
             naturalDatePicker.topAnchor.constraint(equalTo: selectedImageView.bottomAnchor, constant: Constant.contentPadding),
             naturalDatePicker.leadingAnchor.constraint(equalTo: selectedImageView.leadingAnchor),
@@ -195,7 +195,7 @@ class BlueMarbleViewController: UIViewController {
             sliderMenuManager.greetingTextField.text = PlaceHolderText.postcardDefaultMessage
             sliderMenuManager.roverInfoField.text = ""
             sliderMenuManager.cameraInfoField.text = ""
-            sliderMenuManager.dateInfoField.text = BlueMarbleQueryData.userBlueMarbleDataSelection.selectedDate
+            sliderMenuManager.dateInfoField.text = "\(retrievedPhotos[selectedPhoto].date)"
             sliderMenuManager.modeSelected = .blueMarbleMode
             sliderMenuManager.presentSlider()
             print("Presenting Slider Menu")

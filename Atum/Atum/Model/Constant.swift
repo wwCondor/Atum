@@ -42,6 +42,7 @@ struct Constant {
     // TextField
     static let textFieldHeight: CGFloat          = 20
     static let textFieldPadding: CGFloat         = 10
+    static let bottomTextFieldPadding: CGFloat   = 15
     static let textFieldBorderWidth: CGFloat     = 2
     static let textXInset: CGFloat               = 10
     static let textYInset: CGFloat               = 5

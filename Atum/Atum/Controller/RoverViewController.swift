@@ -175,7 +175,7 @@ class RoverViewController: UIViewController {
             dateInfoField.leadingAnchor.constraint(equalTo: selectedImageView.leadingAnchor, constant: Constant.textFieldPadding),
             dateInfoField.trailingAnchor.constraint(equalTo: selectedImageView.centerXAnchor),
             dateInfoField.heightAnchor.constraint(equalToConstant: Constant.textFieldHeight),
-            dateInfoField.bottomAnchor.constraint(equalTo: selectedImageView.bottomAnchor, constant: -2*Constant.textFieldPadding),
+            dateInfoField.bottomAnchor.constraint(equalTo: selectedImageView.bottomAnchor, constant: -Constant.bottomTextFieldPadding),
             
             // Buttons and Picker
             cameraSelectionButton.topAnchor.constraint(equalTo: selectedImageView.bottomAnchor, constant: Constant.contentPadding),

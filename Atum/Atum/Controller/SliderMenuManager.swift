@@ -169,9 +169,9 @@ class SliderMenuManager: NSObject {
                 cameraInfoField.bottomAnchor.constraint(equalTo: dateInfoField.topAnchor),
                 
                 dateInfoField.leadingAnchor.constraint(equalTo: selectedImageView.leadingAnchor, constant: Constant.textFieldPadding),
-                dateInfoField.trailingAnchor.constraint(equalTo: selectedImageView.centerXAnchor),
+                dateInfoField.trailingAnchor.constraint(equalTo: selectedImageView.trailingAnchor, constant: -Constant.textFieldPadding),
                 dateInfoField.heightAnchor.constraint(equalToConstant: Constant.textFieldHeight),
-                dateInfoField.bottomAnchor.constraint(equalTo: selectedImageView.bottomAnchor, constant: -2*Constant.textFieldPadding),
+                dateInfoField.bottomAnchor.constraint(equalTo: selectedImageView.bottomAnchor, constant: -Constant.bottomTextFieldPadding),
                 
                 addTextInfoField.topAnchor.constraint(equalTo: selectedImageView.bottomAnchor, constant: Constant.contentPadding),
                 addTextInfoField.leadingAnchor.constraint(equalTo: selectedImageView.leadingAnchor),
@@ -322,8 +322,10 @@ class SliderMenuManager: NSObject {
     private func updateUIForSelectedMode() {
         if modeSelected == .marsRoverMode {
             addTextSwitch.isOn = true
+            addTextToImage = true
             showTextFields()
         } else if modeSelected == .blueMarbleMode {
+            addTextToImage = false
             hideTextFields()
             addTextSwitch.isOn = false
         }
@@ -347,11 +349,11 @@ class SliderMenuManager: NSObject {
     
     @objc private func flipSwitch(sender: UISwitch) {
         if sender.isOn {
-            print("ON")
+//            print("ON")
             addTextToImage = true
             showTextFields()
         } else {
-            print("OFF")
+//            print("OFF")
             addTextToImage = false
             hideTextFields()
         }
@@ -377,8 +379,8 @@ extension SliderMenuManager: UITextFieldDelegate {
     }
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        let maxCharacters = 25
-        // Set max
+        let maxCharacters = 25 // Set max
+        // Considered and tried allowing user to add more text but it clutters UI and image when added to it
         switch textField {
         case greetingTextField:
             let currentString = greetingTextField.text! as NSString
@@ -420,16 +422,17 @@ extension SliderMenuManager: MFMailComposeViewControllerDelegate {
             if error != nil {
                 controller.dismiss(animated: true, completion: nil)
             } else {
-                print("2")
+                // MARK: Additional functionality?
+                // Maybe expand on this after TD?
                 switch result {
                 case .cancelled:
-                    print(result)
+                    print("Cancelled")
                 case .saved:
-                    print(result)
+                    print("Saved")
                 case .sent:
-                    print(result)
+                    print("Sent")
                 case .failed:
-                    print(result)
+                    print("Failed")
                 @unknown default:
                     print(result)
                 }

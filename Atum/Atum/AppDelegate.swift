@@ -56,5 +56,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         - The loading time for the images took considerable time. In fact to long to make a good user experience.
             Fix 1: The API call retrieving the BlueMarblePhotos has been switched from .png to a .jpg query.
             Fix 2: The images retrieved from various endpoints are reduced to a smaller size before loaded into the UIImageViews.
+ */
+
+/*
+ Cool stuff:
+    - When navigating the images from the BlueMarbleViewController, the date 2016-07-05 has quite a nice surprise revealing itself after the 2nd photo. My favourite is the one taken at 04:28:28
+    - Blue Marble is the name given to he image taken on december 7th, 1972 by the crew of the Apollo 17 spacecraft on its way to the Moon.
+    https://en.wikipedia.org/wiki/The_Blue_Marble - to read more about it
  
  */
