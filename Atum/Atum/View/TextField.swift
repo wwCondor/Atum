@@ -34,10 +34,10 @@ class CustomTextField: UITextField {
 
 class PhotoCountInfoField: CustomTextField {
     override func additionalSettings() {
-        backgroundColor = UIColor(named: .appBackgroundColor)
+        backgroundColor = UIColor(named: .iconColor)
         layer.masksToBounds = true
         layer.cornerRadius = Constant.photoCountCornerRadius
-        isUserInteractionEnabled = true
+        isUserInteractionEnabled = false
         font = UIFont.systemFont(ofSize: 10.0, weight: .medium)
         textAlignment = .center
     }

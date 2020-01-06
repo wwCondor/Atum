@@ -138,7 +138,6 @@ class SkyEyeViewController: UIViewController {
 //            planetIcon.heightAnchor.constraint(equalToConstant: Constant.sliderImageViewSize),
 //            planetIcon.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -Constant.bottomContentPadding),
             
-            // picker
             locationPicker.topAnchor.constraint(equalTo: selectedImageView.bottomAnchor, constant: Constant.contentPadding),
             locationPicker.leadingAnchor.constraint(equalTo: selectedImageView.leadingAnchor),// constant: Constant.contentPadding),
             locationPicker.trailingAnchor.constraint(equalTo: selectedImageView.trailingAnchor),

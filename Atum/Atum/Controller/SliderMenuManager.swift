@@ -101,45 +101,10 @@ class SliderMenuManager: NSObject {
         return addTextSwitch
     }()
     
-    @objc private func flipSwitch(sender: UISwitch) {
-        if sender.isOn == true {
-            addTextToImage = true
-            hideTextFields()
-        } else {
-            addTextToImage = false
-            showTextFields()
-        }
-        print("Add text to image: \(addTextToImage)")
-    }
-    
     override init() {
         super.init()
         emailInputField.delegate = self
         greetingTextField.delegate = self
-    }
-    
-    private func updateUIForSelectedMode() {
-        if modeSelected == .marsRoverMode {
-            addTextSwitch.isOn = true
-            hideTextFields()
-        } else if modeSelected == .blueMarbleMode {
-            showTextFields()
-            addTextSwitch.isOn = false
-        }
-    }
-    
-    private func hideTextFields() {
-        greetingTextField.isHidden = false
-        roverInfoField.isHidden = false
-        cameraInfoField.isHidden = false
-        dateInfoField.isHidden = false
-    }
-    
-    private func showTextFields() {
-        greetingTextField.isHidden = true
-        roverInfoField.isHidden = true
-        cameraInfoField.isHidden = true
-        dateInfoField.isHidden = true
     }
     
     func presentSlider() {
@@ -240,6 +205,10 @@ class SliderMenuManager: NSObject {
         }
     }
     
+    @objc private func dismissSlider(sender: UISwipeGestureRecognizer) {
+        dismissSliderMenu()
+    }
+    
     private func dismissSliderMenu() {
         UIView.animate(
             withDuration: 0.3,
@@ -271,10 +240,6 @@ class SliderMenuManager: NSObject {
                 self.addTextInfoField.removeFromSuperview()
                 self.addTextSwitch.removeFromSuperview()
         })
-    }
-    
-    @objc private func dismissSlider(sender: UISwipeGestureRecognizer) {
-        dismissSliderMenu()
     }
     
     private func shakeInputLabel() {
@@ -323,7 +288,7 @@ class SliderMenuManager: NSObject {
                 case .marsRoverMode: drawText = "\(greeting). Photo: \(roverName) (\(roverCamera), \(date))"
                 case .blueMarbleMode: drawText = "\(greeting). Photo: DSCOVR, \(date)"
                 }
-                // Depening on selection here image is created with or without text added
+                // Depending on selection here image is created with or without text added
                 let imageWithText = image.withText(forMode: modeSelected, drawText: drawText, inImage: image, atPoint: point).pngData()!
                 let imageData: Data = addText ? imageWithText : image.pngData()!
                 let uuid = UUID().uuidString
@@ -331,7 +296,6 @@ class SliderMenuManager: NSObject {
                 window.rootViewController?.present(composer, animated: true, completion: nil)
             } else {
                 greetingTextField.text = "Device cannot send mail"
-                dismissSliderMenu()
             }
         }
     }
@@ -341,7 +305,6 @@ class SliderMenuManager: NSObject {
         guard let input = emailInputField.text else { return }
         
         if input.isEmpty || input == PlaceHolderText.enterEmail {
-            print("Not sent")
             shakeInputLabel()
         } else if isValidEmail(input) == true {
             if addTextToImage == true {
@@ -350,7 +313,47 @@ class SliderMenuManager: NSObject {
                 sendEmail(to: input, contentOf: selectedImageView, addText: false) // send email without text
             }
         } else if isValidEmail(input) == false {
+            shakeInputLabel()
             print("Enter valid email address")
+        }
+    }
+    
+    // MARK: Switch
+    private func updateUIForSelectedMode() {
+        if modeSelected == .marsRoverMode {
+            addTextSwitch.isOn = true
+            showTextFields()
+        } else if modeSelected == .blueMarbleMode {
+            hideTextFields()
+            addTextSwitch.isOn = false
+        }
+    }
+    
+    private func showTextFields() {
+        greetingTextField.isHidden = false
+        roverInfoField.isHidden = false
+        cameraInfoField.isHidden = false
+        dateInfoField.isHidden = false
+        addTextInfoField.text = PlaceHolderText.sendImageWithText
+    }
+    
+    private func hideTextFields() {
+        greetingTextField.isHidden = true
+        roverInfoField.isHidden = true
+        cameraInfoField.isHidden = true
+        dateInfoField.isHidden = true
+        addTextInfoField.text = PlaceHolderText.sendImageWithoutText
+    }
+    
+    @objc private func flipSwitch(sender: UISwitch) {
+        if sender.isOn {
+            print("ON")
+            addTextToImage = true
+            showTextFields()
+        } else {
+            print("OFF")
+            addTextToImage = false
+            hideTextFields()
         }
     }
 }

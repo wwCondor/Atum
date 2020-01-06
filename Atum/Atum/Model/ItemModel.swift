@@ -28,4 +28,5 @@ struct BlueMarbleDate: Codable {
 
 struct BlueMarblePhoto: Codable {
     let image: String
+    let date: String
 }

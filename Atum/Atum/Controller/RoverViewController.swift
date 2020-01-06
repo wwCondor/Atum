@@ -40,12 +40,6 @@ class RoverViewController: UIViewController {
         return navigator
     }()
     
-    lazy var photoCountInfoField: PhotoCountInfoField = {
-        let photoCountInfoField = PhotoCountInfoField()
-        photoCountInfoField.text = "\(selectedPhoto) / \(photos.count)"
-        return photoCountInfoField
-    }()
-    
     lazy var roverInfoField: PostcardImageInfoField = {
         let roverInfoField = PostcardImageInfoField()
         roverInfoField.text = "\(Rover.curiosity.name)"
@@ -64,9 +58,11 @@ class RoverViewController: UIViewController {
         return dateInfoField
     }()
     
-
-    
-
+    lazy var photoCountInfoField: PhotoCountInfoField = {
+        let photoCountInfoField = PhotoCountInfoField()
+        photoCountInfoField.text = "\(selectedPhoto) / \(photos.count)"
+        return photoCountInfoField
+    }()
     
     lazy var cameraSelectionButton: CustomButton = {
         let cameraSelectionButton = CustomButton(type: .custom)
@@ -89,8 +85,15 @@ class RoverViewController: UIViewController {
         components.month = 08
         components.day = 06
         components.year = 2012
-        let startDate = calendar.date(from: components)
-        roverDatePicker.minimumDate = startDate
+        if let landingDate = calendar.date(from: components) {
+            roverDatePicker.minimumDate = landingDate
+        }
+        components.month = 08
+        components.day = 06
+        components.year = 2015
+        if let defaultDate = calendar.date(from: components) {
+            roverDatePicker.setDate(defaultDate, animated: true)
+        }
         let currentDate = Date()
         roverDatePicker.maximumDate = currentDate
         roverDatePicker.timeZone = NSTimeZone.local
@@ -98,14 +101,14 @@ class RoverViewController: UIViewController {
         return roverDatePicker
     }()
     
-    lazy var sendButton: CustomButton = {
-        let sendButton = CustomButton(type: .custom)
+    lazy var launchSliderMenuButton: CustomButton = {
+        let launchSliderMenuButton = CustomButton(type: .custom)
         let image = UIImage(named: .sendIcon)?.withRenderingMode(.alwaysTemplate)
         let inset: CGFloat = Constant.sendButtonIconInset
-        sendButton.imageEdgeInsets = UIEdgeInsets(top: inset, left: inset, bottom: inset, right: inset)
-        sendButton.setImage(image, for: .normal)
-        sendButton.addTarget(self, action: #selector(presentMenuSlider(tapGestureRecognizer:)), for: .touchUpInside)
-        return sendButton
+        launchSliderMenuButton.imageEdgeInsets = UIEdgeInsets(top: inset, left: inset, bottom: inset, right: inset)
+        launchSliderMenuButton.setImage(image, for: .normal)
+        launchSliderMenuButton.addTarget(self, action: #selector(presentMenuSlider(tapGestureRecognizer:)), for: .touchUpInside)
+        return launchSliderMenuButton
     }()
     
     override func viewDidLoad() {
@@ -118,20 +121,18 @@ class RoverViewController: UIViewController {
     }
     
     func setupView() {
-        // selectedImageContainerView content
-        view.addSubview(leftNavigator)
         view.addSubview(selectedImageView)
-        view.addSubview(photoCountInfoField)
+        view.addSubview(leftNavigator)
         view.addSubview(rightNavigator)
+        view.addSubview(photoCountInfoField)
         
-        // Meta Data TextFields
         view.addSubview(roverInfoField)
         view.addSubview(cameraInfoField)
         view.addSubview(dateInfoField)
         
         view.addSubview(cameraSelectionButton)
         view.addSubview(roverDatePicker)
-        view.addSubview(sendButton)
+        view.addSubview(launchSliderMenuButton)
         
         let viewWidth: CGFloat = view.frame.width
         let selectedImageSize: CGFloat = (3/4)*view.frame.width
@@ -185,12 +186,12 @@ class RoverViewController: UIViewController {
             roverDatePicker.topAnchor.constraint(equalTo: cameraSelectionButton.bottomAnchor, constant: Constant.contentPadding),
             roverDatePicker.leadingAnchor.constraint(equalTo: selectedImageView.leadingAnchor),// constant: contentSidePadding),
             roverDatePicker.trailingAnchor.constraint(equalTo: selectedImageView.trailingAnchor),// constant: -contentSidePadding),
-            roverDatePicker.bottomAnchor.constraint(equalTo: sendButton.topAnchor, constant: -Constant.contentPadding),
+            roverDatePicker.bottomAnchor.constraint(equalTo: launchSliderMenuButton.topAnchor, constant: -Constant.contentPadding),
             
-            sendButton.widthAnchor.constraint(equalToConstant: Constant.sendButtonSize),
-            sendButton.heightAnchor.constraint(equalToConstant: Constant.sendButtonSize),
-            sendButton.centerXAnchor.constraint(equalTo: selectedImageView.centerXAnchor),
-            sendButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -Constant.bottomContentPadding),
+            launchSliderMenuButton.widthAnchor.constraint(equalToConstant: Constant.sendButtonSize),
+            launchSliderMenuButton.heightAnchor.constraint(equalToConstant: Constant.sendButtonSize),
+            launchSliderMenuButton.centerXAnchor.constraint(equalTo: selectedImageView.centerXAnchor),
+            launchSliderMenuButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -Constant.bottomContentPadding),
         ])
     }
     
@@ -220,9 +221,16 @@ class RoverViewController: UIViewController {
     private func updateUI() {
         if photos.count != 0 {
             setRetrievedImage()
-            photoCountInfoField.text = "\(selectedPhoto + 1) / \(photos.count)"
         } else {
             selectedImageView.image = UIImage(named: .placeholderImage)?.croppedToSquare(size: Constant.croppedSquareSize)
+        }
+        updatePhotoCounter()
+    }
+    
+    private func updatePhotoCounter() {
+        if photos.count != 0 {
+            photoCountInfoField.text = "\(selectedPhoto + 1) / \(photos.count)"
+        } else {
             photoCountInfoField.text = "\(selectedPhoto) / \(photos.count)"
         }
     }
@@ -248,8 +256,7 @@ class RoverViewController: UIViewController {
             }
             selectedImageView.fetchPhoto(from: photos[selectedPhoto].imgSrc)
         }
-        photoCountInfoField.text = "\(selectedPhoto + 1) / \(photos.count)"
-//        print("Showing Previous Image: \(selectedPhoto)")
+        updatePhotoCounter()
     }
     
     @objc private func showNextPhoto(sender: RightNavigator) {
@@ -261,8 +268,7 @@ class RoverViewController: UIViewController {
             }
             selectedImageView.fetchPhoto(from: photos[selectedPhoto].imgSrc)
         }
-        photoCountInfoField.text = "\(selectedPhoto + 1) / \(photos.count)"
-//        print("Showing Next Image: \(selectedPhoto)")
+        updatePhotoCounter()
     }
     
     @objc private func switchCamera(tapGestureRecognizer: UITapGestureRecognizer) {
@@ -278,7 +284,7 @@ class RoverViewController: UIViewController {
         print("Switching Camera")
     }
     
-    @objc func dateChanged(datePicker: UIDatePicker) {
+    @objc private func dateChanged(datePicker: UIDatePicker) {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd"
         let dateString = dateFormatter.string(from: datePicker.date)

@@ -14,7 +14,7 @@ class BlueMarbleViewController: UIViewController {
     
     var allNaturalDates: [BlueMarbleDate] = [BlueMarbleDate]()
     var retrievedPhotos: [BlueMarblePhoto] = [BlueMarblePhoto]()
-    var imagesForDate: [UIImage] = [UIImage]() // Not used yet
+//    var imagesForDate: [UIImage] = [UIImage]() // Not used yet
     var selectedPhoto: Int = 0
     
     // Selected Image
@@ -38,9 +38,15 @@ class BlueMarbleViewController: UIViewController {
         return navigator
     }()
     
+    lazy var timeInfoField: PostcardImageInfoField = {
+        let timeInfoField = PostcardImageInfoField()
+        timeInfoField.text = "00:00:00"//"\(cameras[selectedCamera].abbreviation)"
+        return timeInfoField
+    }()
+    
     lazy var photoCountInfoField: PhotoCountInfoField = {
         let photoCountInfoField = PhotoCountInfoField()
-        photoCountInfoField.text = "\(selectedPhoto) / \(imagesForDate.count)"
+        photoCountInfoField.text = "\(selectedPhoto) / \(retrievedPhotos.count)"
         return photoCountInfoField
     }()
     
@@ -53,14 +59,14 @@ class BlueMarbleViewController: UIViewController {
         return naturalDatePicker
     }()
     
-    lazy var sendButton: CustomButton = {
-        let sendButton = CustomButton(type: .custom)
+    lazy var launchSliderMenuButton: CustomButton = {
+        let launchSliderMenuButton = CustomButton(type: .custom)
         let image = UIImage(named: .sendIcon)?.withRenderingMode(.alwaysTemplate)
         let inset: CGFloat = Constant.sendButtonIconInset
-        sendButton.imageEdgeInsets = UIEdgeInsets(top: inset, left: inset, bottom: inset, right: inset)
-        sendButton.setImage(image, for: .normal)
-        sendButton.addTarget(self, action: #selector(presentMenuSlider(tapGestureRecognizer:)), for: .touchUpInside)
-        return sendButton
+        launchSliderMenuButton.imageEdgeInsets = UIEdgeInsets(top: inset, left: inset, bottom: inset, right: inset)
+        launchSliderMenuButton.setImage(image, for: .normal)
+        launchSliderMenuButton.addTarget(self, action: #selector(presentMenuSlider(tapGestureRecognizer:)), for: .touchUpInside)
+        return launchSliderMenuButton
     }()
     
     override func viewDidLoad() {
@@ -73,13 +79,15 @@ class BlueMarbleViewController: UIViewController {
     }
     
     private func setupView() {
-        view.addSubview(leftNavigator)
         view.addSubview(selectedImageView)
+        view.addSubview(leftNavigator)
         view.addSubview(rightNavigator)
         view.addSubview(photoCountInfoField)
+        
+        view.addSubview(timeInfoField)
 
-        view.addSubview(sendButton)
         view.addSubview(naturalDatePicker)
+        view.addSubview(launchSliderMenuButton)
         
         let viewWidth: CGFloat = view.frame.width
         let selectedImageSize: CGFloat = (3/4)*view.frame.width
@@ -108,16 +116,21 @@ class BlueMarbleViewController: UIViewController {
             photoCountInfoField.heightAnchor.constraint(equalToConstant: Constant.photoCountHeigth),
             photoCountInfoField.centerYAnchor.constraint(equalTo: selectedImageView.bottomAnchor),
             
+            // Photo Data
+            timeInfoField.leadingAnchor.constraint(equalTo: selectedImageView.leadingAnchor, constant: Constant.textFieldPadding),
+            timeInfoField.trailingAnchor.constraint(equalTo: selectedImageView.centerXAnchor),
+            timeInfoField.heightAnchor.constraint(equalToConstant: Constant.textFieldHeight),
+            timeInfoField.bottomAnchor.constraint(equalTo: selectedImageView.bottomAnchor, constant: -2*Constant.textFieldPadding),
+            
             naturalDatePicker.topAnchor.constraint(equalTo: selectedImageView.bottomAnchor, constant: Constant.contentPadding),
             naturalDatePicker.leadingAnchor.constraint(equalTo: selectedImageView.leadingAnchor),
             naturalDatePicker.trailingAnchor.constraint(equalTo: selectedImageView.trailingAnchor),
-            naturalDatePicker.bottomAnchor.constraint(equalTo: sendButton.topAnchor, constant: -Constant.contentPadding),
+            naturalDatePicker.bottomAnchor.constraint(equalTo: launchSliderMenuButton.topAnchor, constant: -Constant.contentPadding),
             
-            // Not used atm
-            sendButton.widthAnchor.constraint(equalToConstant: Constant.sendButtonSize),
-            sendButton.heightAnchor.constraint(equalToConstant: Constant.sendButtonSize),
-            sendButton.centerXAnchor.constraint(equalTo: selectedImageView.centerXAnchor),
-            sendButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -Constant.bottomContentPadding),
+            launchSliderMenuButton.widthAnchor.constraint(equalToConstant: Constant.sendButtonSize),
+            launchSliderMenuButton.heightAnchor.constraint(equalToConstant: Constant.sendButtonSize),
+            launchSliderMenuButton.centerXAnchor.constraint(equalTo: selectedImageView.centerXAnchor),
+            launchSliderMenuButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -Constant.bottomContentPadding),
         ])
     }
     
@@ -164,6 +177,7 @@ class BlueMarbleViewController: UIViewController {
                     }
                     print("Photo Data retrieved from API: \(self.retrievedPhotos)")
                     self.updatePhotoCounter()
+                    self.updateTimeInfoField()
                     self.selectedImageView.fetchPhoto(date: BlueMarbleQueryData.userBlueMarbleDataSelection.selectedDate, imageName: self.retrievedPhotos[self.selectedPhoto].image)
                 }
             }
@@ -188,6 +202,13 @@ class BlueMarbleViewController: UIViewController {
         }
     }
     
+    private func updateTimeInfoField() {
+        let fullDate: String = retrievedPhotos[selectedPhoto].date
+        let fullDateArray: [String] = fullDate.components(separatedBy: " ")
+        let timeStamp: String = fullDateArray[1]
+        timeInfoField.text = "\(timeStamp)"
+    }
+    
     @objc private func showPreviousPhoto(sender: LeftNavigator) {
         if retrievedPhotos.count != 0 {
             if selectedPhoto == 0 {
@@ -198,7 +219,7 @@ class BlueMarbleViewController: UIViewController {
             selectedImageView.fetchPhoto(date: BlueMarbleQueryData.userBlueMarbleDataSelection.selectedDate, imageName: retrievedPhotos[selectedPhoto].image)
         }
         updatePhotoCounter()
-//        print("Showing Previous Image: \(selectedPhoto)/\(retrievedPhotos.count)")
+        updateTimeInfoField()
     }
     
     @objc private func showNextPhoto(sender: RightNavigator) {
@@ -211,7 +232,7 @@ class BlueMarbleViewController: UIViewController {
             selectedImageView.fetchPhoto(date: BlueMarbleQueryData.userBlueMarbleDataSelection.selectedDate, imageName: retrievedPhotos[selectedPhoto].image)
         }
         updatePhotoCounter()
-//        print("Showing Next Image: \(selectedPhoto)/\(retrievedPhotos.count)")
+        updateTimeInfoField()
     }
 }
 
