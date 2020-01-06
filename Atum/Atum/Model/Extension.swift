@@ -63,7 +63,7 @@ extension UIView {
     func addBorders(edges: UIRectEdge,
                     color: UIColor,
                     inset: CGFloat = 0.0,
-                    thickness: CGFloat = Constant.sliderBorderWidth) -> [UIView] {
+                    thickness: CGFloat = Constant.sliderMenuBorderWidth) -> [UIView] {
 
         var borders = [UIView]()
 
@@ -139,7 +139,7 @@ extension UIImageView {
     }
     
     func fetchPhoto(date: String, imageName: String) {
-        // Used to obtain image from EPIC API which needs date to be
+        // Used to obtain image from EPIC API which has trickier url construction
         let fullDate: String = date
         let fullDateArray: [String] = fullDate.components(separatedBy: "-")
         
@@ -177,6 +177,7 @@ extension UIImageView {
 }
 
 extension UIImage {
+    // Crop images to squares of particular size (speeds up loading and allows image uniformity)
     func croppedToSquare(size: Double) -> UIImage {
         let cgImage = self.cgImage!
         let contextImage: UIImage = UIImage(cgImage: cgImage)
@@ -212,6 +213,7 @@ extension UIImage {
 }
 
 extension UIImage {
+    // Used for adding text onto image
     func withText(forMode: ModeSelected, drawText text: String, inImage image: UIImage, atPoint point: CGPoint) -> UIImage {
         let textColor = UIColor.white
         let textFont: UIFont = UIFont.systemFont(ofSize: 16.0, weight: .semibold)

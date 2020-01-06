@@ -46,7 +46,7 @@ struct Constant {
     
     // Send Email Slider Content
     static let emailInputFieldHeight: CGFloat    = 40
-    static let sliderBorderWidth: CGFloat        = 2
+    static let sliderMenuBorderWidth: CGFloat    = 2
     static let itemSpacing: CGFloat              = 8
 }
 
