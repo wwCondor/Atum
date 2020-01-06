@@ -32,7 +32,7 @@ class PageViewController: UIPageViewController {
         let logoImageView = UIImageView(image: image)
         logoImageView.isUserInteractionEnabled = true
         logoImageView.translatesAutoresizingMaskIntoConstraints = false
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(activateRocket(sender:)))
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(switchRocketState(sender:)))
         logoImageView.addGestureRecognizer(tapGesture)
         logoImageView.contentMode = .scaleAspectFit
         return logoImageView
@@ -67,7 +67,6 @@ class PageViewController: UIPageViewController {
             setViewControllers([destinationViewController], direction: .reverse, animated: true, completion: nil)
         }
         currentPage = number
-        print(currentPage)
     }
     
     private func setupMenuBar() {
@@ -93,7 +92,7 @@ class PageViewController: UIPageViewController {
         return UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: identifier)
     }
     
-    @objc private func activateRocket(sender: UITapGestureRecognizer) {
+    @objc private func switchRocketState(sender: UITapGestureRecognizer) {
         switch rocketEngine {
         case .off:
             rocketEngine = .on

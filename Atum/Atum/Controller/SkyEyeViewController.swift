@@ -87,16 +87,22 @@ class SkyEyeViewController: UIViewController {
     }
     
     private func getEyeInTheSkyPhoto() {
-        EyeInTheSkyDataManager.fetchPhoto(lat: SkyEyeQueryData.userEyeDataSelections.selectedLocation.latitude , long: SkyEyeQueryData.userEyeDataSelections.selectedLocation.longitude, dim: SkyEyeQueryData.userEyeDataSelections.selectedZoomLevel) { (data, error) in
-            DispatchQueue.main.async {
-                guard let photoData = data else {
-                    self.selectedImageView.image = UIImage(named: .placeholderImage)
-                    self.presentAlert(description: NetworkingError.noData.localizedDescription, viewController: self)
-                    return
+        let connectionPossible = Reachability.checkReachable()
+        if connectionPossible == true {
+            EyeInTheSkyDataManager.fetchPhoto(lat: SkyEyeQueryData.userEyeDataSelections.selectedLocation.latitude , long: SkyEyeQueryData.userEyeDataSelections.selectedLocation.longitude, dim: SkyEyeQueryData.userEyeDataSelections.selectedZoomLevel) { (data, error) in
+                DispatchQueue.main.async {
+                    guard let photoData = data else {
+                        self.selectedImageView.image = UIImage(named: .placeholderImage)
+                        self.presentAlert(description: NetworkingError.noData.localizedDescription, viewController: self)
+                        return
+                    }
+                    self.selectedImageView.fetchPhoto(from: photoData.url)
+                    //                print(photoData)
                 }
-                self.selectedImageView.fetchPhoto(from: photoData.url)
-//                print(photoData)
             }
+        } else {
+            selectedImageView.image = UIImage(named: .placeholderImage)
+            self.presentAlert(description: NetworkingError.noReachability.localizedDescription, viewController: self)
         }
     }
     
@@ -145,7 +151,7 @@ class SkyEyeViewController: UIViewController {
         ])
     }
     
-    @objc func setZoom(_ sender: UISlider) {
+    @objc private func setZoom(_ sender: UISlider) {
 //        sender.value = roundf(sender.value) // this allows thumb to snap between values
 //        let zoomLevel: [Float] = [0.025, 0.050, 0.100, 0.200, 0.500]
 //        let zoomSelected = Double(zoomLevel[Int(roundf(sender.value))])

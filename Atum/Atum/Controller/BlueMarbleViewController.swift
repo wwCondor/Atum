@@ -14,10 +14,8 @@ class BlueMarbleViewController: UIViewController {
     
     var allNaturalDates: [BlueMarbleDate] = [BlueMarbleDate]()
     var retrievedPhotos: [BlueMarblePhoto] = [BlueMarblePhoto]()
-//    var imagesForDate: [UIImage] = [UIImage]() // Not used yet
     var selectedPhoto: Int = 0
     
-    // Selected Image
     lazy var selectedImageView: RetrievedImageView = {
         let image = UIImage(named: .placeholderImage)
         let selectedImageView = RetrievedImageView(image: image)
@@ -40,7 +38,7 @@ class BlueMarbleViewController: UIViewController {
     
     lazy var timeInfoField: PostcardImageInfoField = {
         let timeInfoField = PostcardImageInfoField()
-        timeInfoField.text = "00:00:00"//"\(cameras[selectedCamera].abbreviation)"
+        timeInfoField.text = "00:00:00"
         return timeInfoField
     }()
     
@@ -162,9 +160,9 @@ class BlueMarbleViewController: UIViewController {
     }
     
     private func getPhotosForDate(date: String) {
-        selectedPhoto = 0
-        let connetionPossible = Reachability.checkReachable()
-        if connetionPossible == true {
+        selectedPhoto = 0 // Each API call we reset selectedPhoto
+        let connectionPossible = Reachability.checkReachable()
+        if connectionPossible == true {
             retrievedPhotos.removeAll() // Make sure array is empty
             BlueMarbleDataManager.fetchPhotos(date: date) { (data, error) in
                 DispatchQueue.main.async {

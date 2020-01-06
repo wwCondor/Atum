@@ -120,7 +120,7 @@ class RoverViewController: UIViewController {
         getRoverPhotos()
     }
     
-    func setupView() {
+    private func setupView() {
         view.addSubview(selectedImageView)
         view.addSubview(leftNavigator)
         view.addSubview(rightNavigator)
@@ -184,8 +184,8 @@ class RoverViewController: UIViewController {
             cameraSelectionButton.heightAnchor.constraint(equalToConstant: Constant.cameraButtonHeigth),
 
             roverDatePicker.topAnchor.constraint(equalTo: cameraSelectionButton.bottomAnchor, constant: Constant.contentPadding),
-            roverDatePicker.leadingAnchor.constraint(equalTo: selectedImageView.leadingAnchor),// constant: contentSidePadding),
-            roverDatePicker.trailingAnchor.constraint(equalTo: selectedImageView.trailingAnchor),// constant: -contentSidePadding),
+            roverDatePicker.leadingAnchor.constraint(equalTo: selectedImageView.leadingAnchor),
+            roverDatePicker.trailingAnchor.constraint(equalTo: selectedImageView.trailingAnchor),
             roverDatePicker.bottomAnchor.constraint(equalTo: launchSliderMenuButton.topAnchor, constant: -Constant.contentPadding),
             
             launchSliderMenuButton.widthAnchor.constraint(equalToConstant: Constant.sendButtonSize),
@@ -205,16 +205,22 @@ class RoverViewController: UIViewController {
     
     private func getRoverPhotos() {
         selectedPhoto = 0 // Each API call we reset selectedPhoto
-        MarsRoverDataManager.fetchPhotos(date: MarsRoverQueryData.userRoverDataSelections.selectedRoverPhotoDate, camera: MarsRoverQueryData.userRoverDataSelections.selectedRoverCamera.abbreviation) { (photos, error) in
-            DispatchQueue.main.async {
-                guard let photos = photos else {
-                    self.presentAlert(description: NetworkingError.noData.localizedDescription, viewController: self)
-                    return
+        let connectionPossible = Reachability.checkReachable()
+        if connectionPossible == true {
+            MarsRoverDataManager.fetchPhotos(date: MarsRoverQueryData.userRoverDataSelections.selectedRoverPhotoDate, camera: MarsRoverQueryData.userRoverDataSelections.selectedRoverCamera.abbreviation) { (photos, error) in
+                DispatchQueue.main.async {
+                    guard let photos = photos else {
+                        self.presentAlert(description: NetworkingError.noData.localizedDescription, viewController: self)
+                        return
+                    }
+                    self.photos = photos
+                    self.updateUI()
+                    //                print(self.photos) //
                 }
-                self.photos = photos
-                self.updateUI()
-//                print(self.photos) //
             }
+        } else {
+            selectedImageView.image = UIImage(named: .placeholderImage)
+            self.presentAlert(description: NetworkingError.noReachability.localizedDescription, viewController: self)
         }
     }
     
