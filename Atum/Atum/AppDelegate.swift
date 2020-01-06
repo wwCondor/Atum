@@ -21,8 +21,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         navigationBarAppearance.isTranslucent = false
         
         // Gets rid of shadow under navBar
-        navigationBarAppearance.shadowImage = UIImage()
-        navigationBarAppearance.setBackgroundImage(UIImage(), for: .default)
+//        navigationBarAppearance.shadowImage = UIImage()
+//        navigationBarAppearance.setBackgroundImage(UIImage(), for: .default)
         
         window = UIWindow(frame: UIScreen.main.bounds)
         window?.makeKeyAndVisible()
@@ -63,5 +63,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     - When navigating the images from the BlueMarbleViewController, the date 2016-07-05 has quite a nice surprise revealing itself after the 2nd photo. My favourite is the one taken at 04:28:28
     - Blue Marble is the name given to he image taken on december 7th, 1972 by the crew of the Apollo 17 spacecraft on its way to the Moon.
     https://en.wikipedia.org/wiki/The_Blue_Marble - to read more about it
+ 
+ Extra stuff:
+    - You can navigate app by using bottom bar but also by swiping pages
+    - You can activate rocket in the navigationBar by tapping it
  
  */

@@ -8,9 +8,16 @@
 
 import UIKit
 
+enum Engine {
+    case on
+    case off
+}
+
 class PageViewController: UIPageViewController {
     
     var currentPage: Int = 0
+    
+    var rocketEngine: Engine = .off
     
     lazy var pages: [UIViewController] = {
         return [
@@ -87,7 +94,15 @@ class PageViewController: UIPageViewController {
     }
     
     @objc private func activateRocket(sender: UITapGestureRecognizer) {
-        print("Whooooooshhh!")
+        switch rocketEngine {
+        case .off:
+            rocketEngine = .on
+            logoImageView.image = UIImage(named: .activeRocketIcon)?.withRenderingMode(.alwaysOriginal).withBottomInset(inset: 70)
+            print("Whooooooshhh!")
+        case .on:
+            rocketEngine = .off
+            logoImageView.image = UIImage(named: .inactiveRocketIcon)?.withRenderingMode(.alwaysOriginal).withBottomInset(inset: 70)
+        }
     }
 }
 
