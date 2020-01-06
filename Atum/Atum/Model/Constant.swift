@@ -30,6 +30,10 @@ struct Constant {
     static let largeCornerRadius: CGFloat        = 10
     static let smallCornerRadius: CGFloat        = 5
     
+    static let photoCountWidth: CGFloat          = 60
+    static let photoCountHeigth: CGFloat         = 20
+    static let photoCountCornerRadius: CGFloat   = 5
+    
     static let photoNavigatorOffset: CGFloat     = 2
     static let contentPadding: CGFloat           = 20
     static let contentSidePadding: CGFloat       = 30

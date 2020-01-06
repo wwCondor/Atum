@@ -18,17 +18,17 @@ class BlueMarbleViewController: UIViewController {
     var selectedPhoto: Int = 0
     
     // Selected Image
+    lazy var selectedImageView: RetrievedImageView = {
+        let image = UIImage(named: .placeholderImage)
+        let selectedImageView = RetrievedImageView(image: image)
+        return selectedImageView
+    }()
+    
     lazy var leftNavigator: LeftNavigator = {
         let navigator = LeftNavigator()
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(showPreviousPhoto(sender:)))
         navigator.addGestureRecognizer(tapGesture)
         return navigator
-    }()
-    
-    lazy var selectedImageView: RetrievedImageView = {
-        let image = UIImage(named: .placeholderImage)
-        let selectedImageView = RetrievedImageView(image: image)
-        return selectedImageView
     }()
     
     lazy var rightNavigator: RightNavigator = {
@@ -37,7 +37,13 @@ class BlueMarbleViewController: UIViewController {
         navigator.addGestureRecognizer(tapGesture)
         return navigator
     }()
-
+    
+    lazy var photoCountInfoField: PhotoCountInfoField = {
+        let photoCountInfoField = PhotoCountInfoField()
+        photoCountInfoField.text = "\(selectedPhoto) / \(imagesForDate.count)"
+        return photoCountInfoField
+    }()
+    
     lazy var naturalDatePicker: UIPickerView = {
         let naturalDatePicker = UIPickerView()
         naturalDatePicker.translatesAutoresizingMaskIntoConstraints = false
@@ -70,6 +76,8 @@ class BlueMarbleViewController: UIViewController {
         view.addSubview(leftNavigator)
         view.addSubview(selectedImageView)
         view.addSubview(rightNavigator)
+        view.addSubview(photoCountInfoField)
+
         view.addSubview(sendButton)
         view.addSubview(naturalDatePicker)
         
@@ -80,20 +88,25 @@ class BlueMarbleViewController: UIViewController {
         let navigatorHeigth = navigatorWidth * 2
         
         NSLayoutConstraint.activate([
-            leftNavigator.trailingAnchor.constraint(equalTo: selectedImageView.leadingAnchor, constant: -Constant.photoNavigatorOffset),
-            leftNavigator.centerYAnchor.constraint(equalTo: selectedImageView.centerYAnchor),
-            leftNavigator.widthAnchor.constraint(equalToConstant: navigatorWidth),
-            leftNavigator.heightAnchor.constraint(equalToConstant: navigatorHeigth),
-            
             selectedImageView.topAnchor.constraint(equalTo: view.topAnchor, constant: Constant.contentPadding),
             selectedImageView.widthAnchor.constraint(equalToConstant: selectedImageSize),
             selectedImageView.heightAnchor.constraint(equalToConstant: selectedImageSize),
             selectedImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             
+            leftNavigator.trailingAnchor.constraint(equalTo: selectedImageView.leadingAnchor, constant: -Constant.photoNavigatorOffset),
+            leftNavigator.centerYAnchor.constraint(equalTo: selectedImageView.centerYAnchor),
+            leftNavigator.widthAnchor.constraint(equalToConstant: navigatorWidth),
+            leftNavigator.heightAnchor.constraint(equalToConstant: navigatorHeigth),
+            
             rightNavigator.leadingAnchor.constraint(equalTo: selectedImageView.trailingAnchor, constant: Constant.photoNavigatorOffset),
             rightNavigator.centerYAnchor.constraint(equalTo: selectedImageView.centerYAnchor),
             rightNavigator.widthAnchor.constraint(equalToConstant: navigatorWidth),
             rightNavigator.heightAnchor.constraint(equalToConstant: navigatorHeigth),
+            
+            photoCountInfoField.centerXAnchor.constraint(equalTo: selectedImageView.centerXAnchor),
+            photoCountInfoField.widthAnchor.constraint(equalToConstant: Constant.photoCountWidth),
+            photoCountInfoField.heightAnchor.constraint(equalToConstant: Constant.photoCountHeigth),
+            photoCountInfoField.centerYAnchor.constraint(equalTo: selectedImageView.bottomAnchor),
             
             naturalDatePicker.topAnchor.constraint(equalTo: selectedImageView.bottomAnchor, constant: Constant.contentPadding),
             naturalDatePicker.leadingAnchor.constraint(equalTo: selectedImageView.leadingAnchor),
@@ -131,6 +144,10 @@ class BlueMarbleViewController: UIViewController {
         }
     }
     
+    private func updatePhotoCounter() {
+        photoCountInfoField.text = "\(selectedPhoto + 1) / \(retrievedPhotos.count)"
+    }
+    
     private func getPhotosForDate(date: String) {
         selectedPhoto = 0
         let connetionPossible = Reachability.checkReachable()
@@ -146,6 +163,7 @@ class BlueMarbleViewController: UIViewController {
                         self.retrievedPhotos.append(photo)
                     }
                     print("Photo Data retrieved from API: \(self.retrievedPhotos)")
+                    self.updatePhotoCounter()
                     self.selectedImageView.fetchPhoto(date: BlueMarbleQueryData.userBlueMarbleDataSelection.selectedDate, imageName: self.retrievedPhotos[self.selectedPhoto].image)
                 }
             }
@@ -179,7 +197,8 @@ class BlueMarbleViewController: UIViewController {
             }
             selectedImageView.fetchPhoto(date: BlueMarbleQueryData.userBlueMarbleDataSelection.selectedDate, imageName: retrievedPhotos[selectedPhoto].image)
         }
-        print("Showing Previous Image: \(selectedPhoto)/\(retrievedPhotos.count)")
+        updatePhotoCounter()
+//        print("Showing Previous Image: \(selectedPhoto)/\(retrievedPhotos.count)")
     }
     
     @objc private func showNextPhoto(sender: RightNavigator) {
@@ -191,7 +210,8 @@ class BlueMarbleViewController: UIViewController {
             }
             selectedImageView.fetchPhoto(date: BlueMarbleQueryData.userBlueMarbleDataSelection.selectedDate, imageName: retrievedPhotos[selectedPhoto].image)
         }
-        print("Showing Next Image: \(selectedPhoto)/\(retrievedPhotos.count)")
+        updatePhotoCounter()
+//        print("Showing Next Image: \(selectedPhoto)/\(retrievedPhotos.count)")
     }
 }
 

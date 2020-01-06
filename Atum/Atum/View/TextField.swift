@@ -32,6 +32,17 @@ class CustomTextField: UITextField {
     func additionalSettings() { }
 }
 
+class PhotoCountInfoField: CustomTextField {
+    override func additionalSettings() {
+        backgroundColor = UIColor(named: .appBackgroundColor)
+        layer.masksToBounds = true
+        layer.cornerRadius = Constant.photoCountCornerRadius
+        isUserInteractionEnabled = true
+        font = UIFont.systemFont(ofSize: 10.0, weight: .medium)
+        textAlignment = .center
+    }
+}
+
 class PostcardGreetingField: CustomTextField {
     override func additionalSettings() {
         backgroundColor = UIColor.clear

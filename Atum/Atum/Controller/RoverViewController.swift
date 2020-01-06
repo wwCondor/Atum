@@ -26,6 +26,26 @@ class RoverViewController: UIViewController {
         return selectedImageView
     }()
     
+    lazy var leftNavigator: LeftNavigator = {
+        let navigator = LeftNavigator()
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(showPreviousPhoto))
+        navigator.addGestureRecognizer(tapGesture)
+        return navigator
+    }()
+    
+    lazy var rightNavigator: RightNavigator = {
+        let navigator = RightNavigator()
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(showNextPhoto))
+        navigator.addGestureRecognizer(tapGesture)
+        return navigator
+    }()
+    
+    lazy var photoCountInfoField: PhotoCountInfoField = {
+        let photoCountInfoField = PhotoCountInfoField()
+        photoCountInfoField.text = "\(selectedPhoto) / \(photos.count)"
+        return photoCountInfoField
+    }()
+    
     lazy var roverInfoField: PostcardImageInfoField = {
         let roverInfoField = PostcardImageInfoField()
         roverInfoField.text = "\(Rover.curiosity.name)"
@@ -44,19 +64,9 @@ class RoverViewController: UIViewController {
         return dateInfoField
     }()
     
-    lazy var leftNavigator: LeftNavigator = {
-        let navigator = LeftNavigator()
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(showPreviousPhoto))
-        navigator.addGestureRecognizer(tapGesture)
-        return navigator
-    }()
+
     
-    lazy var rightNavigator: RightNavigator = {
-        let navigator = RightNavigator()
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(showNextPhoto))
-        navigator.addGestureRecognizer(tapGesture)
-        return navigator
-    }()
+
     
     lazy var cameraSelectionButton: CustomButton = {
         let cameraSelectionButton = CustomButton(type: .custom)
@@ -111,6 +121,7 @@ class RoverViewController: UIViewController {
         // selectedImageContainerView content
         view.addSubview(leftNavigator)
         view.addSubview(selectedImageView)
+        view.addSubview(photoCountInfoField)
         view.addSubview(rightNavigator)
         
         // Meta Data TextFields
@@ -143,6 +154,11 @@ class RoverViewController: UIViewController {
             rightNavigator.centerYAnchor.constraint(equalTo: selectedImageView.centerYAnchor),
             rightNavigator.widthAnchor.constraint(equalToConstant: navigatorWidth),
             rightNavigator.heightAnchor.constraint(equalToConstant: navigatorHeigth),
+            
+            photoCountInfoField.centerXAnchor.constraint(equalTo: selectedImageView.centerXAnchor),
+            photoCountInfoField.widthAnchor.constraint(equalToConstant: Constant.photoCountWidth),
+            photoCountInfoField.heightAnchor.constraint(equalToConstant: Constant.photoCountHeigth),
+            photoCountInfoField.centerYAnchor.constraint(equalTo: selectedImageView.bottomAnchor),
             
             // Photo data
             roverInfoField.leadingAnchor.constraint(equalTo: selectedImageView.leadingAnchor, constant: Constant.textFieldPadding),
@@ -203,10 +219,11 @@ class RoverViewController: UIViewController {
     
     private func updateUI() {
         if photos.count != 0 {
-            print(photos.count)
             setRetrievedImage()
+            photoCountInfoField.text = "\(selectedPhoto + 1) / \(photos.count)"
         } else {
             selectedImageView.image = UIImage(named: .placeholderImage)?.croppedToSquare(size: Constant.croppedSquareSize)
+            photoCountInfoField.text = "\(selectedPhoto) / \(photos.count)"
         }
     }
     
@@ -231,7 +248,8 @@ class RoverViewController: UIViewController {
             }
             selectedImageView.fetchPhoto(from: photos[selectedPhoto].imgSrc)
         }
-        print("Showing Previous Image: \(selectedPhoto)")
+        photoCountInfoField.text = "\(selectedPhoto + 1) / \(photos.count)"
+//        print("Showing Previous Image: \(selectedPhoto)")
     }
     
     @objc private func showNextPhoto(sender: RightNavigator) {
@@ -243,7 +261,8 @@ class RoverViewController: UIViewController {
             }
             selectedImageView.fetchPhoto(from: photos[selectedPhoto].imgSrc)
         }
-        print("Showing Next Image: \(selectedPhoto)")
+        photoCountInfoField.text = "\(selectedPhoto + 1) / \(photos.count)"
+//        print("Showing Next Image: \(selectedPhoto)")
     }
     
     @objc private func switchCamera(tapGestureRecognizer: UITapGestureRecognizer) {
