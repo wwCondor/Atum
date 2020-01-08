@@ -89,7 +89,7 @@ class SkyEyeViewController: UIViewController {
     private func getEyeInTheSkyPhoto() {
         let connectionPossible = Reachability.checkReachable()
         if connectionPossible == true {
-            EyeInTheSkyDataManager.fetchPhoto(lat: SkyEyeQueryData.userEyeDataSelections.selectedLocation.latitude , long: SkyEyeQueryData.userEyeDataSelections.selectedLocation.longitude, dim: SkyEyeQueryData.userEyeDataSelections.selectedZoomLevel) { (data, error) in
+            EyeInTheSkyDataManager.getPhoto(lat: SkyEyeQueryData.userEyeDataSelections.selectedLocation.latitude , long: SkyEyeQueryData.userEyeDataSelections.selectedLocation.longitude, dim: SkyEyeQueryData.userEyeDataSelections.selectedZoomLevel) { (data, error) in
                 DispatchQueue.main.async {
                     guard let photoData = data else {
                         self.selectedImageView.image = UIImage(named: .placeholderImage)

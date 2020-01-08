@@ -8,19 +8,16 @@
 
 import Foundation
 
-class MarsRoverDataManager {
-
-    static let session = URLSession(configuration: .default)
-    
+struct MarsRoverDataManager {
     typealias PhotosCompletionHandler = (RoverPhotos?, Error?)-> Void
     typealias PhotoCompletionHandler = ([RoverPhoto]?, Error?) -> Void
     
-    static func fetchPhotos(date: String, camera: String, completion: @escaping PhotoCompletionHandler) {
+    static func getPhotos(date: String, camera: String, completion: @escaping PhotoCompletionHandler) {
         let url = Endpoint.marsRover.url()
         print("Rover photo retrieval URL: \(url)")
-
+        
         var allPhotos = [RoverPhoto]()
-        fetchData(url: url) { (photoData, error) in
+        getPhotoData(url: url) { (photoData, error) in
             guard let photos = photoData?.photos else {
                 completion(nil, NetworkingError.invalidData)
                 return
@@ -31,30 +28,16 @@ class MarsRoverDataManager {
             completion(allPhotos, nil)
         }
     }
-
-    static private func fetchData(url: URL, completion: @escaping PhotosCompletionHandler) {
-        let request = URLRequest(url: url)
-
-        let task = session.dataTask(with: request) { data, response, error in
-                if let data = data {
-                    guard let httpResponse = response as? HTTPURLResponse else {
-                        completion(nil, NetworkingError.requestFailed)
-                        return
-                    }
-                    if 200...299 ~= httpResponse.statusCode {
-                        do {
-                            let photos = try JSONDecoder.dataDecoder.decode(RoverPhotos.self, from: data)
-                            completion(photos, nil)
-                        } catch {
-                            completion(nil, NetworkingError.jsonDecodingFailure)
-                        }
-                    } else {
-                        completion(nil, NetworkingError.responseUnsuccessful)
-                    }
-                } else {
-                    completion(nil, NetworkingError.noData)
-                }
+    
+    static private func getPhotoData(url: URL, completion: @escaping PhotosCompletionHandler) {
+        Networker.request(url: url) { (result) in
+            switch result {
+            case .success(let data):
+                guard let photos = try? JSONDecoder.dataDecoder.decode(RoverPhotos.self, from: data) else { return }
+                completion(photos, nil)
+            case .failure(let error):
+                completion(nil, error)
+            }
         }
-        task.resume()
     }
 }

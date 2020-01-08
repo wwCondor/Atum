@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		0B71EB9823BE6A5E00960984 /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B71EB9723BE6A5E00960984 /* Location.swift */; };
 		0B71EB9A23BE742800960984 /* EyeInTheSkyDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B71EB9923BE742800960984 /* EyeInTheSkyDataManager.swift */; };
+		0B71EBBD23C5F85300960984 /* Networker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B71EBBC23C5F85300960984 /* Networker.swift */; };
 		0BE3811223B1FBE300342DA5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BE3811123B1FBE300342DA5 /* AppDelegate.swift */; };
 		0BE3811423B1FBE300342DA5 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BE3811323B1FBE300342DA5 /* SceneDelegate.swift */; };
 		0BE3811923B1FBE300342DA5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0BE3811723B1FBE300342DA5 /* Main.storyboard */; };
@@ -52,6 +53,7 @@
 /* Begin PBXFileReference section */
 		0B71EB9723BE6A5E00960984 /* Location.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
 		0B71EB9923BE742800960984 /* EyeInTheSkyDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EyeInTheSkyDataManager.swift; sourceTree = "<group>"; };
+		0B71EBBC23C5F85300960984 /* Networker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Networker.swift; sourceTree = "<group>"; };
 		0BE3810E23B1FBE300342DA5 /* Atum.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Atum.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0BE3811123B1FBE300342DA5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0BE3811323B1FBE300342DA5 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -153,6 +155,7 @@
 			children = (
 				0BE3813F23B2036B00342DA5 /* Reachability.swift */,
 				0BE3814123B2330400342DA5 /* Endpoint.swift */,
+				0B71EBBC23C5F85300960984 /* Networker.swift */,
 				0BE3816923B9E8EE00342DA5 /* MarsRoverDataManager.swift */,
 				0B71EB9923BE742800960984 /* EyeInTheSkyDataManager.swift */,
 				0BE3816F23BA3BD600342DA5 /* BlueMarbleDataManager.swift */,
@@ -324,6 +327,7 @@
 				0BE3814023B2036B00342DA5 /* Reachability.swift in Sources */,
 				0BE3818023BBC13C00342DA5 /* BlueMarbleViewController.swift in Sources */,
 				0BE3818523BE34BD00342DA5 /* RetrievedImageView.swift in Sources */,
+				0B71EBBD23C5F85300960984 /* Networker.swift in Sources */,
 				0BE3817E23BBC10C00342DA5 /* SkyEyeViewController.swift in Sources */,
 				0BE3811423B1FBE300342DA5 /* SceneDelegate.swift in Sources */,
 				0BE3815323B4C10600342DA5 /* SliderMenuManager.swift in Sources */,

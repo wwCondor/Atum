@@ -79,7 +79,7 @@ class BlueMarbleViewController: UIViewController {
     private func setupView() {
         view.addSubview(leftNavigator)
         view.addSubview(rightNavigator)
-        view.addSubview(selectedImageView)
+        view.addSubview(selectedImageView) // Needs to be added after due to navigator shadow
         view.addSubview(photoCountInfoField)
         
         view.addSubview(timeInfoField)

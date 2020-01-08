@@ -207,7 +207,7 @@ class RoverViewController: UIViewController {
         selectedPhoto = 0 // Each API call we reset selectedPhoto
         let connectionPossible = Reachability.checkReachable()
         if connectionPossible == true {
-            MarsRoverDataManager.fetchPhotos(date: MarsRoverQueryData.userRoverDataSelections.selectedRoverPhotoDate, camera: MarsRoverQueryData.userRoverDataSelections.selectedRoverCamera.abbreviation) { (photos, error) in
+            MarsRoverDataManager.getPhotos(date: MarsRoverQueryData.userRoverDataSelections.selectedRoverPhotoDate, camera: MarsRoverQueryData.userRoverDataSelections.selectedRoverCamera.abbreviation) { (photos, error) in
                 DispatchQueue.main.async {
                     guard let photos = photos else {
                         self.presentAlert(description: NetworkingError.noData.localizedDescription, viewController: self)

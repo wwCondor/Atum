@@ -108,6 +108,25 @@ class AtumTests: XCTestCase {
         XCTAssertNotNil(allPhotos)
     }
     
+    func testNewDataManager() {
+        let expectation = self.expectation(description: "allPhotos.count =! 0")
+        var responseError: Error?
+        var allPhotos: [RoverPhoto]?
+        let date: String = "2015-08-06"
+        let camera: RoverCamera = .fhaz
+        MarsRoverDataManagerTest.getPhotos(date: date, camera: camera.abbreviation) { (photoData, error) in
+            guard let photos = photoData else {
+                responseError = error
+                return
+            }
+            allPhotos = photos
+            expectation.fulfill()
+        }
+        waitForExpectations(timeout: 5, handler: nil)
+        XCTAssertNil(responseError, "Error")
+        XCTAssertNotNil(allPhotos)
+    }
+    
     func testRetrievingSkyEyePhotoData() {
         let expectation = self.expectation(description: "retrievedPhoto =! nil")
         var responseError: Error?
