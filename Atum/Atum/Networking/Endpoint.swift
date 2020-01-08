@@ -17,7 +17,7 @@ enum Endpoint {
     case eyeInTheSky // Earth (Eye in the Sky) API
     case blueMarbleDates // DSCOVR's Earth Polychromatic Imaging Camera (EPIC)
     
-    case blueMarbleImages
+    case blueMarblePhotos
     
     private var baseURL: URL {
         return URL(string: "https://api.nasa.gov/")! // Eye in the sky
@@ -58,7 +58,7 @@ enum Endpoint {
                 URLQueryItem(name: "api_key",   value: "\(APIKey.key)"),
             ]
             return components!.url!
-        case .blueMarbleImages:
+        case .blueMarblePhotos:
             var components = URLComponents(url: baseURL.appendingPathComponent("EPIC/api/natural/date/\(naturalDateSelected)"), resolvingAgainstBaseURL: false)
             components?.queryItems = [
                 URLQueryItem(name: "api_key",   value: "\(APIKey.key)"),

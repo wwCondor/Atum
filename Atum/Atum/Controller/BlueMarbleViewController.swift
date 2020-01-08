@@ -135,7 +135,7 @@ class BlueMarbleViewController: UIViewController {
     private func getAvailableDates() {
         let connetionPossible = Reachability.checkReachable()
         if connetionPossible == true {
-            BlueMarbleDataManager.fetchDates { (data, error) in
+            BlueMarbleDataManager.getDates { (data, error) in
                 DispatchQueue.main.async {
                     guard let dates = data else {
                         self.presentAlert(description: NetworkingError.noData.localizedDescription, viewController: self)
@@ -164,7 +164,7 @@ class BlueMarbleViewController: UIViewController {
         let connectionPossible = Reachability.checkReachable()
         if connectionPossible == true {
             retrievedPhotos.removeAll() // Make sure array is empty
-            BlueMarbleDataManager.fetchPhotos(date: date) { (data, error) in
+            BlueMarbleDataManager.getPhotos(date: date) { (data, error) in
                 DispatchQueue.main.async {
                     guard let photos = data else {
                         self.presentAlert(description: NetworkingError.noData.localizedDescription, viewController: self)
