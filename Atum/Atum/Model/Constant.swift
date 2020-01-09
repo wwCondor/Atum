@@ -24,7 +24,7 @@ struct Constant {
 //    static let sliderImageViewSize: CGFloat      = 40
     
     // CameraButton
-    static let wideButtonHeigth: CGFloat       = 40
+    static let wideButtonHeigth: CGFloat         = 40
 
     // Corner radius for UIImageViews and MapView
     static let largeCornerRadius: CGFloat        = 10
@@ -67,5 +67,5 @@ struct PlaceHolderText {
     static let emailSubject: String                 = "Image retrieved from one of the NASA API's with Atum app"
     static let emailBodyTextMars: String            = "I found this amazing image, made by the \(Rover.curiosity.name) Mars Rover's \(MarsRoverQueryData.userRoverDataSelections.selectedRoverCamera.fullName) on \(MarsRoverQueryData.userRoverDataSelections.selectedRoverPhotoDate), using the Atum application"
     static let emailBodyTextDSCOVR: String          = "I found this amazing image made by the DSCVR Spacecraft's Earth Polychromatic Imaging Camera (EPIC) using the Atum app."
-    static let enterLocation: String                = "Enter Location"
+    static let enterLocation: String                = "Search Location"
 }

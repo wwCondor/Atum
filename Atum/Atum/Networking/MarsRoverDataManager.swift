@@ -9,7 +9,7 @@
 import Foundation
 
 struct MarsRoverDataManager {
-    typealias PhotosCompletionHandler = (RoverPhotos?, Error?)-> Void
+    
     typealias PhotoCompletionHandler = ([RoverPhoto]?, Error?) -> Void
     
     static func getPhotos(date: String, camera: String, completion: @escaping PhotoCompletionHandler) {
@@ -29,6 +29,8 @@ struct MarsRoverDataManager {
         }
     }
     
+    typealias PhotosCompletionHandler = (RoverPhotos?, Error?)-> Void
+
     static private func getPhotoData(url: URL, completion: @escaping PhotosCompletionHandler) {
         Networker.request(url: url) { (result) in
             switch result {

@@ -66,8 +66,6 @@ class LocationManagerSlider: NSObject {
         searchResultsTableView.backgroundColor = UIColor(named: .appBackgroundColor)
         searchResultsTableView.layer.masksToBounds = true
         searchResultsTableView.layer.cornerRadius = Constant.largeCornerRadius
-//        searchResultsTableView.layer.borderWidth = Constant.sliderMenuBorderWidth
-//        searchResultsTableView.layer.borderColor = UIColor(named: .objectBorderColor)?.cgColor
         searchResultsTableView.register(UITableViewCell.self, forCellReuseIdentifier: cellId)
         searchResultsTableView.dataSource = self
         searchResultsTableView.delegate = self
@@ -93,6 +91,7 @@ class LocationManagerSlider: NSObject {
     
     func presentSlider() {
         clearSearchResults()
+        hideKeyboardOnBackgroundTap()
 
         let window = UIApplication.shared.windows.first { $0.isKeyWindow }
         if let window = window {
@@ -133,8 +132,6 @@ class LocationManagerSlider: NSObject {
                     self.sliderView.center.y -= windowHeight
                     self.locationSearchBar.center.y -= windowHeight
                     self.searchResultsTableView.center.y -= windowHeight
-//                    self.selectedImageView.center.y -= windowHeight
-//                    self.greetingTextField.center.y -= windowHeight
             },
                 completion: nil)
         }
@@ -154,16 +151,12 @@ class LocationManagerSlider: NSObject {
                 self.sliderView.center.y += self.sliderView.bounds.height
                 self.locationSearchBar.center.y += self.sliderView.bounds.height
                 self.searchResultsTableView.center.y += self.sliderView.bounds.height
-//                self.selectedImageView.center.y += self.sliderView.bounds.height
-//                self.greetingTextField.center.y += self.sliderView.bounds.height
         },
             completion: { _ in
                 self.fadeView.removeFromSuperview()
                 self.sliderView.removeFromSuperview()
                 self.locationSearchBar.removeFromSuperview()
                 self.searchResultsTableView.removeFromSuperview()
-//                self.selectedImageView.removeFromSuperview()
-//                self.greetingTextField.removeFromSuperview()
         })
     }
 }
@@ -171,6 +164,7 @@ class LocationManagerSlider: NSObject {
 extension LocationManagerSlider: UISearchBarDelegate {
     // Handles changes in text
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        searchBar.becomeFirstResponder()
         searchCompleter.queryFragment = searchText
     }
 }
@@ -182,7 +176,11 @@ extension LocationManagerSlider: MKLocalSearchCompleterDelegate {
     }
     
     func completer(_ completer: MKLocalSearchCompleter, didFailWithError error: Error) {
-//        presentAlert(description: error.localizedDescription, viewController: self)
+        let window = UIApplication.shared.windows.first { $0.isKeyWindow }
+        if let window = window {
+            guard let viewController = window.rootViewController else { return }
+            viewController.presentAlert(description: error.localizedDescription, viewController: viewController)
+        }
     }
 }
 
@@ -204,6 +202,7 @@ extension LocationManagerSlider: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        locationSearchBar.resignFirstResponder()
         let completion = searchResults[indexPath.row]
         let searchRequest = MKLocalSearch.Request(completion: completion)
         let search = MKLocalSearch(request: searchRequest)
