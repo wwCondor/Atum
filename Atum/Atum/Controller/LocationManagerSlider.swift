@@ -167,6 +167,17 @@ extension LocationManagerSlider: UISearchBarDelegate {
         searchBar.becomeFirstResponder()
         searchCompleter.queryFragment = searchText
     }
+    
+//    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+//        clearSearchResults()
+//    }
+    
+    func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
+        guard let input = searchBar.text else { return }
+        if input.isEmpty {
+            clearSearchResults()
+        }
+    }
 }
 
 extension LocationManagerSlider: MKLocalSearchCompleterDelegate {
@@ -175,12 +186,13 @@ extension LocationManagerSlider: MKLocalSearchCompleterDelegate {
         searchResultsTableView.reloadData()
     }
     
+    // Implement?
     func completer(_ completer: MKLocalSearchCompleter, didFailWithError error: Error) {
-        let window = UIApplication.shared.windows.first { $0.isKeyWindow }
-        if let window = window {
-            guard let viewController = window.rootViewController else { return }
-            viewController.presentAlert(description: error.localizedDescription, viewController: viewController)
-        }
+//        let window = UIApplication.shared.windows.first { $0.isKeyWindow }
+//        if let window = window {
+//            guard let viewController = window.rootViewController else { return }
+//            viewController.presentAlert(description: error.localizedDescription, viewController: viewController)
+//        }
     }
 }
 
