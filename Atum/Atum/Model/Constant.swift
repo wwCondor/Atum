@@ -24,7 +24,7 @@ struct Constant {
 //    static let sliderImageViewSize: CGFloat      = 40
     
     // CameraButton
-    static let cameraButtonHeigth: CGFloat       = 40
+    static let wideButtonHeigth: CGFloat       = 40
 
     // Corner radius for UIImageViews and MapView
     static let largeCornerRadius: CGFloat        = 10

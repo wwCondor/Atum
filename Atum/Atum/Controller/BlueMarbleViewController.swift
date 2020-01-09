@@ -10,7 +10,7 @@ import UIKit
 
 class BlueMarbleViewController: UIViewController {
     
-    let sliderMenuManager = SliderMenuManager()
+    let emailManagerSlider = EmailManagerSlider()
     
     var availableDates: [BlueMarbleDate] = [BlueMarbleDate]()
     var retrievedPhotos: [BlueMarblePhoto] = [BlueMarblePhoto]()
@@ -189,13 +189,13 @@ class BlueMarbleViewController: UIViewController {
         if selectedImageView.image == UIImage(named: .placeholderImage) {
             presentAlert(description: NetworkingError.noImage.localizedDescription, viewController: self)
         } else {
-            sliderMenuManager.selectedImageView.image = self.selectedImageView.image
-            sliderMenuManager.greetingTextField.text = PlaceHolderText.postcardDefaultMessage
-            sliderMenuManager.roverInfoField.text = ""
-            sliderMenuManager.cameraInfoField.text = ""
-            sliderMenuManager.dateInfoField.text = "\(retrievedPhotos[selectedPhoto].date)"
-            sliderMenuManager.modeSelected = .blueMarbleMode
-            sliderMenuManager.presentSlider()
+            emailManagerSlider.selectedImageView.image = self.selectedImageView.image
+            emailManagerSlider.greetingTextField.text = PlaceHolderText.postcardDefaultMessage
+            emailManagerSlider.roverInfoField.text = ""
+            emailManagerSlider.cameraInfoField.text = ""
+            emailManagerSlider.dateInfoField.text = "\(retrievedPhotos[selectedPhoto].date)"
+            emailManagerSlider.modeSelected = .blueMarbleMode
+            emailManagerSlider.presentSlider()
         }
     }
     

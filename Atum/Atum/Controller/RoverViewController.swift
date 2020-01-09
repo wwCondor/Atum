@@ -11,7 +11,7 @@ import UIKit
 class RoverViewController: UIViewController {
     
     lazy var currentDate: String = getCurrentDate()
-    let sliderMenuManager = SliderMenuManager()
+    let emailManagerSlider = EmailManagerSlider()
     let rovers: [Rover] = [Rover.curiosity]
     
     let cameras: [RoverCamera] = [RoverCamera.fhaz, RoverCamera.rhaz, RoverCamera.mast, RoverCamera.chemcam, RoverCamera.mahli, RoverCamera.mardi, RoverCamera.navcam]
@@ -181,7 +181,7 @@ class RoverViewController: UIViewController {
             cameraSelectionButton.topAnchor.constraint(equalTo: selectedImageView.bottomAnchor, constant: Constant.contentPadding),
             cameraSelectionButton.leadingAnchor.constraint(equalTo: selectedImageView.leadingAnchor),
             cameraSelectionButton.trailingAnchor.constraint(equalTo: selectedImageView.trailingAnchor),
-            cameraSelectionButton.heightAnchor.constraint(equalToConstant: Constant.cameraButtonHeigth),
+            cameraSelectionButton.heightAnchor.constraint(equalToConstant: Constant.wideButtonHeigth),
 
             roverDatePicker.topAnchor.constraint(equalTo: cameraSelectionButton.bottomAnchor, constant: Constant.contentPadding),
             roverDatePicker.leadingAnchor.constraint(equalTo: selectedImageView.leadingAnchor),
@@ -303,12 +303,12 @@ class RoverViewController: UIViewController {
         if selectedImageView.image == UIImage(named: .placeholderImage) {
             presentAlert(description: NetworkingError.noImage.localizedDescription, viewController: self)
         } else {
-            sliderMenuManager.selectedImageView.image = self.selectedImageView.image
-            sliderMenuManager.roverInfoField.text = self.roverInfoField.text
-            sliderMenuManager.cameraInfoField.text = self.cameraInfoField.text
-            sliderMenuManager.dateInfoField.text = self.dateInfoField.text
-            sliderMenuManager.modeSelected = .marsRoverMode
-            sliderMenuManager.presentSlider()
+            emailManagerSlider.selectedImageView.image = self.selectedImageView.image
+            emailManagerSlider.roverInfoField.text = self.roverInfoField.text
+            emailManagerSlider.cameraInfoField.text = self.cameraInfoField.text
+            emailManagerSlider.dateInfoField.text = self.dateInfoField.text
+            emailManagerSlider.modeSelected = .marsRoverMode
+            emailManagerSlider.presentSlider()
         }
     }
 }

@@ -144,7 +144,7 @@ class SkyEyeViewController: UIViewController {
             enterLocationButton.topAnchor.constraint(equalTo: selectedImageView.bottomAnchor, constant: Constant.contentPadding),
             enterLocationButton.leadingAnchor.constraint(equalTo: selectedImageView.leadingAnchor),
             enterLocationButton.trailingAnchor.constraint(equalTo: selectedImageView.trailingAnchor),
-            enterLocationButton.heightAnchor.constraint(equalToConstant: Constant.cameraButtonHeigth),
+            enterLocationButton.heightAnchor.constraint(equalToConstant: Constant.wideButtonHeigth),
             
             // Zoom Slider items
 //            satelliteIcon.topAnchor.constraint(equalTo: selectedImageView.bottomAnchor, constant: Constant.contentPadding),
