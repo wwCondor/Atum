@@ -13,6 +13,9 @@ class LocationManagerSlider: NSObject {
     
     let cellId = "locationCell"
     
+    let searchCompleter = MKLocalSearchCompleter()
+    var searchResults = [MKLocalSearchCompletion]()
+    
     lazy var fadeView: UIView = {
         let fadeView = UIView()
         fadeView.alpha = 0
@@ -37,7 +40,7 @@ class LocationManagerSlider: NSObject {
         let locationSearchBar = UISearchBar()
         locationSearchBar.translatesAutoresizingMaskIntoConstraints = false
         locationSearchBar.isTranslucent = false
-//        locationSearchBar.delegate = self
+        locationSearchBar.delegate = self
         locationSearchBar.placeholder = PlaceHolderText.enterLocation
         locationSearchBar.layer.masksToBounds = true
         locationSearchBar.layer.cornerRadius = Constant.smallCornerRadius
@@ -61,15 +64,19 @@ class LocationManagerSlider: NSObject {
 //        searchResultsTableView.layer.borderWidth = Constant.sliderMenuBorderWidth
 //        searchResultsTableView.layer.borderColor = UIColor(named: .objectBorderColor)?.cgColor
         searchResultsTableView.register(UITableViewCell.self, forCellReuseIdentifier: cellId)
-//        searchResultsTableView.dataSource = self
-//        searchResultsTableView.delegate = self
+        searchResultsTableView.dataSource = self
+        searchResultsTableView.delegate = self
         searchResultsTableView.translatesAutoresizingMaskIntoConstraints = false
         return searchResultsTableView
     }()
     
     override init() {
         super.init()
-
+        setDelegate()
+    }
+    
+    func setDelegate() {
+        searchCompleter.delegate = self
     }
     
     func presentSlider() {
@@ -102,10 +109,6 @@ class LocationManagerSlider: NSObject {
                 searchResultsTableView.leadingAnchor.constraint(equalTo: locationSearchBar.leadingAnchor),
                 searchResultsTableView.trailingAnchor.constraint(equalTo: locationSearchBar.trailingAnchor),
                 searchResultsTableView.bottomAnchor.constraint(equalTo: window.safeAreaLayoutGuide.bottomAnchor, constant: -Constant.bottomContentPadding),
-//                selectedImageView.topAnchor.constraint(equalTo: emailInputField.bottomAnchor, constant: Constant.contentPadding),
-//                selectedImageView.widthAnchor.constraint(equalToConstant: contentSize),
-//                selectedImageView.heightAnchor.constraint(equalToConstant: contentSize),
-//                selectedImageView.centerXAnchor.constraint(equalTo: window.centerXAnchor),
             ])
             
             UIView.animate(
@@ -119,11 +122,6 @@ class LocationManagerSlider: NSObject {
                     self.searchResultsTableView.center.y -= windowHeight
 //                    self.selectedImageView.center.y -= windowHeight
 //                    self.greetingTextField.center.y -= windowHeight
-//                    self.roverInfoField.center.y -= windowHeight
-//                    self.cameraInfoField.center.y -= windowHeight
-//                    self.dateInfoField.center.y -= windowHeight
-//                    self.addTextInfoField.center.y -= windowHeight
-//                    self.addTextSwitch.center.y -= windowHeight
             },
                 completion: nil)
         }
@@ -145,11 +143,6 @@ class LocationManagerSlider: NSObject {
                 self.searchResultsTableView.center.y += self.sliderView.bounds.height
 //                self.selectedImageView.center.y += self.sliderView.bounds.height
 //                self.greetingTextField.center.y += self.sliderView.bounds.height
-//                self.roverInfoField.center.y += self.sliderView.bounds.height
-//                self.cameraInfoField.center.y += self.sliderView.bounds.height
-//                self.dateInfoField.center.y += self.sliderView.bounds.height
-//                self.addTextInfoField.center.y += self.sliderView.bounds.height
-//                self.addTextSwitch.center.y += self.sliderView.bounds.height
         },
             completion: { _ in
                 self.fadeView.removeFromSuperview()
@@ -158,11 +151,63 @@ class LocationManagerSlider: NSObject {
                 self.searchResultsTableView.removeFromSuperview()
 //                self.selectedImageView.removeFromSuperview()
 //                self.greetingTextField.removeFromSuperview()
-//                self.roverInfoField.removeFromSuperview()
-//                self.cameraInfoField.removeFromSuperview()
-//                self.dateInfoField.removeFromSuperview()
-//                self.addTextInfoField.removeFromSuperview()
-//                self.addTextSwitch.removeFromSuperview()
         })
+    }
+}
+
+extension LocationManagerSlider: UISearchBarDelegate {
+    // Handles changes in text
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        searchCompleter.queryFragment = searchText
+    }
+}
+
+extension LocationManagerSlider: MKLocalSearchCompleterDelegate {
+    func completerDidUpdateResults(_ completer: MKLocalSearchCompleter) {
+        searchResults = completer.results
+        searchResultsTableView.reloadData()
+    }
+    
+    func completer(_ completer: MKLocalSearchCompleter, didFailWithError error: Error) {
+//        presentAlert(description: error.localizedDescription, viewController: self)
+    }
+}
+
+extension LocationManagerSlider: UITableViewDataSource, UITableViewDelegate {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return searchResults.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let searchResult = searchResults[indexPath.row]
+        let cell = UITableViewCell(style: .subtitle, reuseIdentifier: nil)
+        cell.selectionStyle = .none
+        cell.textLabel?.text = searchResult.title
+        cell.detailTextLabel?.text = searchResult.subtitle
+        cell.textLabel?.textColor = UIColor(named: .textTintColor)
+        cell.detailTextLabel?.textColor = UIColor(named: .textTintColor)
+        cell.backgroundColor = UIColor(named: .appBackgroundColor)
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        // Handle tap:
+        // ViewController underneath should be notiified
+        // VC should start loading image
+        // dismiss slider
+        
+//        let completion = searchResults[indexPath.row]
+        
+        // Save Title as Location.locationName
+        // Save as Location.lat
+//
+//        let searchRequest = MKLocalSearch.Request(completion: completion)
+//        let search = MKLocalSearch(request: searchRequest)
+//        search.start { (result, error) in
+//            let coordinate = result?.mapItems.last?.placemark.coordinate
+//            self.latitudeInputField.text = coordinate?.latitude.toString
+//            self.longitudeInputField.text = coordinate?.longitude.toString
+//            self.locationSearchBar.text = "\(completion.title) in \(completion.subtitle)"
+//        }
     }
 }
