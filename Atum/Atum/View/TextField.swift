@@ -71,6 +71,10 @@ class PostcardImageInfoField: CustomTextField {
     }
 }
 
+//layer.masksToBounds = true
+//layer.cornerRadius = Constant.smallCornerRadius
+
+
 class EmailInputField: CustomTextField {
     override func additionalSettings() {
         autocapitalizationType = UITextAutocapitalizationType.none
@@ -80,6 +84,8 @@ class EmailInputField: CustomTextField {
         backgroundColor = UIColor(named: .appBackgroundColor)
         layer.masksToBounds = true
         layer.cornerRadius = Constant.smallCornerRadius
+        layer.borderColor = UIColor(named: .objectBorderColor)?.cgColor
+        layer.borderWidth = Constant.sendButtonBorderWidth
         isUserInteractionEnabled = true
         font = UIFont.systemFont(ofSize: 13.0, weight: .medium)
         textAlignment = .left

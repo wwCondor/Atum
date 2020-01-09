@@ -9,6 +9,8 @@
 import UIKit
 
 class SkyEyeViewController: UIViewController {
+    
+    let locationManagerSlider = LocationManagerSlider()
         
     let selectableLocations: [Location] = [.mountEverest, .edinBurghCastle, .pyramidOfGiza, .eiffelTower, .colosseum, .christTheRedeemer, .chichenItza, .machuPichu, .towerOfPisa, .chineseWall, .uluru, .grandCanyon, .paricutin, .oukaimeden, .northernLight, .victoriaFalls]
     
@@ -17,6 +19,20 @@ class SkyEyeViewController: UIViewController {
         let selectedImageView = RetrievedImageView(image: image)
         return selectedImageView
     }()
+    
+    lazy var enterLocationButton: CustomButton = {
+        let enterLocationButton = CustomButton(type: .custom)
+        enterLocationButton.setTitle(PlaceHolderText.enterLocation, for: .normal)
+        enterLocationButton.titleLabel?.font = UIFont.systemFont(ofSize: 15.0, weight: .semibold)
+        enterLocationButton.addTarget(self, action: #selector(presentLocationMenuSlider(tapGestureRecognizer:)), for: .touchUpInside)
+        return enterLocationButton
+    }()
+    
+    @objc private func presentLocationMenuSlider(tapGestureRecognizer: UITapGestureRecognizer) {
+        locationManagerSlider.presentSlider()
+        // In here present menu Slider for location
+    }
+    
     
 //    lazy var satelliteIcon: UIImageView = {
 //        let inset: CGFloat = Constant.sliderImageInsets
@@ -108,6 +124,7 @@ class SkyEyeViewController: UIViewController {
     
     private func setupView() {
         view.addSubview(selectedImageView)
+        view.addSubview(enterLocationButton)
         
 //        view.addSubview(satelliteIcon)
 //        view.addSubview(sliderBackground)
@@ -123,6 +140,11 @@ class SkyEyeViewController: UIViewController {
             selectedImageView.widthAnchor.constraint(equalToConstant: selectedImageSize),
             selectedImageView.heightAnchor.constraint(equalToConstant: selectedImageSize),
             selectedImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            
+            enterLocationButton.topAnchor.constraint(equalTo: selectedImageView.bottomAnchor, constant: Constant.contentPadding),
+            enterLocationButton.leadingAnchor.constraint(equalTo: selectedImageView.leadingAnchor),
+            enterLocationButton.trailingAnchor.constraint(equalTo: selectedImageView.trailingAnchor),
+            enterLocationButton.heightAnchor.constraint(equalToConstant: Constant.cameraButtonHeigth),
             
             // Zoom Slider items
 //            satelliteIcon.topAnchor.constraint(equalTo: selectedImageView.bottomAnchor, constant: Constant.contentPadding),
@@ -144,7 +166,7 @@ class SkyEyeViewController: UIViewController {
 //            planetIcon.heightAnchor.constraint(equalToConstant: Constant.sliderImageViewSize),
 //            planetIcon.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -Constant.bottomContentPadding),
             
-            locationPicker.topAnchor.constraint(equalTo: selectedImageView.bottomAnchor, constant: Constant.contentPadding),
+            locationPicker.topAnchor.constraint(equalTo: enterLocationButton.bottomAnchor, constant: Constant.contentPadding),
             locationPicker.leadingAnchor.constraint(equalTo: selectedImageView.leadingAnchor),// constant: Constant.contentPadding),
             locationPicker.trailingAnchor.constraint(equalTo: selectedImageView.trailingAnchor),
             locationPicker.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -Constant.bottomContentPadding),
