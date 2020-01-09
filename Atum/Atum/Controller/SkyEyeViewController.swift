@@ -28,10 +28,7 @@ class SkyEyeViewController: UIViewController {
         return enterLocationButton
     }()
     
-    @objc private func presentLocationMenuSlider(tapGestureRecognizer: UITapGestureRecognizer) {
-        locationManagerSlider.presentSlider()
-        // In here present menu Slider for location
-    }
+
     
     
 //    lazy var satelliteIcon: UIImageView = {
@@ -101,26 +98,7 @@ class SkyEyeViewController: UIViewController {
         setupView()
         getEyeInTheSkyPhoto()
     }
-    
-    private func getEyeInTheSkyPhoto() {
-        let connectionPossible = Reachability.checkReachable()
-        if connectionPossible == true {
-            EyeInTheSkyDataManager.getPhoto(lat: SkyEyeQueryData.userEyeDataSelections.selectedLocation.latitude , long: SkyEyeQueryData.userEyeDataSelections.selectedLocation.longitude, dim: SkyEyeQueryData.userEyeDataSelections.selectedZoomLevel) { (data, error) in
-                DispatchQueue.main.async {
-                    guard let photoData = data else {
-                        self.selectedImageView.image = UIImage(named: .placeholderImage)
-                        self.presentAlert(description: NetworkingError.noData.localizedDescription, viewController: self)
-                        return
-                    }
-                    self.selectedImageView.fetchPhoto(from: photoData.url)
-                    //                print(photoData)
-                }
-            }
-        } else {
-            selectedImageView.image = UIImage(named: .placeholderImage)
-            self.presentAlert(description: NetworkingError.noReachability.localizedDescription, viewController: self)
-        }
-    }
+
     
     private func setupView() {
         view.addSubview(selectedImageView)
@@ -173,6 +151,34 @@ class SkyEyeViewController: UIViewController {
         ])
     }
     
+    private func getEyeInTheSkyPhoto() {
+        let connectionPossible = Reachability.checkReachable()
+        if connectionPossible == true {
+            EyeInTheSkyDataManager.getPhoto(lat: SkyEyeQueryData.userEyeDataSelections.selectedLocation.latitude , long: SkyEyeQueryData.userEyeDataSelections.selectedLocation.longitude, dim: SkyEyeQueryData.userEyeDataSelections.selectedZoomLevel) { (data, error) in
+                DispatchQueue.main.async {
+                    guard let photoData = data else {
+                        self.selectedImageView.image = UIImage(named: .placeholderImage)
+                        self.presentAlert(description: NetworkingError.noData.localizedDescription, viewController: self)
+                        return
+                    }
+                    self.selectedImageView.fetchPhoto(from: photoData.url)
+                    //                print(photoData)
+                }
+            }
+        } else {
+            selectedImageView.image = UIImage(named: .placeholderImage)
+            self.presentAlert(description: NetworkingError.noReachability.localizedDescription, viewController: self)
+        }
+    }
+    
+    @objc private func presentLocationMenuSlider(tapGestureRecognizer: UITapGestureRecognizer) {
+        locationManagerSlider.locationDelegate = self
+        locationManagerSlider.presentSlider()
+        // In here present menu Slider for location
+    }
+    
+    
+    
     @objc private func setZoom(_ sender: UISlider) {
 //        sender.value = roundf(sender.value) // this allows thumb to snap between values
 //        let zoomLevel: [Float] = [0.025, 0.050, 0.100, 0.200, 0.500]
@@ -197,6 +203,7 @@ extension SkyEyeViewController: UIPickerViewDelegate, UIPickerViewDataSource {
     
     // Action after selection
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        enterLocationButton.setTitle(PlaceHolderText.enterLocation, for: .normal)
         SkyEyeQueryData.userEyeDataSelections.selectedLocation = selectableLocations[row]
         getEyeInTheSkyPhoto()
     }
@@ -222,5 +229,13 @@ extension SkyEyeViewController: UIPickerViewDelegate, UIPickerViewDataSource {
         }
         
         return label
+    }
+}
+
+extension SkyEyeViewController: LocationDelegate {
+    func newLocationSelected(location: Location) {
+        SkyEyeQueryData.userEyeDataSelections.selectedLocation = location
+        getEyeInTheSkyPhoto()
+        enterLocationButton.setTitle("\(location.locationName)", for: .normal)
     }
 }

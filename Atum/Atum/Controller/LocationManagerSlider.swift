@@ -9,12 +9,17 @@
 import UIKit
 import MapKit
 
+protocol LocationDelegate {
+    func newLocationSelected(location: Location)
+}
+
 class LocationManagerSlider: NSObject {
     
     let cellId = "locationCell"
     
     let searchCompleter = MKLocalSearchCompleter()
     var searchResults = [MKLocalSearchCompletion]()
+    var locationDelegate: LocationDelegate!
     
     lazy var fadeView: UIView = {
         let fadeView = UIView()
@@ -75,11 +80,19 @@ class LocationManagerSlider: NSObject {
         setDelegate()
     }
     
-    func setDelegate() {
+    private func setDelegate() {
         searchCompleter.delegate = self
     }
     
+    private func clearSearchResults() {
+        locationSearchBar.text = ""
+        locationSearchBar.placeholder = PlaceHolderText.enterLocation
+        searchResults.removeAll()
+        searchResultsTableView.reloadData()
+    }
+    
     func presentSlider() {
+        clearSearchResults()
 
         let window = UIApplication.shared.windows.first { $0.isKeyWindow }
         if let window = window {
@@ -97,7 +110,7 @@ class LocationManagerSlider: NSObject {
             NSLayoutConstraint.activate([
                 sliderView.leadingAnchor.constraint(equalTo: window.leadingAnchor),
                 sliderView.trailingAnchor.constraint(equalTo: window.trailingAnchor),
-                sliderView.topAnchor.constraint(equalTo: window.centerYAnchor),// constant: -window.frame.height/4),
+                sliderView.topAnchor.constraint(equalTo: window.centerYAnchor, constant: -window.frame.height/4),
                 sliderView.bottomAnchor.constraint(equalTo: window.bottomAnchor),
                                 
                 locationSearchBar.topAnchor.constraint(equalTo: sliderView.topAnchor, constant: Constant.contentPadding),
@@ -191,23 +204,17 @@ extension LocationManagerSlider: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        // Handle tap:
-        // ViewController underneath should be notiified
-        // VC should start loading image
-        // dismiss slider
-        
-//        let completion = searchResults[indexPath.row]
-        
-        // Save Title as Location.locationName
-        // Save as Location.lat
-//
-//        let searchRequest = MKLocalSearch.Request(completion: completion)
-//        let search = MKLocalSearch(request: searchRequest)
-//        search.start { (result, error) in
-//            let coordinate = result?.mapItems.last?.placemark.coordinate
-//            self.latitudeInputField.text = coordinate?.latitude.toString
-//            self.longitudeInputField.text = coordinate?.longitude.toString
-//            self.locationSearchBar.text = "\(completion.title) in \(completion.subtitle)"
-//        }
+        let completion = searchResults[indexPath.row]
+        let searchRequest = MKLocalSearch.Request(completion: completion)
+        let search = MKLocalSearch(request: searchRequest)
+        search.start { (result, error) in
+            guard let coordinate = result?.mapItems.last?.placemark.coordinate else { return }
+            let locationName: String = completion.title
+            let latitude: String = coordinate.latitude.toString
+            let longitude: String = coordinate.longitude.toString
+            let selectedLocation: Location = Location(locationName: locationName, latitude: latitude, longitude: longitude)
+            self.locationDelegate.newLocationSelected(location: selectedLocation)
+            self.dismissSliderMenu()
+        }
     }
 }

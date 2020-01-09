@@ -237,3 +237,8 @@ extension UIImage {
         return newImage!
     }
 }
+
+extension LosslessStringConvertible {
+    // Double to String
+    var toString: String { return .init(self)}
+}
